@@ -10,9 +10,9 @@ In this lab, you will walk through designing, building, registering, and deployi
 
 ## Demos
 
-- [Create a Card payload and submit it via an Incoming Webhook](./Demos/01 - card-webhook)
-- [Add Connector functionality to existing web site](./Demos/02 - WebApplication1)
-- [Sideload the Connector to Microsoft Teams](./Demos/03 - WebApplication1)
+- [Create a Card payload and submit it via an Incoming Webhook](./Demos/01%20-%20card-webhook)
+- [Add Connector functionality to existing web site](./Demos/02%20-%20WebApplication1)
+- [Sideload the Connector to Microsoft Teams](./Demos/03%20-%20WebApplication1)
 
 ## Contributors
 |        Roles         |                        Author(s)                        |
