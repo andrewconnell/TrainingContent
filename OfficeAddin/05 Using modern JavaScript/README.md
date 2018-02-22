@@ -24,6 +24,7 @@ In this lab, you will walk through building Office Add-ins using a variety of po
 | Version | Date |    Comments     |
 | ------- | ---- | --------------- |
 | 1.0     |      | Initial release |
+| 1.X     | 2018.02.22 | Code Review and Update |
 
 ## Disclaimer
 **THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.**

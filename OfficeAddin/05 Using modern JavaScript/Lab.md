@@ -294,7 +294,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
     };
     ````
 
-1. Although the app's functionality isn't complete, the visual markup is. You can see it by saving all your work and returning to Office Online. It should look similar to below. If you previously closed the Excel Online window or if your Office Online session has expired (the add-in doesn't seem to load), follow the [Sideload the Office Add-in](#sideload-the-office-add-in) steps above.
+1. Although the app's functionality isn't complete, the visual markup is. You can see it by saving all your work and returning to Office Online. It should look similar to below. If you previously closed the Excel Online window or if your Office Online session has expired (the add-in doesn't seem to load), follow the [Sideload the Office Add-in](#SideLoadTestAddins) steps.
 
     ![Add-in with visual markup complete](./Images/AddinVisual.png)
 
@@ -664,18 +664,19 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
     ```shell
     cd excel-portfolio
     ```
-
-1. Next, run the **Office Yeoman generator** using the "**yo office**" command.
-
-    ```shell
-    yo office
-    ```
-
+	
 1. Run the **Office Yeoman generator** using the command "**yo office**".
 
     ```shell
     yo office
     ```
+MATT possibly cd to directory (Possible typo on my part)
+
+1. Get the Office Typescript files
+
+	```shell
+	npm install --save @types/office-js
+	```
 
 1. The Office Yeoman generator will ask a number of question. Use the following responses:
     * Would you like to create a new subfolder for your project? **No**
@@ -687,7 +688,7 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
 
     ![Office Yeoman Generator](./Images/YeomanAngular.png)
 
-1. When then Yeoman generator completes, change directories to the project folder (ex: **cd excel-portfolio**) and open the folder in your favorite code editor (you can use the command "**code .**" for [Visual Studio Code](https://code.visualstudio.com/)).
+1. When then Yeoman generator completes open the project folder in your favorite code editor (you can use the command "**code .**" for [Visual Studio Code](https://code.visualstudio.com/)).
 
 1. Locate the **package.json** file in the root directory and modify the **start** script to use **SSL** and port **3000** (the port configured in the Office Add-in xml manifest by the Yeoman generator)
     
@@ -703,7 +704,7 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
     ```
 
 1. Next, add Office.js typings (**@types/office-js**) to the **dependencies** section.
-
+Matt- Check
     ```json
     "@types/office-js": "^0.0.48"
     ```
@@ -756,7 +757,7 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
 
 ### Develop the Office Add-in
 
-1. Open **src/app.css** and replace the entire file with the contents show below.
+1. Open **src/styles.css** and replace the entire file with the contents show below.
 
     ````css
     /* You can add global styles to this file, and also import other style files */
@@ -835,7 +836,7 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
 
     ![Spinner](./Images/spinner.gif)
 
-1. Because the add-in will call a REST API, you need to load Angular's HttpModule. Open **src/app/app/app.module.ts**, import the **HttpModule** and add it to the **imports** section of the **@NgModule** declaration.
+1. Because the add-in will call a REST API, you need to load Angular's HttpModule. Open **src/app/app.module.ts**, import the **HttpModule** and add it to the **imports** section of the **@NgModule** declaration.
 
     ````typescript
     import { BrowserModule } from '@angular/platform-browser';
