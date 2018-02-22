@@ -1710,7 +1710,7 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
     </script>
     ````
 
-1. Finally, open **src/components/root.vue** and update it as shown below. Keep this file open because you will make several updates to it before the end of this exercise.
+1. Finally, Create a new file named **src/components/root.vue** and update it as shown below. Keep this file open because you will make several updates to it before the end of this exercise.
 
     ````html
     <template>
@@ -1811,7 +1811,7 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
     })();
     ````
 
-1. Although the app's functionality isn't complete, the visual markup is complete. To review your changes, save all files and then return to Office Online. Your add-in should look similar to the following screenshot. If you previously closed your browser or if your Office Online session expired (the add-in doesn't load), follow the steps in [Sideload the Office Add-in](#sideload-the-office-add-in).
+1. Although the app's functionality isn't complete, the visual markup is complete. To review your changes, save all files and then return to Office Online. Your add-in should look similar to the following screenshot. If you previously closed your browser or if your Office Online session expired (the add-in doesn't load), follow the steps in [Sideload the Office Add-in](#SideLoadTestAddins).
 
     ![Add-in with visual markup complete](./Images/AddinVisual.png)
 
