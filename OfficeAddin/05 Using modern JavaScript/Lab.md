@@ -670,13 +670,6 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
     ```shell
     yo office
     ```
-MATT possibly cd to directory (Possible typo on my part)
-
-1. Get the Office Typescript files
-
-	```shell
-	npm install --save @types/office-js
-	```
 
 1. The Office Yeoman generator will ask a number of question. Use the following responses:
     * Would you like to create a new subfolder for your project? **No**
@@ -684,7 +677,7 @@ MATT possibly cd to directory (Possible typo on my part)
     * Which Office client application would you like to support? **Excel**
     * Would you like to create a new add-in? **No, I already have a web app and only need a manifest file for my add-in**
     * For more information and resources on your next steps, we have created a resource.html file in your project. Would you like to open it now while we finish creating your project? **No**
-    * Overwrite package.json? **do not overwrite**
+    * Overwrite package.json? **n (do not overwrite)**
 
     ![Office Yeoman Generator](./Images/YeomanAngular.png)
 
@@ -704,7 +697,7 @@ MATT possibly cd to directory (Possible typo on my part)
     ```
 
 1. Next, add Office.js typings (**@types/office-js**) to the **dependencies** section.
-Matt- Check
+
     ```json
     "@types/office-js": "^0.0.48"
     ```
