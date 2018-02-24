@@ -451,7 +451,7 @@ To enable an application to call the Microsoft Graph, an application registratio
 1. Request permission to read Groups.
     1. Scroll down to the **Microsoft Graph Permissions** section.
     1. Next to **Delegated Permissions**, click the **Add** button.
-    1. In the **Select Permission** dialog, scroll down and select **Group.Read.All**. Click OK.
+    1. In the **Select Permission** dialog, scroll down and select **Group.Read.All**. Click **OK**.
 
         ![](Images/Exercise3-05.png)
 
@@ -659,6 +659,7 @@ These steps assume that the application created in Exercise 1 is named **teams-a
 
 1. Following the steps from Exercise 1, redeploy the app. In summary, perform the following steps.
     1. Update the manifest (if necessary) with the ngrok forwarding address.
+	1. Run `gulp manifest` to rebuild the package if you updated the manifest.
     1. Run `gulp build` and resolve errors.
     1. Run `gulp serve`
     1. Sideload the app into Microsoft Teams.
@@ -787,7 +788,7 @@ These steps assume that the application created in Exercise 1 is named **teams-a
         ```
 
 1. Add a new file to the **web** folder named **auth.html**
-    1. Add the following to the **adminconsent.html** file.
+    1. Add the following to the **auth.html** file.
 
         ```html
         <!DOCTYPE html>
