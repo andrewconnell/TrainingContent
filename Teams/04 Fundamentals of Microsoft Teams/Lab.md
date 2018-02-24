@@ -148,7 +148,7 @@ When the solution was generated, we used a placeholder URL. Now that the tunnel 
 
 ### Sideload app into Microsoft Teams
 
-1. In the Microsoft Teams application, click the **Add team** link. Then click the **Create team** button.
+1. In the Microsoft Teams application, click the **Create and join team** link. Then click the **Create team** button.
 
     ![](Images/Exercise1-08.png)
 
@@ -158,7 +158,7 @@ When the solution was generated, we used a placeholder URL. Now that the tunnel 
 
     ![](Images/Exercise1-09.png)
 
-1. On the View team display, click **Apps** in the tab strip. Then click the **Sideload an app** link at the bottom right corner of the application.
+1. On the View team display, click **Apps** in the tab strip. Then click the **Upload a custom app** link at the bottom right corner of the application. (If you don't have this link check the sideload settings in the [Getting Started article](https://msdn.microsoft.com/en-us/microsoft-teams/setup).
 
     ![](Images/Exercise1-10.png)
 
