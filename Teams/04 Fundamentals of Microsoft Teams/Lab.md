@@ -154,7 +154,7 @@ When the solution was generated, we used a placeholder URL. Now that the tunnel 
 
 1. Enter a team name and description. In this example, the Team is named **teams-app-1**. Click **Next**.
 1. Optionally, invite others from your organization to the team. This step can be skipped in this lab.
-1. The new team is shown. In the left-side panel, click the elipses next to the team name. Choose **View team** from the context menu.
+1. The new team is shown. In the left-side panel, click the elipses next to the team name. Choose **Manage team** from the context menu.
 
     ![](Images/Exercise1-09.png)
 
