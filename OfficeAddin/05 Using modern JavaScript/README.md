@@ -9,9 +9,9 @@ In this lab, you will walk through building Office Add-ins using a variety of po
 
 ## Demos
 
-- [Build an Office Add-in using React](./Demos/01-office-add-in-using-react)
-- [Build an Office Add-in using Angular](./Demos/02-office-add-in-using-angular)
-- [Build an Office Add-in using VueJS](./Demos/03-office-add-in-using-vuejs)
+- [Build an Office Add-in using React](./Demos/01 Office Add-in using React)
+- [Build an Office Add-in using Angular](./Demos/02 office add-in using angular)
+- [Build an Office Add-in using VueJS](./Demos/03 office add-in using vuejs)
 
 ## Contributors
 |        Roles         |                        Author(s)                        |
@@ -23,8 +23,9 @@ In this lab, you will walk through building Office Add-ins using a variety of po
 
 | Version | Date |    Comments     |
 | ------- | ---- | --------------- |
+| 1.1     | February 25, 2018 | Code review and typos |
 | 1.0     |      | Initial release |
-| 1.X     | 2018.02.22 | Code Review and Update |
+
 
 ## Disclaimer
 **THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.**
