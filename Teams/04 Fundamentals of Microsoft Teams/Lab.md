@@ -154,11 +154,11 @@ When the solution was generated, we used a placeholder URL. Now that the tunnel 
 
 1. Enter a team name and description. In this example, the Team is named **teams-app-1**. Click **Next**.
 1. Optionally, invite others from your organization to the team. This step can be skipped in this lab.
-1. The new team is shown. In the left-side panel, click the elipses next to the team name. Choose **Manage team** from the context menu.
+1. The new team is shown. In the left-side panel, click the ellipses next to the team name. Choose **Manage team** from the context menu.
 
     ![](Images/Exercise1-09.png)
 
-1. On the View team display, click **Apps** in the tab strip. Then click the **Upload a custom app** link at the bottom right corner of the application. (If you don't have this link check the sideload settings in the [Getting Started article](https://msdn.microsoft.com/en-us/microsoft-teams/setup).)
+1. On the Manage team display, click **Apps** in the tab strip. Then click the **Upload a custom app** link at the bottom right corner of the application. (If you don't have this link check the sideload settings in the [Getting Started article](https://msdn.microsoft.com/en-us/microsoft-teams/setup).)
 
     ![](Images/Exercise1-10.png)
 
