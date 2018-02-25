@@ -8,10 +8,9 @@ In this lab, you will walk through building Office Add-ins using a variety of po
 - [Lab Manual](./Lab.md)
 
 ## Demos
-
-- [Build an Office Add-in using React](./Demos/01 Office Add-in using React)
-- [Build an Office Add-in using Angular](./Demos/02 office add-in using angular)
-- [Build an Office Add-in using VueJS](./Demos/03 office add-in using vuejs)
+- [Build an Office Add-in using React](./Demos/01%20Office%20Add-in%20using%20React)
+- [Build an Office Add-in using Angular](./Demos/02%20Office%20Add-in%20using%20Angular)
+- [Build an Office Add-in using VueJS](./Demos/03%20Office%20Add-in%20using%20VueJS)
 
 ## Contributors
 |        Roles         |                        Author(s)                        |

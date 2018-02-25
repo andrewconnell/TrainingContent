@@ -5,9 +5,9 @@
 This GitHub repo houses all of the content for the "Using Modern JavaScript to Build Office Add-Ins" training.
 
 
-- [Build an Office Add-in using React](./05 Using modern JavaScript/Demos/01-office-add-in-using-react)
-- [Build an Office Add-in using Angular](./05 Using modern JavaScript/Demos/02-office-add-in-using-angular)
-- [Build an Office Add-in using VueJS](./05 Using modern JavaScript/Demos/03-office-add-in-using-vuejs)
+- [Build an Office Add-in using React](./05 Using modern JavaScript/Demos/01%20Office%20Add-in%20using%20React)
+- [Build an Office Add-in using Angular](./05 Using modern JavaScript/Demos/02%20Office%20Add-in%20using%20Angular)
+- [Build an Office Add-in using VueJS](./05 Using modern JavaScript/Demos/03%20Office%20Add-in%20using%20VueJS)
 
 ----------
 
