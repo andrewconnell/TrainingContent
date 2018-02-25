@@ -25,6 +25,7 @@ In this lab, you will use advanced techniques to build a more-sophisticated bot,
 
 | Version |      Date       |    Comments     |
 | ------- | --------------- | --------------- |
+| 1.2     | February 25, 2018 | Code Review and minor corrections |
 | 1.0.1   | October 9, 2017 | Typo & bugfixes |
 | 1.0     | October 6, 2017 | Initial release |
 
