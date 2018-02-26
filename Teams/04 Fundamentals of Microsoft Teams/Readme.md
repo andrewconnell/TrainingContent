@@ -25,7 +25,9 @@ In this lab, you will walk through building, packaging, and deploying your Micro
 
 | Version |      Date       |    Comments     |
 | ------- | --------------- | --------------- |
+| 1.1     | February 25, 2018 | Code Review and minor corrections |
 | 1.0     | October 6, 2017 | Initial release |
+
 
 ## Disclaimer
 **THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.**
