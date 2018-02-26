@@ -2133,15 +2133,15 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
 1. Finally, update the **syncTable** function in **src/components/root.vue** to pull in any stock symbols that might already exist in the worksheet. **syncTable** is called in the constructor of app.tsx when the add-in is launched. syncTable calls **getColumnData** to get this data.
 
     ````typescript
-    syncTable() {
-        (<any>this).waiting = true;
-        (<any>this).tableUtil.getColumnData("Symbol").then(async (columnData:string[]) => {
-            (<any>this).symbols = columnData;
-            (<any>this).waiting = false;
-        }, (err) => {
-            (<any>this).error = err;
-            (<any>this).waiting = false;
-        });
+		syncTable() {
+			(<any>this).waiting = true;
+			(<any>this).tableUtil.getColumnData("Symbol").then(async (columnData:string[]) => {
+				(<any>this).symbols = columnData;
+				(<any>this).waiting = false;
+			}, (err) => {
+				(<any>this).error = err;
+				(<any>this).waiting = false;
+			});
 		}
     },
     ````
