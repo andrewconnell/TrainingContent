@@ -16,7 +16,7 @@
     "jquery": "^3.1.1",
     "office-addin-validator": "^1.0.1",
     "vue":"^2.4.4",
-    "vue-class-component":"^5.0.2"
+    "vue-class-component":"^6.2.0"
   },
   "devDependencies": {
     "concurrently": "^3.1.0",

@@ -1342,7 +1342,7 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
         "jquery": "^3.1.1",
         "office-addin-validator": "^1.0.1",
         "vue":"^2.4.4",
-        "vue-class-component":"^5.0.2",
+        "vue-class-component":"^6.2.0",
         "@microsoft/office-js": "^1.1.2"
     },
     ````
@@ -1967,43 +1967,24 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
 1. Return to **src/components/root.vue** and update the **addSymbol** function to call **getQuote** for stock statistics, and then call **addRow** on **ExcelTableUtil**. Notice the row data contains formulas.
 
     ````typescript
-    // Adds symbol.
-    addSymbol = async (event) => {
-        if (event.key == 'Enter') {
-            let element = this.refs.newSymbol as TextField; 
-            let symbol = element.value.toUpperCase();
-
-            // Get quote and add to Excel table.
-            this.setState({ waiting: true });
-            this.getQuote(symbol).then((res:any) => {
-                let data = [
-                    res.symbol, //Symbol
-                    res.current, //Last Price
-                    res.curr_change, //Change $
-                    res.pct_change * 100, //Change %
-                    0, //Quantity (user provided)
-                    0, //Price Paid (user provided)
-                    "=C:C * E:E", //Day's Gain $
-                    "=(B:B * E:E) - (F:F * E:E)", //Total Gain $
-                    "=H:H / (F:F * E:E) * 100", //Total Gain %
-                    "=B:B * E:E" //Value
-                ];
-                this.tableUtil.addRow(data).then(() => {
-                    let symbols = this.state.listItems;
-                    symbols.unshift(element.state.value.toUpperCase());
-                    this.setState({ listItems: symbols });
-                    element.setState({ value: "" });
-                    this.setState({waiting: false});
-                }, (err) => {
-                    this.setState({error: err});
-                    this.setState({waiting: false});
-                });
-            }, (err) => {
-                this.setState({error: err});
-                this.setState({waiting: false});
-            });
-        }
-    }
+    addSymbol(symbol:string) {
+      if ((<KeyboardEvent>event).key == "Enter") {
+        (<any>this).waiting = true;
+        (<any>this).getQuote(symbol).then((res:any) => {
+          let data = [res.symbol, res.current, res.curr_change, res.pct_change * 100, 0, 0, "=C:C * E:E", "=(B:B * E:E) - (F:F * E:E)", "=H:H / (F:F * E:E) * 100", "=B:B * E:E"];
+          (<any>this).tableUtil.addRow(data).then(() => {
+            (<any>this).symbols.unshift(symbol);
+            (<any>this).waiting = false;
+            (<any>this).newSymbol = "";
+          }, (err) => {
+            (<any>this).error = err;
+          });
+        }, (err) => {
+          (<any>this).error = err;
+          (<any>this).waiting = false;
+        });
+      }
+    },
     ````
 
     >**Optional**: This is a good time to test the addSymbol function of your add-in.
@@ -2149,7 +2130,7 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
 
     >**Optional**: This is a good time to test the refreshSymbol function of your add-in.
 
-1. Finally, update the **syncTable** function to pull in any stock symbols that might already exist in the worksheet. **syncTable** is called in the constructor of app.tsx when the add-in is launched. syncTable calls **getColumnData** to get this data.
+1. Finally, update the **syncTable** function in **src/components/root.vue** to pull in any stock symbols that might already exist in the worksheet. **syncTable** is called in the constructor of app.tsx when the add-in is launched. syncTable calls **getColumnData** to get this data.
 
     ````typescript
     syncTable() {
@@ -2161,7 +2142,8 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
             (<any>this).error = err;
             (<any>this).waiting = false;
         });
-    }
+		}
+    },
     ````
 
 The Excel Portfolio add-in written with Vue.js and TypeScript is now complete. Follow the steps to [Sideload and Test the Office Add-in](#SideLoadTestAddins).
