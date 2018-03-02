@@ -90,6 +90,7 @@ Now let's see how changing the action affected the card. Click on the **View in 
 ![](Images/sandboxaction.png)
 
 Actions in the MessageCard Playground app are disabled, only prompting the information that you provided in the card. However, you can send the card to your Office 365 email account to view the card and interact with its actions. Click the **Send via Email** button to send the card to yourself in email.
+>**NOTE:** If you are not logged in to the MessageCard Playground it will prompt you to log in and then ask for your consent.  When consent is given the MessageCard Playgroud page will reload and you will need to load the sample again.
 
 ![](Images/spacexcardemail.png)
 
@@ -203,7 +204,7 @@ The card you will use for the rest of the lab represents a fictitious expense ap
     ]
   }  
 ````
-Note the *YOURWEBAPPNAME.azurewebsites.net* placeholder usedin this sample. Replace it with the Azure Web App URL that you created earlier in this lab.
+Note the *YOURWEBAPPNAME.azurewebsites.net* placeholders usedin this sample. Replace both instances with the Azure Web App URL that you created earlier in this lab.
 
 **Replace** the JSON data in the MessageCard Playground app with this JSON data, making sure that the URL for your Azure Web App uses the https protocol.
 
@@ -265,9 +266,9 @@ The first section of this lab demonstrated how to design a card, the second sect
 ## Register a new provider
 Open your browser to the [Actionable Email Developer Dashboard](https://outlook.office.com/connectors/oam/publish) and click **New Provider**. 
 
-Provide a name and image for your provider. You are prompted for an email, this is the email used as the sender for your Actionable Messages. Typically you would use a static email address such as `actions@contoso.com`, but for the purposes of this lab enter your own email address. For the target URL, enter the URL for your Azure web app as an HTTPS URL (for instance, https://myapp.azurewebsites.net). Finally, the scope of submission determines how you will use the provider. Choose **Mailbox** as the scope.
+Provide a name and image for your provider. You are prompted for an email, this is the email used as the sender for your Actionable Messages. Typically you would use a static email address such as `actions@contoso.com`, but for the purposes of this lab enter your own email address. For the target URL, enter the URL for your Azure web app as an HTTPS URL (for instance, https://myapp.azurewebsites.net). Finally, the scope of submission determines how you will use the provider. Choose **My Mailbox** as the scope.
 
-A scope of **Mailbox** will only allow actions in cards from your inbox. A scope of **Organization** will allow you to send Actionable Messages to others in your organization, and a scope of **Global** allows you to send to users inside and outside your organization. If you choose **Organization** or **Global**, then your application must first be reviewed and approved before proceeding.
+A scope of **My Mailbox** will only allow actions in cards from your inbox. A scope of **Organization** will allow you to send Actionable Messages to others in your organization, and a scope of **Global** allows you to send to users inside and outside your organization. If you choose **Organization** or **Global**, then your application must first be reviewed and approved before proceeding.
 
 ### Create a new Web API application
 In Visual Studio 2017, **create** a new Web Application project (File / New / Project / ASP.NET Web Application (.NET Framework). Name the project **ExpenseApproval**. When prompted, choose **Web API**, and ensure that **No Authentication** is selected.
@@ -418,7 +419,7 @@ namespace ExpenseApproval.Helpers
 }
 
 ````
-Notice the first few lines in the ValidateTokenAsync method use configuration settings. **Open** the web.config file in your project's root directory and **add** the following to the appSettings section:
+Notice the first few lines in the ValidateTokenAsync method use configuration settings. **Open** the web.config file in your project's root directory and **add** the following to the appSettings section and fill in the values:
 ````xml
     <add key="sender" value="" />                        <!-- Ex: admin@contoso.onmicrosoft.com -->
     <add key="emailDomain" value="" />                   <!-- Ex: @contoso.onmicrosoft.com -->
@@ -549,6 +550,9 @@ In the **Publish** window, click the **Settings...** link. Click the **Settings*
 You can attach a debugger to an Azure Web App similar to how you attach a debugger to a local process during debugging. In Visual Studio 2017, open the **Cloud Explorer** pane and expand the **App Services** node to show your Azure Web App. Right-click your web app and choose **Attach Debugger**.
 
 ![](Images/debugger.png)
+
+>**NOTE:** If you only see **Local** resources, click on teh person icon, and to validate your accounts.
+>![]() 
 
 Set a breakpoint in the Web API controller to see when messages arrive and debug interactively.
 
