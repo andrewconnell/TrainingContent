@@ -551,8 +551,8 @@ You can attach a debugger to an Azure Web App similar to how you attach a debugg
 
 ![](Images/debugger.png)
 
->**NOTE:** If you only see **Local** resources, click on teh person icon, and to validate your accounts.
->![]() 
+>**NOTE:** If you only see **Local** resources, click on the person icon, make sure the account you used to create the web app service is liste, and then check the `All subscriptions` item to show them in the explorer.
+![](Images/showsubscriptions.png) 
 
 Set a breakpoint in the Web API controller to see when messages arrive and debug interactively.
 
