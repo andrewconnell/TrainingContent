@@ -82,7 +82,7 @@ It is not necessary to use the playground web site to send test messages. Any fa
 <a name="exercise2"></a>
 
 ## Exercise 2: Add Connector functionality to existing web site
-This exercise will add connector functionality to an existing web site. First, a new website must be created. The following steps create and modify the default MVC website template in preparation for adding a connector. All code can be found in the [Lab Files](/Lab%20Files) folder, which was based on an applicaiton with the name **WebApplication1**.
+This exercise will add connector functionality to an existing web site. First, a new website must be created. The following steps create a default MVC website and walk through the steps for adding a connector. All code can be found in the [Lab Files](./Lab%20Files) folder, which was based on an applicaiton with the name **WebApplication1**.
 
 1. Open **Visual Studio 2017**
 
@@ -231,7 +231,9 @@ namespace WebApplication1.Controllers
 ````
 1. Place your cursor inside the `Setup` method, right-click and select **Add > View**. Clear the checkbox for **Use a layout page**.
 
-1. Paste the following code into the file. **PLEASE NOTE: the link below has two placeholders that we will be replacing later in this lab.  [ApplicationID] and [NGROK_HTTPS]**
+1. Paste the following code into the file. 
+
+>**PLEASE NOTE:** the link below has two placeholders that we will be replacing later in this lab.  [ApplicationID] and [NGROK_HTTPS]
 
 ````html
 @{
@@ -284,7 +286,7 @@ namespace WebApplication1.Controllers
 </html>
 ````
 
-1. Press F5 to build and run the project. Verify that the setup page is available by modifying the url with http://localhost:00000/connector/setup  
+1. Press F5 to build and run the project. Verify that the setup page is available by appending `/connector/setup` to the localhost url. In this example `http://localhost:20455/connector/setup`
 
     ![](Images/Exercise2-03.png)
 
@@ -297,7 +299,7 @@ namespace WebApplication1.Controllers
 
 1. Make note of the `URL` property. It is needed for the tunnel application later.
 
->NOTE: If this were a real solution you would want to enable SSL Encryption because the connector requires it.  During testing ngrok is handling the https->http redirection.
+>**NOTE:** If this were a real solution you would want to enable SSL Encryption (by changing the value to true) because the connector requires it.  During testing ngrok is handling the https->http redirection.
 
 <p align="center">
   <img src="Images/Exercise2-04.png">
@@ -307,7 +309,7 @@ namespace WebApplication1.Controllers
 
 1. Change to the directory that contains the ngrok.exe application.
 
-1. Run the command `ngrok http [port] -host-header=localhost` *(Replace [port] with the port portion of the URL noted above.)*
+1. Run the command `ngrok http [port] -host-header=localhost`. Replace `[port]` with the port portion of the URL noted above, in this example **20455**.
 
 1. The ngrok application will fill the entire prompt window. Make note of the Forwarding address using https. This address is required in the next step.
 
@@ -331,7 +333,7 @@ Following the steps found on [docs.microsoft.com](https://docs.microsoft.com/en-
 
 1. Agree to the terms and conditions and click **Save**
 
-1. The registration page URL's query string will contain the **id** of the connector. Further, a `Copy Code` button is available that will copy the registration 'button' html code to your clipboard. We already have the html, so we'll modify it by hand. Make note of hte **id** as we will use in the following steps.
+1. The registration page URL's query string will contain the **id** of the connector. Further, a `Copy Code` button is available that will copy the registration 'button' html code to your clipboard. We already have the html, so we'll modify it by hand. Make note of hte **id** as we will use in the following steps. In addition, when we side load the connector into Microsoft Teams in [Exercise 3](#exercise3), we will make use of the `Download Manifest` feature.
 
 ![](Images/Exercise2-06.png)
 
@@ -339,7 +341,7 @@ Following the steps found on [docs.microsoft.com](https://docs.microsoft.com/en-
 
 1. Return to Visual Studio, with the web project created earlier opened. Stop the debugger.
 
-1. Open the `/Views/Connector/Setup.cshtml` file
+1. Open the `/Views/Connector/Setup.cshtml` file.
 
 1. Modify the `Register Office365` button's html to include the connector id and ngrok Https url from above. The **id** replaces `[ApplicationID]` and the ngrok Https url replaces `[NGROK_HTTPS]`.
 
@@ -373,7 +375,7 @@ To complete this part of the lab, the prerequistes for developing Apps for Micro
 
 ### Sideload app into Microsoft Teams
 
-Creating an Microsoft Teams App requires a zip file (called an App package) containing a manifest that describes the App along with related resources. This part of the exercise will configure Visual Studio to create the App package.
+Side loading a Microsoft Teams Connector requires a zip file containing a manifest that describes the Connector along with related resources. 
 
 1. From the connector setup page, click on the `Download Manifest` button which will download the manifest.json file to your machine.
 
@@ -418,7 +420,7 @@ The connector is now sideloaded into the Microsoft Teams application.
 
     ![](Images/Exercise3-05.png)
 
-1. Scroll to the bottom of the connector list. A section named **Sideloaded** contains the Connector described by the app. Click **Configure**.
+1. Scroll to the bottom of the connector list. A section named **Sideloaded** contains the Connector described by the manifest. Click **Configure**.
 
     ![](Images/Exercise3-06.png)
 
