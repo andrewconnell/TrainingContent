@@ -10,11 +10,11 @@ In this lab, you will walk through building applications that connect with the M
 
 ## Prerequisites
 
-This lab uses Visual Studio 2017. It also requires an **Azure Active Directory** tenant and a user with administrative privileges.
+This lab uses Visual Studio 2017, and in the case of the part 4, will require Windows 10. It also requires an **Azure Active Directory** tenant and a user with administrative privileges.
 
 ## Setup
 
-Open the Visual Studio Installer and enable the **.NET desktop development**, **Mobile applications with .NET**, **Azure development**,and **Universal Windows Platform** features. Make sure to update Visual Studio 2017 to the latest version, and update VSIX packages (Tools / Extensions and Updates).
+Open the Visual Studio Installer and enable the **.NET desktop development**, **Mobile development with .NET**, **Azure development**,and **Universal Windows Platform development** features. Make sure to update Visual Studio 2017 to the latest version, and update VSIX packages (Tools / Extensions and Updates).
 
 <a name="dotnetconsoleapp"></a>
 
@@ -30,7 +30,7 @@ Click the **Add an app** button.
 
 ![](Images/01.png)
 
-On the next page, provide an application name and provide your email address.
+On the next page, provide an application name.  Click **Create**.
 
 ![](Images/02.png)
 
@@ -47,7 +47,7 @@ Once completed, be sure to scroll to the bottom of the page and **save** all cha
 
 ### Create the project in Visual Studio 2017
 
-In Visual Studio 2017, create a new **Console Application** project targeting .NET Framework 4.6.2.
+In Visual Studio 2017, create a new **Console Application** project targeting .NET Framework 4.7.
 
 ![](Images/04.png)
 
@@ -285,12 +285,18 @@ Finally, update the Main method to call the `RunAsync()` method.
 static void Main(string[] args)
 {
     RunAsync().GetAwaiter().GetResult();
+    Console.WriteLine("Press any key to close");
+    Console.ReadKey();
 }
 ````
 
 Run the application. You are prompted to log in.
 
 ![](Images/05.png)
+
+The first time you run it you will also be prompted to consent to the permissions the application is requesting.
+
+![](Images/05_1.png)
 
 After the application runs, you will see output similar to the output shown here.
 
@@ -316,9 +322,9 @@ Under platforms, choose **Add Platform / Web**. Make sure the **Allow Implicit F
 
 ### Create the application
 
-As stated previously, we will use a QuickStart application to demonstrate working with AngularJS and the v2 endpoint.
+As stated previously, we will use a QuickStart application to demonstrate working with AngularJS and the v2 endpoint. 
 
-**Download** the [Microsoft Graph Connect Sample for AngularJS](https://github.com/microsoftgraph/angular-connect-rest-sample).
+**Download/Clone** the [Microsoft Graph Connect Sample for AngularJS](https://github.com/microsoftgraph/angular-connect-rest-sample) and open it in a code editor of your choice. Note this solution requires that you've installed Node.js, please see the prerequisites in the README.md file for more information.
 
 Edit the `config.js` file in public/scripts and replace the **clientID** placeholder with the placeholder of your application.
 
@@ -340,7 +346,7 @@ Note that you may receive an error similar to "npm WARN This failure might be du
 sudo apt-get install nodejs-legacy
 ````
 
-The application displays the following dialog box and prompts you to click **Connect**.
+The command window will show that the application is now listening on port 8080.  Open a browser and type in the url localhost:8080. The application displays the following dialog box and prompts you to click **Connect**.
 
 ![](Images/09.png)
 
@@ -386,11 +392,12 @@ Clone or download the following project:
 Visit the [Application Registration Portal](https://apps.dev.microsoft.com) and register a new application:
 
 - Copy the **Application Id** assigned to your app.
+- Generate an **Application Secret** of the type **password**, and copy it for later. Note that in production apps you should always use certificates as your application secrets, but for this sample we will use a simple shared secret password.
 - Add the **Web** platform for your app.
 - Enter two **Redirect URI**s:
     - `https://localhost:44316/`, and
     - `https://localhost:44316/Account/GrantPermissions`
-- Generate an **Application Secret** of the type **password**, and copy it for later. Note that in production apps you should always use certificates as your application secrets, but for this sample we will use a simple shared secret password.
+
 
 ### Configure your app for admin consent
 
@@ -400,14 +407,14 @@ In order to use the v2.0 admin consent endpoint, you'll need to declare the appl
 - Under **Application Permissions**, add the `User.Read.All` permission.
 - Be sure to **Save** your app registration.
 
-Once you've downloaded the sample, open it using Visual Studio. Open the `web.config` file, and replace the following values:
+Once you've downloaded the sample, open it using Visual Studio. Open the `App_Start\Startup.Auth.cs` file, and replace the following values:
 
 - Replace the `clientId` value with the application ID you copied above.
 - Replace the `clientSecret` value with the application secret you copied above.
 
 ### Run the sample
 
-Start the **UserSync** application, and begin by signing in as an administrator in your Azure AD tenant. If you don't have an Azure AD tenant for testing, you can [follow these instructions](https://azure.microsoft.com/documentation/articles/active-directory-howto-tenant/) to get one.
+Start the application called **UserSync**, and begin by signing in as an administrator in your Azure AD tenant. If you don't have an Azure AD tenant for testing, you can [follow these instructions](https://azure.microsoft.com/documentation/articles/active-directory-howto-tenant/) to get one.
 
 When the app loads, click the **Get Started** button.
 
@@ -421,23 +428,19 @@ The application then asks for permission to read the list of users in your tenan
 
 ### Create the Azure Function project
 
-Visual Studio 2017 provides new tooling to simplify the creation of Azure Functions while enabling local debugging. Under the "Visual C#" node in the tree, choose the "Azure Functions" project template.
+Visual Studio 2017 provides new tooling to simplify the creation of Azure Functions while enabling local debugging. Under the **Visual C#/Cloud** node in the tree, choose the **Azure Functions** project template.
 
 ![](Images/12.png)
 
 For details on creating Azure Functions using Visual Studio, see [Azure Functions Tools for Visual Studio](https://docs.microsoft.com/en-us/azure/azure-functions/functions-develop-vs).
 
-**Right-click** on the new function project and add a new function.
-
-![](Images/13.png)
-
-When prompted, set the trigger to a **Timer trigger** and change the schedule to the following format:
+Select **Timer trigger** and change the schedule to the following format:
 
 ````
 */30 * * * * *
 ````
 
-![](Images/14.png)
+![](Images/13.png)
 
 In the **NuGet Package Manager Console**, run the following commands to install the required packages.
 
@@ -447,23 +450,33 @@ Install-Package "Microsoft.Identity.Client" -pre
 Install-Package "System.Configuration.ConfigurationManager"
 ````
 
-Azure Functions that run on a schedule require an Azure storage account. Log into your Azure subscription and create a new storage account. Once created, copy its connection string.
+Edit the `local.settings.json` file and add the following items to use while debugging locally. Note: **AzureWebJobsStorage** and **AzureWebJobsDashboard** will already be set with `UserDevelopmentStorage=true` because you chos **Storage Emulator** as the Storage Account during project creation.
+
+- **clientId**: The Application Id of the registered application with AAD
+- **clientSecret**: The secret key of the registered application with AAD
+- **tenantId**: The tenant Id of the AAD directory.  You can retrieve this value from https://portal.azure.com under the `?` icon, show diagnostics.
 
 ![](Images/16.png)
 
-Edit the `local.settings.json` file and provide the following items to use while debugging locally:
-
-- **AzureWebJobsStorage**: Azure storage connection string
-- **AzureWebJobsDashboard**: Azure storage connection string
-- **clientId**: The Application Id of the registered application with AAD
-- **clientSecret**: The secret key of the registered application with AAD
-- **tenantId**: The tenant Id of the AAD directory
 - **authorityFormat**: https://login.microsoftonline.com/{0}/v2.0
 - **replyUri**: https://localhost:44316/
 
-Refer to the following image to verify settings:
+Refer to the following to verify settings:
 
-![](Images/15.png)
+````json
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "AzureWebJobsDashboard": "UseDevelopmentStorage=true",
+    "clientId": "b6299aea-4b9e-499f-a590-e2e29c6990e5",
+    "clientSecret": "gb9p9w9Z9A9V9#9v94929!$",
+    "tenantId": "9a9f949f-79b9-469b-b995-b49fe9ad967d",
+    "authorityFormat": "https://login.microsoftonline.com/{0}/v2.0",
+    "replyUri": "https://localhost:44316"
+  }
+}
+````
 
 **Add** a class named `MsGraphUser.cs` to the project with the following contents:
 
@@ -591,7 +604,7 @@ namespace AzureSyncFunction
 
 ### Debug the Azure Function project locally
 
-Now that the project is coded and settings are configured, run the Azure Function project locally. A command window appears and provides output from the running function.
+Now that the project is coded and settings are configured, run the Azure Function project locally. A command window appears and provides output from the running function. **Note**: you will need the Microsoft Azure Storage Emulator running (you can find it in your start menu), for more information see [Configuring and Using the Storage Emulator with Visual Studio](https://docs.microsoft.com/en-us/azure/vs-azure-tools-storage-emulator-using#initializing-and-running-the-storage-emulator)
 
 ![](Images/16b.png)
 
@@ -601,7 +614,7 @@ As the timer fires once every 30 seconds, the display will show the successful e
 
 ### Deploy the Azure Function project to Microsoft Azure
 
-Right-click the Azure Function project and choose **Publish**. Choose the **Azure Function App**, select **Create New**, and click **OK**.
+Right-click the Azure Function project and choose **Publish**. Choose the **Azure Function App**, select **Create New**, and click **OK**. 
 
 ![](Images/17.png)
 
@@ -620,7 +633,7 @@ Finally, click on the **Monitor** node to monitor the Azure Function as it runs 
 
 ## 4. Create a mobile app with Xamarin using Microsoft Graph
 
-In this lab, you will through building an application using Xamarin.Forms. This demo only walks through creating a UWP
+In this lab, you will through building an application using Xamarin.Forms. You must be running Windows 10 for this lab to work. This demo only walks through creating a UWP
 application. For more information on creating Android and iOS projects using Xamarin.Forms that target Microsoft Graph API, 
 see the [Xamarin CSharp Connect Sample on GitHub](https://github.com/microsoftgraph/xamarin-csharp-connect-sample). 
 
@@ -630,56 +643,38 @@ Visit the [Application Registration Portal](https://apps.dev.microsoft.com/) to 
 
 - Click the **Add an app** button.
     - Enter a name for the application.
-    - Uncheck the **Let us help you get started** option.
     - Click **Create**
 - Copy the **Application Id** that is generated.
 - Under **Platforms**, click **Add Platform**.
     - Add a **Native Application** platform. Copy the generated custom redirect URL.
-- Make sure the **User.Read** delegated permission is requested.
+- Under **Microsoft Graph Permissions** add the **User.Read** delegated permission.
 - Click **Save** to ensure changes are committed.
 
 ### Create the application in Visual Studio
 
-Open Visual Studio 2017. Create a new **Cross Platform App (Xamarin)** project. When prompted for the template type, choose **Blank App**, and choose **Portable Class Library (PCL)** as the code sharing strategy.
+Open Visual Studio 2017. Create a new **Cross-Platform / Mobile App (Xamarin.Forms)** project. When prompted for the template type, choose **Blank App**.  Unselect iOS and Android from Platform and choose **.NET Standard** as the code sharing strategy.
 
 ![](Images/20.png)
 
-When prompted, accept defaults for the Universal Windows Platform versions.
+Two projects were created (because we unchecked iOS and Android):
 
-![](Images/21.png)
-
-Once created, **unload** the portable project within the solution and **edit** the `*.csproj` file. **Replace** the **TargetFrameworkProfile**  element with the following:
-
-````xml
-<TargetFrameworkProfile>Profile7</TargetFrameworkProfile>
-````
-
-**Reload** the project.
-
-Four projects were created:
-
-- a portable class library project where most logic will reside
-- an Android specific project containing Android display logic
-- an iOS specific project containing iOS display logic
-- a Universal Windows Platform project containing Windows display logic
+- a .NET standard class library project where most logic will reside ([App])
+- a Universal Windows Platform project containing Windows display logic ([App.UWP])
 
 This lab only walks through creating a UWP application using Xamarin.Forms. For more information on creating Android and iOS projects using Xamarin.Forms that target Microsoft Graph API, 
 see the [Xamarin CSharp Connect Sample on GitHub](https://github.com/microsoftgraph/xamarin-csharp-connect-sample). 
 
-Right-click the iOS project. Choose **Remove** and choose **OK**. 
-Right-click the Android project. Choose **Remove** and choose **OK**. 
-
 ### Add NuGet Packages to projects
 
-In Visual Studio, navigate to Tools / NuGet Package Manager / Package Manager Console. Install the **Microsoft.Identity.Client** package to all projects, and install the **Newtonsoft.Json** package to the portable class library project.
+In Visual Studio, navigate to Tools / NuGet Package Manager / Package Manager Console. Install the **Microsoft.Identity.Client** package to all projects, and install the **Newtonsoft.Json** package to the portable class library project. Replace App1 with the name you gave your solution
 
 ````powershell
-Install-Package Microsoft.Identity.Client -ProjectName XamarinApp -pre
-Install-Package Newtonsoft.Json -ProjectName XamarinApp -pre
-Install-Package Microsoft.Identity.Client -ProjectName XamarinApp.UWP -pre
+Install-Package Microsoft.Identity.Client -ProjectName App1 -pre
+Install-Package Newtonsoft.Json -ProjectName App1
+Install-Package Microsoft.Identity.Client -ProjectName App1.UWP -pre
 ````
 
-### Edit the portable class library project
+### Edit the .NET standard class library project
 
 Edit the `app.xaml.cs` file in the portable class library project. Replace the `using`'s section with the following:
 
@@ -812,6 +807,7 @@ async void OnSignInSignOut(object sender, EventArgs e)
     }
     catch (Exception ee)
     {
+        await DisplayAlert("Something went wrong signing in/out", ee.Message, "Dismiss");
     }
 }
 
@@ -839,27 +835,19 @@ public async void RefreshUserData(string token)
     }
     else
     {
-        DisplayAlert("Something went wrong with the API call", responseString, "Dismiss");
+        await DisplayAlert("Something went wrong with the API call", responseString, "Dismiss");
     }
 }
 ````
 
-
-
 ### Debug the project
 
-Running the iOS project requires a Mac. If you have a Mac, follow on-screen directions to connect and deploy the application.
+To verify the application's behavior, start debugging. In the debug menu, change the platform to x64 (or x86 if your machine isn't 64-bit) and change the target to **Local Machine** and click the play button to start debugging.
 
-Running the Android project requires an emulator using at least API level 21 and has Chrome, or a physical device meeting the same requirements.
+![](Images/21.png)
 
-To verify the application's behavior, right-click the *Universal Windows Platform** project and choose **Set as StartUp Project**.
-
-In the debug menu, change the target to **Simulator** and click the play button to start debugging.
+The app loads and a **Sign In** button is displayed at the bottom, click it.
 
 ![](Images/22.png)
-
-The simulator loads and you are prompted to log in.
-
-![](Images/23.png)
 
 Upon successful sign in, the current user's profile information is displayed. Note that you can sign in using an organizational account such as a work or school account, or you can sign in with a Microsoft Account such as a Live.com, Outlook.com, or Hotmail.com personal address.
