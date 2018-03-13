@@ -1,43 +1,25 @@
-# Microsoft Graph: Building Microsoft Graph Applications - 200 Level
-----------------
-In this demo, you will through building applications that connect with the Microsoft Graph using multiple technologies. 
+## 1. Build a .NET console application using Microsoft Graph
 
-## Prerequisites
-This lab uses Visual Studio 2017.
-
-- [Lab Manual](./Lab.md)
-
-## Build a .NET console application using Microsoft Graph
-
-This lab will walk you through creating a .NET console application from scratch using .NET Framework 4.6.2, the Microsoft Graph SDK, and the Microsoft Authentication Library (MSAL).
+This lab will walk you through creating a .NET console application from scratch using .NET Framework 4.7.0, the Microsoft Graph SDK, and the Microsoft Authentication Library (MSAL).
 
 ### Register the application
 
-Visit the [Application Registration Portal](https://apps.dev.microsoft.com/) to register the application. 
+Visit the [Application Registration Portal](https://apps.dev.microsoft.com/) to register the application.
 
 Click the **Add an app** button.
 
 ![](../../Images/01.png)
 
-On the next page, provide an application name and provide your email address.
+On the next page, provide an application name.  Click **Create**.
 
 ![](../../Images/02.png)
 
-Once the application is created, an Application Id is provided on the screen.  **Copy this ID**, you will use it as the Client ID within the console application's app.config file.
+Once the application is created, an Application Id is provided on the screen. **Copy this ID**, you will use it as the Client ID within the console application's `app.config` file.
 
 ![](../../Images/03.png)
 
 Click the **Add Platform** button. A popup is presented, choose **Native Application**.
-
 ![](../../Images/03b.png)
-
-Finally, add permission for the application to call the Microsoft Graph using delegated permissions. Click the **Add** button under the "Delegated Permissions" section to add the **User.Read** and **User.ReadBasic.All** permissions.
-
-![](../../Images/03d.png)
-
-Confirm that the permissions were added to the correct section.
-
-![](../../Images/03e.png)
 
 Once completed, be sure to scroll to the bottom of the page and **save** all changes.
 
@@ -45,7 +27,7 @@ Once completed, be sure to scroll to the bottom of the page and **save** all cha
 
 ### Create the project in Visual Studio 2017
 
-In Visual Studio 2017, create a new **Console Application** project targeting .NET Framework 4.6.2.
+In Visual Studio 2017, create a new **Console Application** project targeting .NET Framework 4.7.
 
 ![](../../Images/04.png)
 
@@ -57,7 +39,7 @@ Install-Package "Microsoft.Identity.Client" -pre
 Install-Package "System.Configuration.ConfigurationManager"
 ````
 
-Edit the `app.config` file, and add the following immediately before the `<configuration>` element.
+Edit the app.config file, and immediately before the &lt;/configuration&gt; element, add the following element:
 
 ````xml
 <appSettings>
@@ -69,7 +51,7 @@ Make sure to **replace** the value with the **Application ID** value provided fr
 
 ### Add AuthenticationHelper.cs
 
-Add a class to the project named **AuthenticationHelper.cs**. This class will be responsible for authenticating using the Microsoft Authentication Library (MSAL), which is the Microsoft.Identity.Client package that we installed.
+Add a class to the project named **AuthenticationHelper.cs**. This class will be responsible for authenticating using the Microsoft Authentication Library (MSAL), which is the **Microsoft.Identity.Client** package that we installed.
 
 Replace the using statement at the top of the file.
 
@@ -91,12 +73,9 @@ public class AuthenticationHelper
 {
     // The Client ID is used by the application to uniquely identify itself to the v2.0 authentication endpoint.
     static string clientId = ConfigurationManager.AppSettings["clientId"].ToString();
-    public static string[] Scopes = { "User.Read" };
+    public static string[] Scopes = { "User.Read" , "User.ReadBasic.All"};
 
     public static PublicClientApplication IdentityClientApp = new PublicClientApplication(clientId);
-
-    public static string TokenForUser = null;
-    public static DateTimeOffset Expiration;
 
     private static GraphServiceClient graphClient = null;
 
@@ -136,25 +115,22 @@ public class AuthenticationHelper
     /// <returns>Token for user.</returns>
     public static async Task<string> GetTokenForUserAsync()
     {
-        AuthenticationResult authResult;
+        AuthenticationResult authResult = null;
         try
         {
-            authResult = await IdentityClientApp.AcquireTokenSilentAsync(Scopes, IdentityClientApp.Users.First());
-            TokenForUser = authResult.AccessToken;
+            authResult = await IdentityClientApp.AcquireTokenSilentAsync(Scopes, IdentityClientApp.Users.FirstOrDefault());
+            return authResult.AccessToken;
         }
-
-        catch (Exception)
+        catch (MsalUiRequiredException ex)
         {
-            if (TokenForUser == null || Expiration <= DateTimeOffset.UtcNow.AddMinutes(5))
-            {
-                authResult = await IdentityClientApp.AcquireTokenAsync(Scopes);
+            // A MsalUiRequiredException happened on AcquireTokenSilentAsync. 
+            //This indicates you need to call AcquireTokenAsync to acquire a token
 
-                TokenForUser = authResult.AccessToken;
-                Expiration = authResult.ExpiresOn;
-            }
-        }
-
-        return TokenForUser;
+            authResult = await IdentityClientApp.AcquireTokenAsync(Scopes);
+            
+            return authResult.AccessToken;
+        }    
+        
     }
 
     /// <summary>
@@ -166,17 +142,16 @@ public class AuthenticationHelper
         {
             IdentityClientApp.Remove(user);
         }
-        graphClient = null;
-        TokenForUser = null;
+        graphClient = null;        
 
     }
-
 }
 ````
 
 ### Get the current user's profile using the Graph SDK
 
-The Microsoft Graph API makes it easy to interrogate the currently logged in user's profile. This sample uses our `AuthenticationHelper.cs` class to obtain an authenticated client before accessing the Me endpoint.
+The Microsoft Graph API makes it easy to interrogate the currently logged in user's profile. This sample uses our `AuthenticationHelper.cs` class to obtain an authenticated client before accessing the Me endpoint alias. 
+
 **Edit** the `Program.cs` class and replace the generated using statements with the following:
 
 ````csharp
@@ -188,7 +163,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 ````
 
-**Add** the following method that will get the currently logged in user's profile information.
+To get the currently logged in user's profile information, **add** the following method: 
 
 ````csharp
 /// <summary>
@@ -216,7 +191,7 @@ public static async Task<User> GetMeAsync()
 
 ### Get the users related to the current user using a REST API
 
-The Microsoft Graph API provides REST endpoints to access information and traverse relationships. One such endpoint is the me/people endpoint that provides information about people closely related to the current user. This method demonstrates accessing the underlying System.Net.HttpClient to add an access token in the Authorization header and to configure the URL for the request.
+The Microsoft Graph API provides REST endpoints to access information and traverse relationships. One such endpoint is the me/people endpoint that provides information about people closely related to the current user. This method demonstrates accessing the underlying `System.Net.HttpClient` to add an access token in the Authorization header and to configure the URL for the request.
 
 ````csharp
 /// <summary>
@@ -230,8 +205,8 @@ static async Task<string> GetPeopleNearMe()
     {
         //Get the Graph client
         var graphClient = AuthenticationHelper.GetAuthenticatedClient();
-        //Authentication Helper will now have the user's token
-        var token = AuthenticationHelper.TokenForUser;
+        
+        var token = await AuthenticationHelper.GetTokenForUserAsync();
 
         var request = new HttpRequestMessage(HttpMethod.Get, graphClient.BaseUrl + "/me/people");
         request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
@@ -258,7 +233,7 @@ The methods we created use the async/await pattern. Create an async method named
 ````csharp
 static async Task RunAsync()
 {
-    //Display information about the current user
+    //Display information about the current user            
     Console.WriteLine("Get My Profile");
     Console.WriteLine();
 
@@ -282,7 +257,6 @@ static async Task RunAsync()
         }
     }
 }
-
 ````
 
 Finally, update the Main method to call the `RunAsync()` method.
@@ -291,12 +265,18 @@ Finally, update the Main method to call the `RunAsync()` method.
 static void Main(string[] args)
 {
     RunAsync().GetAwaiter().GetResult();
+    Console.WriteLine("Press any key to close");
+    Console.ReadKey();
 }
 ````
 
 Run the application. You are prompted to log in.
 
 ![](../../Images/05.png)
+
+The first time you run it you will also be prompted to consent to the permissions the application is requesting.
+
+![](../../Images/05_1.png)
 
 After the application runs, you will see output similar to the output shown here.
 

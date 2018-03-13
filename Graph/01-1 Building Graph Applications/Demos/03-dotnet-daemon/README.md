@@ -1,39 +1,24 @@
-# Microsoft Graph: Building Microsoft Graph Applications - 200 Level
-----------------
-In this demo, you will through building applications that connect with the Microsoft Graph using multiple technologies. 
+## 3. Build an Azure Function using Microsoft Graph 
 
-# Running the project
+This lab will build an Azure Function that runs on a scheduled basis to obtain all the users in the directory.
 
-The finished solution is provided in this folder. Configure the application as stated below. Update the UserSync web project's **web.config** file with the configuration settings, and update the **local.settings.json** file in the AzureSyncFunction project. 
+This solution will require an organizational account. An admin is required to provide consent. To facilitate this, we will start with an existing solution. Once we have tested that our app is successfully authenticating and retrieving users, we will implement an Azure Function that synchronizes users.
 
-> **Note:** There is approximately a 20 minute data replication delay between the time when an application is granted admin consent and when the data can successfully synchronize. For more information, see: https://github.com/Azure-Samples/active-directory-dotnet-daemon-v2/issues/1
+### Download and configure the starter application
 
-# Build a multi-tenant daemon with the v2.0 endpoint
+Clone or download the following project:
 
-This sample application shows how to use the [Azure AD v2.0 endpoint](http://aka.ms/aadv2) to access the data of Microsoft business customers in a long-running, non-interactive process. It uses the OAuth2 client credentials grant to acquire an access token which can be used to call the [Microsoft Graph](https://graph.microsoft.io) and access organizational data.
+- [Build a multi-tenant daemon with the v2.0 endpoint](https://github.com/Azure-Samples/active-directory-dotnet-daemon-v2)
 
-The app is built as an ASP.NET 4.5 MVC application, using the OWIN OpenID Connect middleware to sign-in users. Its "daemon" component is simply an API controller which, when called, syncs a list of users from the customer's Azure AD tenant. This `SyncController.cs` is triggered by an ajax call in the web application, and uses the preview Microsoft Authentication Library (MSAL) to perform token acquisition.
+Visit the [Application Registration Portal](https://apps.dev.microsoft.com) and register a new application:
 
-Because the app is a multi-tenant app intended for use by any Microsoft business customer, it must provide a way for customers to "sign up" or "connect" the application to their company data. During the connect flow, a company administrator can grant **application permissions** directly to the app so that it can access company data in a non-interactive fashion, without the presence of a signed-in user. The majority of the logic in this sample shows how to achieve this connect flow using the v2.0 **admin consent** endpoint.
-
-For more information on the concepts used in this sample, be sure to read the [v2.0 endpoint client credentials protocol documentation](https://azure.microsoft.com/documentation/articles/active-directory-v2-protocols-oauth-client-creds).
-
-> Looking for previous versions of this code sample? Check out the tags on the [releases](../../releases) GitHub page.
-
-## Running the sample app
-
-Follow the steps below to run the application and create your own multi-tenant daemon. We reccommend using Visual Studio 2015 to do so.
-
-### Register an app
-
-Create a new app at [apps.dev.microsoft.com](https://apps.dev.microsoft.com), or follow these [detailed steps](https://docs.microsoft.com/azure/active-directory/develop/active-directory-v2-app-registration). Make sure to:
-
-- Copy down the **Application Id** assigned to your app, you'll need it soon.
-- Add the **Web** platform for your app.
-- Enter two **Redirect URI**s. The base URL for this sample, `https://localhost:44316/`, as well as `https://localhost:44316/Account/GrantPermissions`. These are the locations which the v2.0 endpoint will be allowed to return to after authentication.
+- Copy the **Application Id** assigned to your app.
 - Generate an **Application Secret** of the type **password**, and copy it for later. Note that in production apps you should always use certificates as your application secrets, but for this sample we will use a simple shared secret password.
+- Add the **Web** platform for your app.
+- Enter two **Redirect URI**s:
+    - `https://localhost:44316/`, and
+    - `https://localhost:44316/Account/GrantPermissions`
 
-If you have an existing application that you have registered in the past, feel free to use that instead of creating a new registration.
 
 ### Configure your app for admin consent
 
@@ -43,53 +28,40 @@ In order to use the v2.0 admin consent endpoint, you'll need to declare the appl
 - Under **Application Permissions**, add the `User.Read.All` permission.
 - Be sure to **Save** your app registration.
 
-### Download & configure the sample code
-
-You can download this repo as a `*.zip` file using the button above, or run the following command:
-
-`git clone https://github.com/Azure-Samples/active-directory-dotnet-daemon-v2.git`
-
-Once you've downloaded the sample, open it using Visual Studio. Open the `web.config` file, and replace the following values:
+Once you've downloaded the sample, open it using Visual Studio. Open the `App_Start\Startup.Auth.cs` file, and replace the following values:
 
 - Replace the `clientId` value with the application ID you copied above.
 - Replace the `clientSecret` value with the application secret you copied above.
 
 ### Run the sample
 
-Start the UserSync application, and begin by signing in as an administrator in your Azure AD tenant. If you don't have an Azure AD tenant for testing, you can [follow these instructions](https://azure.microsoft.com/documentation/articles/active-directory-howto-tenant/) to get one.
+Start the application called **UserSync**, and begin by signing in as an administrator in your Azure AD tenant. If you don't have an Azure AD tenant for testing, you can [follow these instructions](https://azure.microsoft.com/documentation/articles/active-directory-howto-tenant/) to get one.
 
-When you sign in, the app will first ask you for permission to sign you in & read your user profile. This allows the application to ensure that you are a business user. The application will then try to sync a list of users from your Azure AD tenant via the Microsoft Graph. If it is unable to do so, it will ask you (the tenant administrator) to connect your tenant to the application.
+When the app loads, click the **Get Started** button.
 
-The application will then ask for permission to read the list of users in your tenant. When you grant the permission, the application will then be able to query for users at any point. You can verify this by clicking the **Sync Users** button on the users page, refreshing the list of users. Try adding or removing a user and re-syncing the list (but note that it only syncs the first page of users!).
+On the next page, click **Sign In**.
+
+When you sign in, the app will first ask you for permission to sign you in & read your user profile. This allows the application to ensure that you are a business user. The application will then try to sync a list of users from your Azure AD tenant via the Microsoft Graph. If it is unable to do so, it asks you (the tenant administrator) to connect your tenant to the application.
+
+The application then asks for permission to read the list of users in your tenant. When you grant the permission, the application is able to query for users at any point. You can verify this by clicking the **Sync Users** button on the users page to refresh the list of users. Try adding or removing a user and re-syncing the list (but note that it only syncs the first page of users).
 
 > **Note:** There is approximately a 20 minute data replication delay between the time when an application is granted admin consent and when the data can successfully synchronize. For more information, see: https://github.com/Azure-Samples/active-directory-dotnet-daemon-v2/issues/1
 
-The relevant code for this sample is in the following files:
+### Create the Azure Function project
 
-- Initial sign-in: `App_Start\Startup.Auth.cs`, `Controllers\AccountController.cs`
-- Syncing the list of users to the local in-memory store: `Controllers\SyncController.cs`
-- Displaying the list of users from the local in-memory store: `Controllers\UserController.cs`
-- Acquiring permissions from the tenant admin using the admin consent endpoint: `Controllers\AccountController.cs`
-
-### Create the Azure Function project##
-
-Visual Studio 2017 provides new tooling to simplify the creation of Azure Functions while enabling local debugging. Under the "Visual C#" node in the tree, choose the "Azure Functions" project template.
+Visual Studio 2017 provides new tooling to simplify the creation of Azure Functions while enabling local debugging. Under the **Visual C#/Cloud** node in the tree, choose the **Azure Functions** project template.
 
 ![](../../Images/12.png)
 
 For details on creating Azure Functions using Visual Studio, see [Azure Functions Tools for Visual Studio](https://docs.microsoft.com/en-us/azure/azure-functions/functions-develop-vs).
 
-**Right-click** on the new function project and add a new function.
-
-![](../../Images/13.png)
-
-When prompted, set the trigger to a **Timer trigger** and change the schedule to the following format:
+Select **Timer trigger** and change the schedule to the following format:
 
 ````
 */30 * * * * *
 ````
 
-![](../../Images/14.png)
+![](../../Images/13.png)
 
 In the **NuGet Package Manager Console**, run the following commands to install the required packages.
 
@@ -99,22 +71,33 @@ Install-Package "Microsoft.Identity.Client" -pre
 Install-Package "System.Configuration.ConfigurationManager"
 ````
 
-Azure Functions that run on a schedule require an Azure storage account. Log into your Azure subscription and create a new storage account. Once created, copy its connection string.
+Edit the `local.settings.json` file and add the following items to use while debugging locally. Note: **AzureWebJobsStorage** and **AzureWebJobsDashboard** will already be set with `UserDevelopmentStorage=true` because you chos **Storage Emulator** as the Storage Account during project creation.
+
+- **clientId**: The Application Id of the registered application with AAD
+- **clientSecret**: The secret key of the registered application with AAD
+- **tenantId**: The tenant Id of the AAD directory.  You can retrieve this value from https://portal.azure.com under the `?` icon, show diagnostics.
 
 ![](../../Images/16.png)
 
-Edit the `local.settings.json` file and provide the following items to use while debugging locally:
-
-- **AzureWebJobsStorage**: Azure storage connection string
-- **AzureWebJobsDashboard**: Azure storage connection string
-- **clientId**: The Application Id of the registered application with AAD
-- **clientSecret**: The secret key of the registered application with AAD
-- **tenantId**: The tenant Id of the AAD directory
 - **authorityFormat**: https://login.microsoftonline.com/{0}/v2.0
 - **replyUri**: https://localhost:44316/
 
-Refer to the following image to verify settings:
-![](../../Images/15.png)
+Refer to the following to verify settings:
+
+````json
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "AzureWebJobsDashboard": "UseDevelopmentStorage=true",
+    "clientId": "b6299aea-4b9e-499f-a590-e2e29c6990e5",
+    "clientSecret": "gb9p9w9Z9A9V9#9v94929!$",
+    "tenantId": "9a9f949f-79b9-469b-b995-b49fe9ad967d",
+    "authorityFormat": "https://login.microsoftonline.com/{0}/v2.0",
+    "replyUri": "https://localhost:44316"
+  }
+}
+````
 
 **Add** a class named `MsGraphUser.cs` to the project with the following contents:
 
@@ -240,9 +223,9 @@ namespace AzureSyncFunction
 }
 ````
 
-### Debug the Azure Function project locally##
+### Debug the Azure Function project locally
 
-Now that the project is coded and settings are configured, run the Azure Function project locally. A command window appears and provides output from the running function.
+Now that the project is coded and settings are configured, run the Azure Function project locally. A command window appears and provides output from the running function. **Note**: you will need the Microsoft Azure Storage Emulator running (you can find it in your start menu), for more information see [Configuring and Using the Storage Emulator with Visual Studio](https://docs.microsoft.com/en-us/azure/vs-azure-tools-storage-emulator-using#initializing-and-running-the-storage-emulator)
 
 ![](../../Images/16b.png)
 
@@ -250,13 +233,13 @@ As the timer fires once every 30 seconds, the display will show the successful e
 
 ![](../../Images/16c.png)
 
-### Deploy the Azure Function project to Microsoft Azure##
+### Deploy the Azure Function project to Microsoft Azure
 
-Right-click the Azure Function project and choose **Publish**. Choose the **Azure Function App**, and create a new publish target.
+Right-click the Azure Function project and choose **Publish**. Choose the **Azure Function App**, select **Create New**, and click **OK**. 
 
 ![](../../Images/17.png)
 
-Choose your Azure subscription, a resource group, an app service plan, and a storage account and then click Create. The function is published to your Azure subscription.
+Choose your Azure subscription, a resource group, an app service plan, and a storage account and then click **Create**. The function is published to your Azure subscription.
 
 ![](../../Images/17a.png)
 
@@ -264,6 +247,6 @@ The local configuration settings are not published to the Azure Function. Open t
 
 ![](../../Images/17b.png)
 
-Finally, click on the **Monitor** node to monitor the Azure Function as it runs every 30 seconds. In the Logs window, verify that you are successfully synchronizing users.
+Finally, click on the **Monitor** node to monitor the Azure Function as it runs every 30 seconds. In the **Logs** window, verify that you are successfully synchronizing users.
 
 ![](../../Images/18.png)

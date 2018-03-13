@@ -20,7 +20,7 @@ Open the Visual Studio Installer and enable the **.NET desktop development**, **
 
 ## 1. Build a .NET console application using Microsoft Graph
 
-This lab will walk you through creating a .NET console application from scratch using .NET Framework 4.6.2, the Microsoft Graph SDK, and the Microsoft Authentication Library (MSAL).
+This lab will walk you through creating a .NET console application from scratch using .NET Framework 4.7.0, the Microsoft Graph SDK, and the Microsoft Authentication Library (MSAL).
 
 ### Register the application
 
@@ -627,6 +627,7 @@ The local configuration settings are not published to the Azure Function. Open t
 ![](Images/17b.png)
 
 Finally, click on the **Monitor** node to monitor the Azure Function as it runs every 30 seconds. In the **Logs** window, verify that you are successfully synchronizing users.
+
 ![](Images/18.png)
 
 <a name="xamarinapp"></a>
