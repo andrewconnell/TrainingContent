@@ -1,79 +1,71 @@
-# Microsoft Graph: Building Microsoft Graph Applications - 200 Level
-----------------
-In this demo, you will through building applications that connect with the Microsoft Graph using multiple technologies. 
+## 2. Build a JavaScript application using Microsoft Graph 
 
-# Running the project
-The finished solution is provided in this folder to simplify demonstrations. Configure the application as stated below. Update the config.js file with the **Application Id** from your registered application.  
+There are many sample applications that demonstrate how to use the Microsoft Graph API and the Microsoft Graph SDK available online. This lab will walk you through creating a JavaScript application leveraging the QuickStart project template to quickly get started.
 
-# Microsoft Graph Connect Sample for AngularJS (REST)
+### Register the application
 
-## Table of contents
+Just like in the previous lab, start by visiting the [Application Registration Portal](https://apps.dev.microsoft.com/) to register the application.
 
-* [Introduction](#introduction)
-* [Prerequisites](#prerequisites)
-* [Register the application](#register-the-application)
-* [Build and run the sample](#build-and-run-the-sample)
-* [Questions and comments](#questions-and-comments)
-* [Contributing](#contributing)
-* [Additional resources](#additional-resources)
+![](../../Images/07.png)
 
-## Introduction
+**Copy** the application ID, you'll use this to configure the app.
 
-This sample shows how to connect an AngularJS app to a Microsoft work or school (Azure Active Directory) or personal (Microsoft) account  using the Microsoft Graph API to send an email. In addition, the sample uses the Office Fabric UI for styling and formatting the user experience.  We also have an [Angular connect sample](https://github.com/microsoftgraph/angular-connect-sample) that uses that [Microsoft Graph JavaScript SDK](https://github.com/microsoftgraph/msgraph-sdk-javascript).
+Under platforms, choose **Add Platform / Web**. Make sure the **Allow Implicit Flow** checkbox is selected, and enter http://localhost:8080 as the redirect URI. Make sure to save changes.
 
-![Microsoft Graph Connect sample screenshot](./README_assets/screenshot.png)
+![](../../Images/08.png)
 
-This sample uses the [Microsoft Authentication Library Preview for JavaScript (msal.js)](https://github.com/AzureAD/microsoft-authentication-library-for-js) to get an access token.
+### Create the application
 
-## Prerequisites
+As stated previously, we will use a QuickStart application to demonstrate working with AngularJS and the v2 endpoint. 
 
-To use the Microsoft Graph Connect sample for AngularJS, you need the following:
+**Download/Clone** the [Microsoft Graph Connect Sample for AngularJS](https://github.com/microsoftgraph/angular-connect-rest-sample) and open it in a code editor of your choice. Note this solution requires that you've installed Node.js, please see the prerequisites in the README.md file for more information.
 
-* [Node.js](https://nodejs.org/). Node is required to run the sample on a development server and to install dependencies.
-* Either a [Microsoft account](https://www.outlook.com) or [Office 365 for business account](https://msdn.microsoft.com/en-us/office/office365/howto/setup-development-environment#bk_Office365Account)
+Edit the `config.js` file in public/scripts and replace the **clientID** placeholder with the placeholder of your application.
 
-## Register the application
+In a command prompt, change to the **root directory** and run the following:
 
-1. Sign into the [App Registration Portal](https://apps.dev.microsoft.com/) using either your personal or work or school account.
-1. Choose **Add an app**.
-1. Enter a name for the app, and choose **Create application**.
-   - The registration page displays, listing the properties of your app.
-1. Copy the Application Id. This is the unique identifier for your app.
-1. Under **Platforms**, choose **Add Platform**.
-1. Choose **Web**.
-1. Make sure the **Allow Implicit Flow** check box is selected, and enter *http://localhost:8080* as the Redirect URI. 
-1. Choose **Save**.
+````shell
+npm install
+````
 
-## Build and run the sample
+Once installed, start the application by typing:
 
-1. Download or clone the [Microsoft Graph Connect Sample for AngularJS](https://github.com/microsoftgraph/angular-connect-rest-sample).
-1. Using your favorite IDE, open `config.js` in *public/scripts*.
-1. Replace the **clientID** placeholder value with the application ID of your registered Azure application.
-1. In a command prompt, run the following command in the root directory. This installs project dependencies.
+````shell
+npm start
+````
 
-    ```shell
-    npm install
-    ```
+Note that you may receive an error similar to "npm WARN This failure might be due to the use of legacy binary 'node'. To work around this, install the nodejs-legacy package.
 
-1. Run `npm start` to start the development server.
-1. Navigate to `http://localhost:8080` in your web browser.
-1. Choose the **Connect** button.
-1. Sign in with your personal or work or school account and grant the requested permissions.
-1. Optionally edit the recipient's email address, and then choose the **Send mail** button. When the mail is sent, a Success message is displayed below the button.
+````shell
+sudo apt-get install nodejs-legacy
+````
 
-## Contributing
+The command window will show that the application is now listening on port 8080.  Open a browser and type in the url localhost:8080. The application displays the following dialog box and prompts you to click **Connect**.
 
-If you'd like to contribute to this sample, see [CONTRIBUTING.MD](/CONTRIBUTING.md).
+![](../../Images/09.png)
 
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+You are prompted to log in. Once logged in, you are prompted to grant the permissions requested by the application.
 
-## Questions and comments
+![](../../Images/10.png)
 
-We'd love to get your feedback about this sample. You can send your questions and suggestions in the [Issues](https://github.com/microsoftgraph/angular-connect-rest-sample/issues) section of this repository.
+Click **Accept**. The application reads the current user's display name and enables you to send an email.
 
-Questions about Microsoft Graph development in general should be posted to [Stack Overflow](https://stackoverflow.com/questions/tagged/microsoftgraph). Make sure that your questions or comments are tagged with `[microsoftgraph]`.
+![](../../Images/11.png)
 
-## Additional resources
+Inspect the code to see how this was accomplished.
 
-- [Other Microsoft Graph Connect samples](https://github.com/MicrosoftGraph?utf8=%E2%9C%93&query=-Connect)
-- [Microsoft Graph](http://graph.microsoft.io)
+The application is hosted as a Node.js application that uses AngularJS. The `index.html` page defines the ng-app element and loads the files in the scripts directory as well as the `mainController.js` file.
+
+The `graphHelper.js` file contains the code that obtains the token and calls the Graph API. An HTTP GET is issued to obtain the current user's profile, and an HTTP POST is issued to send email on behalf of the current user.
+
+````javascript
+// Get the profile of the current user.
+me: function me() {
+    return $http.get('https://graph.microsoft.com/v1.0/me');
+},
+
+// Send an email on behalf of the current user.
+sendMail: function sendMail(email) {
+    return $http.post('https://graph.microsoft.com/v1.0/me/sendMail', { 'message' : email, 'saveToSentItems': true });
+}
+````

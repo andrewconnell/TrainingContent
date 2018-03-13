@@ -1,70 +1,47 @@
-# Microsoft Graph: Building Microsoft Graph Applications - 200 Level
-----------------
-In this demo, you will walk through building an application using Xamarin.Forms. This demo only walks through creating a UWP
+## 4. Create a mobile app with Xamarin using Microsoft Graph
+
+In this lab, you will through building an application using Xamarin.Forms. You must be running Windows 10 for this lab to work. This demo only walks through creating a UWP
 application. For more information on creating Android and iOS projects using Xamarin.Forms that target Microsoft Graph API, 
 see the [Xamarin CSharp Connect Sample on GitHub](https://github.com/microsoftgraph/xamarin-csharp-connect-sample). 
-
-## Running the project
-
-The finished solution is provided in this folder. Required edits:
-
-- Edit the PCL project's `App.xaml.cs` file to replace the **CLIENT_ID** placeholder with the registered Application Id.
-
-<a name="xamarinapp"></a>
-
 
 ### Register the application
 
 Visit the [Application Registration Portal](https://apps.dev.microsoft.com/) to register the application. 
 
 - Click the **Add an app** button.
+    - Enter a name for the application.
+    - Click **Create**
 - Copy the **Application Id** that is generated.
-- Add a **Native Application** platform. Copy the generated custom redirect URL.
-- Make sure the **User.Read** delegated permission is requested.
+- Under **Platforms**, click **Add Platform**.
+    - Add a **Native Application** platform. Copy the generated custom redirect URL.
+- Under **Microsoft Graph Permissions** add the **User.Read** delegated permission.
 - Click **Save** to ensure changes are committed.
 
 ### Create the application in Visual Studio
 
-Open Visual Studio 2017. Create a new **Cross Platform App (Xamarin)** project. When prompted for the template type, choose **Blank App**, and choose **Portable Class Library (PCL)** as the code sharing strategy.
+Open Visual Studio 2017. Create a new **Cross-Platform / Mobile App (Xamarin.Forms)** project. When prompted for the template type, choose **Blank App**.  Unselect iOS and Android from Platform and choose **.NET Standard** as the code sharing strategy.
 
 ![](../../Images/20.png)
 
-When prompted, accept defaults for the Universal Windows Platform versions.
+Two projects were created (because we unchecked iOS and Android):
 
-![](../../Images/21.png)
+- a .NET standard class library project where most logic will reside ([App])
+- a Universal Windows Platform project containing Windows display logic ([App.UWP])
 
-Once created, **unload** the portable project within the solution and **edit** the `*.csproj` file. **Replace** the **TargetFrameworkProfile**  element with the following:
-
-````xml
-<TargetFrameworkProfile>Profile7</TargetFrameworkProfile>
-````
-
-**Reload** the project.
-
-Four projects were created:
-- a portable class library project where most logic will reside
-- an Android specific project containing Android display logic
-- an iOS specific project containing iOS display logic
-- a Universal Windows Platform project containing Windows display logic
-
-This demo only walks through creating a UWP
-application. For more information on creating Android and iOS projects using Xamarin.Forms that target Microsoft Graph API, 
+This lab only walks through creating a UWP application using Xamarin.Forms. For more information on creating Android and iOS projects using Xamarin.Forms that target Microsoft Graph API, 
 see the [Xamarin CSharp Connect Sample on GitHub](https://github.com/microsoftgraph/xamarin-csharp-connect-sample). 
-
-Right-click the iOS project. Choose **Remove** and choose **OK**. 
-Right-click the Android project. Choose **Remove** and choose **OK**. 
 
 ### Add NuGet Packages to projects
 
-Tools / NuGet Package Manager / Package Manager Console. Install the **Microsoft.Identity.Client** package to all projects, and install the **Newtonsoft.Json** package to the portable class library project.
+In Visual Studio, navigate to Tools / NuGet Package Manager / Package Manager Console. Install the **Microsoft.Identity.Client** package to all projects, and install the **Newtonsoft.Json** package to the portable class library project. Replace App1 with the name you gave your solution
 
 ````powershell
-Install-Package Microsoft.Identity.Client -ProjectName XamarinApp -pre
-Install-Package Newtonsoft.Json -ProjectName XamarinApp -pre
-Install-Package Microsoft.Identity.Client -ProjectName XamarinApp.UWP -pre
+Install-Package Microsoft.Identity.Client -ProjectName App1 -pre
+Install-Package Newtonsoft.Json -ProjectName App1
+Install-Package Microsoft.Identity.Client -ProjectName App1.UWP -pre
 ````
 
-### Edit the portable class library project
+### Edit the .NET standard class library project
 
 Edit the `app.xaml.cs` file in the portable class library project. Replace the `using`'s section with the following:
 
@@ -109,6 +86,7 @@ public partial class App : Application
 ````
 
 Replace the **YOUR_CLIENT_ID** placeholder with the Application ID that was generated when the application was registered.
+
 Edit the `MainPage.xaml` file. Replace the generated label control with the following:
 
 ````xml
@@ -144,7 +122,7 @@ Edit the `MainPage.xaml` file. Replace the generated label control with the foll
 </ContentPage.Content>
 ````
 
-Edit the `MainPage.xaml.cs` file. Replace the `using`'s statement with the following:
+Edit the `MainPage.xaml.cs` file. Replace the `using` statements with the following:
 
 ````csharp
 using Microsoft.Identity.Client;
@@ -160,7 +138,7 @@ using Xamarin.Forms;
 ````csharp
 protected override async void OnAppearing()
 {
-    // let's see if we have a user in our belly already
+    // let's see if we have a user already
     try
     {
         AuthenticationResult ar =
@@ -196,7 +174,7 @@ async void OnSignInSignOut(object sender, EventArgs e)
     }
     catch (Exception ee)
     {
-
+        await DisplayAlert("Something went wrong signing in/out", ee.Message, "Dismiss");
     }
 }
 
@@ -221,27 +199,22 @@ public async void RefreshUserData(string token)
 
         // just in case
         btnSignInSignOut.Text = "Sign out";
-
-
     }
     else
     {
-        DisplayAlert("Something went wrong with the API call", responseString, "Dismiss");
+        await DisplayAlert("Something went wrong with the API call", responseString, "Dismiss");
     }
 }
 ````
 
-
 ### Debug the project
 
-To verify the application's behavior, right-click the *Universal Windows Platform** project and choose **Set as StartUp Project**.
+To verify the application's behavior, start debugging. In the debug menu, change the platform to x64 (or x86 if your machine isn't 64-bit) and change the target to **Local Machine** and click the play button to start debugging.
 
-In the debug menu, change the target to **Simulator** and click the play button to start debugging.
+![](../../Images/21.png)
+
+The app loads and a **Sign In** button is displayed at the bottom, click it.
 
 ![](../../Images/22.png)
-
-The simulator loads and you are prompted to log in.
-
-![](../../Images/23.png)
 
 Upon successful sign in, the current user's profile information is displayed. Note that you can sign in using an organizational account such as a work or school account, or you can sign in with a Microsoft Account such as a Live.com, Outlook.com, or Hotmail.com personal address.
