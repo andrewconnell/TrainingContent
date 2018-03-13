@@ -24,7 +24,7 @@ This lab will walk you through connecting to the v2.0 endpoints to authorize the
 
 ### Register the application
 
-Visit the [Application Registration Portal](https://apps.dev.microsoft.com/) to register the application.
+1. Visit the [Application Registration Portal](https://apps.dev.microsoft.com/) to register the application.
 
 - Once the application is created, an Application Id is provided on the screen. **Copy this ID**, you will use it as the Client ID.
 - Add a new secret by clicking the **Generate new password** button and copy the secret to use later as the Client Secret.
@@ -34,7 +34,21 @@ Visit the [Application Registration Portal](https://apps.dev.microsoft.com/) to 
 
 ![](Images/01.png)
 
-**Open** a new PowerShell ISE window. **Copy** the following code and **paste** in the script pane.
+2. Start Visual Studio 2017 and create a new `ASP.NET Web Application (.NET Framework)`.
+
+![](Images/01a.png)
+
+Choose **MVC**
+
+![](Images/01b.png)
+
+Copy the URL of the MVC app for use in the following script.
+
+![](Images/01c.png)
+
+Start the debugger.
+
+**Open** a new PowerShell ISE window. **Copy** the following code and **paste** in the script pane. Replace **[YOUR WEB APP URL]** (in the 3rd to last line) with the URL of the web application you created in the last step.
 
 ````powershell
 function Get-CurrentUserProfile
@@ -111,7 +125,7 @@ $scopes = "offline_access+openid+profile+User.Read"
 
 #Redirects to this URL will show a 404 in your browser, but allows you to copy the returned code from the URL bar
 #Must match a redirect URL for your registered application
-$redirectURL = "https://localhost:8089"
+$redirectURL = "[YOUR WEB APP URL]"
 
 $credential = Get-Credential -Message "Enter the client ID and client secret"
 Get-CurrentUserProfile $credential -scopes $scopes -redirecUrl $redirectURL -displayTokens
@@ -131,7 +145,7 @@ This script will first create an URL to the authorize endpoint, providing the cl
 
 ![](Images/04.png)
 
-After you sign in an authorize the application, the browser is redirected. Since we don't have a web server listening for requests at http://localhost:8089, the browser shows a 404 error screen. However, the URL contains the code needed.
+After you sign in an authorize the application, the browser is redirected to the MVC app you have running, the URL contains the code needed.
 
 **Copy** the code value from the querystring in the browser's URL bar, up to the trailing &session_state querystring value.
 
@@ -149,7 +163,7 @@ The output includes 3 tokens: an id token, an access token, and a refresh token.
 
 > **Note:** These tokens are currently not encrypted but that is subject to change.
 
-**Copy** the token value in the output.
+**Copy** the access_token value in the output.
 
 ![](Images/08.png)
 
@@ -187,11 +201,15 @@ From your shell or command line:
 git clone https://github.com/Azure-Samples/active-directory-dotnet-webapp-openidconnect-v2.git
 ````
 
+Open the solution using Visual Studio 2017. Restore the missing NuGet packages and reload the solution.
+
+Verify that the `Scope` variable in your code is equal to "openid email profile offline_access Mail.Read", if not, please change it.
+
 **Edit** the `web.config` file with your app's coordinates. Find the appSettings key `ida:ClientId` and provide the Application ID from your app registration. Find the appSettings key `ida:ClientSecret` and provide the value from the secret generated in the previous step.
 
 ### Inspect the code sample
 
-Open the `Startup.Auth.cs` file. This is where authentication begins using the OWIN middleware.
+Open the `App_Start/Startup.Auth.cs` file. This is where authentication begins using the OWIN middleware.
 
 ````csharp
 app.UseOpenIdConnectAuthentication(
@@ -343,17 +361,16 @@ Run the application.
 
 ![](Images/13.png)
 
-Clicking the About link or clicking the sign in link in the top right will prompt you to sign in.
+Clicking either the About link or the sign in link in the top right will prompt you to sign in.
 
 ![](Images/14.png)
 
 After signing in, the user is prompted for consent.
 
-- View your basic profile
-- View your email address
-- Access your data anytime
-- Sign in as you
 - Read your mail
+- Sign in as you
+- Access your data anytime
+- View your basic profile
 
 ![](Images/15.png)
 
@@ -389,11 +406,15 @@ From your shell or command line:
 git clone https://github.com/Azure-Samples/active-directory-dotnet-webapp-openidconnect-v2.git
 ````
 
+Open the solution using Visual Studio 2017. Restore the missing NuGet packages and reload the solution.
+
 **Edit** the `web.config` file with your app's coordinates. Find the appSettings key `ida:ClientId` and provide the Application ID from your app registration. Find the appSettings key `ida:ClientSecret` and provide the value from the secret generated in the previous step.
 
 ### Inspect the code sample
 
-Open the `Startup.Auth.cs` file. This is where authentication begins using the OWIN middleware.
+Open the `App_Start/Startup.Auth.cs` file. This is where authentication begins using the OWIN middleware.
+
+Verify that the `Scope` variable in your code is equal to "openid email profile offline_access Mail.Read", if not, please change it.
 
 ````csharp
 app.UseOpenIdConnectAuthentication(
@@ -531,17 +552,16 @@ Clicking the About link or clicking the sign in link in the top right will promp
 
 After signing in, if you have not already granted consent, the user is prompted for consent.
 
-- View your basic profile
-- View your email address
-- Access your data anytime
-- Sign in as you
 - Read your mail
+- Sign in as you
+- Access your data anytime
+- View your basic profile
 
 ![](Images/15.png)
 
 After consenting, click the **About** link. Information about the user is displayed from their current set of claims in the OpenID Connect flow.
 
-![](Images/15.png)
+![](Images/16.png)
 
 Since the user is now logged in, the Read Mail link is now visible. Click the **Read Mail** link. You can now read email messages from your inbox.
 

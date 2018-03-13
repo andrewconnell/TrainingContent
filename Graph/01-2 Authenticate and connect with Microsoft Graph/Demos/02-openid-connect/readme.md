@@ -26,11 +26,15 @@ From your shell or command line:
 git clone https://github.com/Azure-Samples/active-directory-dotnet-webapp-openidconnect-v2.git
 ````
 
+Open the solution using Visual Studio 2017. Restore the missing NuGet packages and reload the solution.
+
+Verify that the `Scope` variable in your code is equal to "openid email profile offline_access Mail.Read", if not, please change it.
+
 **Edit** the `web.config` file with your app's coordinates. Find the appSettings key `ida:ClientId` and provide the Application ID from your app registration. Find the appSettings key `ida:ClientSecret` and provide the value from the secret generated in the previous step.
 
 ### Inspect the code sample
 
-Open the `Startup.Auth.cs` file. This is where authentication begins using the OWIN middleware.
+Open the `App_Start/Startup.Auth.cs` file. This is where authentication begins using the OWIN middleware.
 
 ````csharp
 app.UseOpenIdConnectAuthentication(
@@ -182,22 +186,22 @@ Run the application.
 
 ![](../../Images/13.png)
 
-Clicking the About link or clicking the sign in link in the top right will prompt you to sign in.
+Clicking either the About link or the sign in link in the top right will prompt you to sign in.
 
 ![](../../Images/14.png)
 
 After signing in, the user is prompted for consent.
 
-- View your basic profile
-- View your email address
-- Access your data anytime
-- Sign in as you
 - Read your mail
+- Sign in as you
+- Access your data anytime
+- View your basic profile
 
 ![](../../Images/15.png)
 
 After consenting, click the **About** link. Information about the user is displayed from their current set of claims in the OpenID Connect flow.
 
-![](../../Images/16.png)
+![](../../mages/16.png)
 
 Since the user is now logged in, the Read Mail link is now visible. Click the **Read Mail** link. You can now read email messages from your inbox.
+
