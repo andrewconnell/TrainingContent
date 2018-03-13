@@ -1,22 +1,3 @@
-# Microsoft Graph: Building Microsoft Graph Applications - 200 Level
-----------------
-In this lab, you will walk through authentication and permissions sceanrios leveraging the Microsoft Graph using the Graph SDK and Microsoft Authentication Library (MSAL).
-
-## Table of Contents
-1. [Obtain tokens and connect with the Microsoft Graph using REST](#powershellrest)
-2. [Connecting with Microsoft Graph using OpenID Connect](#openidconnect)
-3. [Dynamic permissions with the v2.0 endpoint and Microsoft Graph](#openidconnect)
-
-## Prerequisites
-
-This lab uses PowerShell ISE and Visual Studio 2017. It also requires an **Azure Active Directory** directory and a user who can log in with administrative privileges as well as a directory user who does not have administrative privileges.
-
-## Setup
-
-Open the Visual Studio Installer and enable the **.NET desktop development**, **Mobile applications with .NET**, **Azure development**,and **Universal Windows Platform** features. Make sure to update Visual Studio 2017 to the latest version, and update VSIX packages (Tools / Extensions and Updates).
-
-<a name="powershellrest"></a>
-
 ## 1. Obtain tokens and connect with the Microsoft Graph using REST
 
 This lab will walk you through connecting to the v2.0 endpoints to authorize the application, obtain a token, and connect with the Microsoft Graph.
