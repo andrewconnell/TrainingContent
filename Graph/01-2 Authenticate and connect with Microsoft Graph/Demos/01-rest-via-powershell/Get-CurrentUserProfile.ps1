@@ -79,7 +79,7 @@ $scopes = "offline_access+openid+profile+User.Read"
 
 #Redirects to this URL will show a 404 in your browser, but allows you to copy the returned code from the URL bar
 #Must match a redirect URL for your registered application
-$redirectURL = "https://localhost:8089"
+$redirectURL = "[YOUR WEB APP URL]"
 
 $credential = Get-Credential -Message "Enter the client ID and client secret"
 Get-CurrentUserProfile $credential -scopes $scopes -redirecUrl $redirectURL -displayTokens
