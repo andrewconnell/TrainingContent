@@ -6,11 +6,15 @@ In this lab, you will walk through capabilities of the Microsoft Graph to build 
 
 This lab uses Visual Studio 2017. It also requires an Office 365 subscription and a user with administrative privileges. 
 
-## 3. Adding custom data to resources in Microsoft Graph
-This demonstration will show how to add custom data to resources in Microsoft Graph.
+## 3. Adding custom data to Microsoft Graph resources
+
+This lab will walk you through working with custom data for resources using Microsoft Graph. 
+
+### Pre-requisistes
+This lab requires an Office 365 administrative user.
 
 ### Register the application
-Visit the [Application Registration Portal](https://apps.dev.microsoft.com) and register a new Converged application. Add a **Native** application platform. Add **delegated** permissions for **Directory.AccessAsUser.All** and **Group.ReadWrite.All**. Click **Save**.
+Visit the [Application Registration Portal](https://apps.dev.microsoft.com) and register a new application. Add a **Native** application platform. Add **delegated** permissions for **Directory.AccessAsUser.All** and **Group.ReadWrite.All**. Click **Save**.
 
 ![](../../Images/13.png)
 

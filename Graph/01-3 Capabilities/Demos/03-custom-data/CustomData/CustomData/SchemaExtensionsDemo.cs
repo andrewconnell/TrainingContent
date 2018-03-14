@@ -53,7 +53,7 @@ namespace CustomData
                 await DeleteGroupAndExtensionAsync(client, schemaId, groupId);
             }
 
-            
+
 
         }
 
@@ -73,8 +73,8 @@ namespace CustomData
 
         async Task ViewAvailableExtensionsAsync(HttpClient client)
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, "schemaextensions");            
-            
+            var request = new HttpRequestMessage(HttpMethod.Get, "schemaextensions");
+
             var response = await client.SendAsync(request);
             response.WriteCodeAndReasonToConsole();
             Console.WriteLine(JValue.Parse(await response.Content.ReadAsStringAsync()).ToString(Newtonsoft.Json.Formatting.Indented));
@@ -134,9 +134,9 @@ namespace CustomData
                     'courseType': 'Online'
                   }
                 }";
-            
-            request.Content = new StringContent(json, 
-                Encoding.UTF8, 
+
+            request.Content = new StringContent(json,
+                Encoding.UTF8,
                 "application/json");
 
             var response = await client.SendAsync(request);
@@ -160,21 +160,21 @@ namespace CustomData
                   }
                 }";
             request.Content = new StringContent(
-                json, 
-                Encoding.UTF8, 
+                json,
+                Encoding.UTF8,
                 "application/json");
 
             var response = await client.SendAsync(request);
-            response.WriteCodeAndReasonToConsole();            
+            response.WriteCodeAndReasonToConsole();
             Console.WriteLine();
         }
 
         async Task GetGroupAndExtensionDataAsync(HttpClient client, string schemaId)
         {
             var request = new HttpRequestMessage(
-                HttpMethod.Get, 
+                HttpMethod.Get,
                 "groups?$filter=" + schemaId + "/courseId eq '123'&$select=displayName,id,description," + schemaId);
-            
+
             var response = await client.SendAsync(request);
             response.WriteCodeAndReasonToConsole();
 
@@ -189,17 +189,17 @@ namespace CustomData
         async Task DeleteGroupAndExtensionAsync(HttpClient client, string schemaId, string groupId)
         {
             var request = new HttpRequestMessage(HttpMethod.Delete, "schemaextensions/" + schemaId);
-            
+
             var response = await client.SendAsync(request);
             response.WriteCodeAndReasonToConsole();
-            
+
             Console.WriteLine();
 
             request = new HttpRequestMessage(HttpMethod.Delete, "groups/" + groupId);
 
             response = await client.SendAsync(request);
             response.WriteCodeAndReasonToConsole();
-            
+
             Console.WriteLine();
         }
     }

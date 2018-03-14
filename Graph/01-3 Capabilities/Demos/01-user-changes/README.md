@@ -1,8 +1,10 @@
-# Microsoft Graph Capabilities - 400 Level
+# Microsoft Graph Capabilities – 400 Level
+----------------
+In this lab, you will walk through capabilities of the Microsoft Graph to build applications to understand the capabilities of Microsoft Graph. 
 
 ## Prerequisites
 
-This lab uses Visual Studio 2017. It also requires an Office 365 subscription and a user with administrative privileges.
+This lab uses Visual Studio 2017. It also requires an Office 365 subscription and a user with administrative privileges. This lab also requires a Microsoft Azure subscription. If you do not have an Azure subscription, get started by creating a [Free Azure Subscription](https://azure.microsoft.com/free).
 
 ## 1. Microsoft Graph delta queries
 
@@ -10,7 +12,7 @@ This lab will walk you through developing an application using delta queries wit
 
 ### Register and grant consent to the application
 
-Visit the [Application Registration Portal](https://apps.dev.microsoft.com). **Register** a new application, and copy the generated application ID for later use.  **Configure** the application:
+Visit the [Application Registration Portal](https://apps.dev.microsoft.com). **Register** a new Converged application, and copy the generated application ID for later use.  **Configure** the application:
 
 - **Generate** a new application password secret. Copy it for later use.
 - Add a **Native** application platform. Copy the generated URL for later use.
@@ -19,7 +21,7 @@ Visit the [Application Registration Portal](https://apps.dev.microsoft.com). **R
 
 ![](../../Images/01.png)
 
-The application requests an application permission with the User.ReadWriteAll scope. This permission requires administrative consent. **Copy** the following URL and **replace** the `{clientId}` placeholder with your application's client ID from the application registration portal.
+The application requests an application permission with the User.ReadWrite.All scope. This permission requires administrative consent. **Copy** the following URL and **replace** the `{clientId}` placeholder with your application's client ID from the application registration portal.
 
 ````
 https://login.microsoftonline.com/common/adminconsent?client_id={clientId}&redirect_uri=http://localhost
@@ -79,6 +81,8 @@ namespace UsersDeltaQuery
         static void Main(string[] args)
         {
             RunAsync(args).GetAwaiter().GetResult();
+            Console.WriteLine("Press any key to finish.");
+            Console.ReadKey();
         }
 
         static async Task RunAsync(string[] args)
@@ -87,7 +91,7 @@ namespace UsersDeltaQuery
             var clientId = ConfigurationManager.AppSettings["clientId"];
             var tenantId = ConfigurationManager.AppSettings["tenantId"];
             var authorityFormat = ConfigurationManager.AppSettings["authorityFormat"];
-
+            
             ConfidentialClientApplication daemonClient = new ConfidentialClientApplication(
                 ConfigurationManager.AppSettings["clientId"],
                 String.Format(authorityFormat, tenantId),
@@ -134,6 +138,8 @@ namespace UsersDeltaQuery
             };
             var newUser = await graphClient.Users.Request().AddAsync(u);
 
+            Console.WriteLine("Press any key to execute delta query.");
+            Console.ReadKey();
             Console.WriteLine("=== Getting users");
 
             //Query using the delta link to see the new user
@@ -197,7 +203,7 @@ Your application will make a delta query request to the Microsoft Graph for user
 
 ![](../../Images/06.png)
 
-In order to force a change, you will add a new user using the Microsoft Graph API.
+In order to force a change, you will add a new user using the Microsoft Graph API. Because these are asyncronous methods the code execution will pause waiting for you to press a key to continue. This allows you to verify that the newly created `UsersDeltaQuery Demo User` user has been added to your tenant before executing the delta query.
 
 You can uncomment the lines in the method that displays the user data to also show the nextLink, skipToken, and deltaLink values.
 

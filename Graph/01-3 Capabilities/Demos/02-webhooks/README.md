@@ -11,17 +11,16 @@ This lab uses Visual Studio 2017. It also requires an Office 365 subscription an
 This lab will walk you through creating an application that uses OAuth with ASP.NET OWIN middleware and the v2.0 endpoint with Microsoft Graph to register subscriptions. You will also publish the application to a Microsoft Azure Web App to process notifications.
 
 ### Create the Azure Web App
-Webhooks in Microsoft Graph require a publicly accessible endpoint such as a Microsoft Azure Web App or another web server. This lab uses Microsoft Azure. In the Azure portal, **create** a new Web App by clicking **New / Web + Mobile / Web App**. Provide a unique name, choose the subscription, and provide a resource group. Choose **Windows** as the OS type. **Edit** the app service plan. Provide the name, location, and change the Pricing tier to **Free**. Click **OK**, then **Create**.
+Webhooks in Microsoft Graph require a publicly accessible endpoint such as a Microsoft Azure Web App or another web server. This lab uses Microsoft Azure. In the Azure portal, **create** a new Web App by clicking **+ Create a resource** then **Web + Mobile** then **Web App**. Provide a unique name, choose the subscription, and provide a resource group. Choose **Windows** as the OS type. **Edit** the app service plan. Provide the name, location, and change the Pricing tier to **Free**. Click **OK**, then **Create**.
 
 Once the web app is created, copy the URL for later use.
 
 ### Register the application
 
-Visit the [Application Registration Portal](https://apps.dev.microsoft.com/) to register the application.
+Visit the [Application Registration Portal](https://apps.dev.microsoft.com/). **Register** a new converged application, and copy the generated application ID for later use.  **Configure** the application: 
 
-- Once the application is created, an Application Id is provided on the screen. **Copy this ID**, you will use it as the Client ID.
 - Add a new secret by clicking the **Generate new password** button and copy the secret to use later as the Client Secret.
-- Click the **Add Platform** button. A popup is presented, choose **Web Application**.
+- Click the **Add Platform** button. A popup is presented, choose **Web**.
 - Add a Redirect URL to use while debugging locally (the default setting for the Visual Studio project is `https://localhost:44326/`, if you use something else you need to change this value for your app registration). 
 - Add a Redirect URL to use with your Azure Web App (ex: `https://YOURWEBAPP.azurewebsites.net/`).
 - Click **Save** to save all changes.
@@ -36,16 +35,14 @@ git clone https://github.com/Azure-Samples/active-directory-dotnet-webapp-openid
 **Edit** the `web.config` file with your app's coordinates. 
 - Find the appSettings key `ida:ClientId` and provide the Application ID from your app registration. 
 - Find the appSettings key `ida:ClientSecret` and provide the value from the secret generated in the previous step.
-- **Replace** the `ida:RedirectUrl`with the same value you provided in the application registration's Redirect URL for your Azure Web App (for example, `https://YOURWEBAPP.azurewebsites.net/`).
-- **Add** a new appSettings key and value, replacing YOURWEBSITE with the name of your newly created Azure Web App.
+- **Replace** the `ida:RedirectUrl` with the same value you provided in the application registration's Redirect URL for your Azure Web App (for example, `https://YOURWEBAPP.azurewebsites.net/`).
+- **Add** a new appSettings key named `ida:NotificationUrl`, replacing YOURWEBSITE with the name of your newly created Azure Web App:
 
 ````xml
 <add key="ida:NotificationUrl" value="https://YOURWEBSITE.azurewebsites.net/notification/listen" />
 ````
 
-The application will need to send and receive emails on behalf of the currently logged in user. 
-
-**Edit** the file `App_Start/Startup.Auth.cs` and update the Scope parameter in `ConfigureAuth` to include the Mail.Send permission scope. It currently has just Mail.Read, append Mail.Send to the space-delimited list.
+The application will need to send and receive emails on behalf of the currently logged in user. **Edit** the file `App_Start/Startup.Auth.cs` and update the Scope parameter in `ConfigureAuth` to include the Mail.Send permission scope. Append `Mail.Send` to the space-delimited list:
 
 ````csharp
 Scope = "openid email profile offline_access Mail.Read Mail.Send",
@@ -56,7 +53,7 @@ The application uses several new model classes for (de)serialization and for Raz
 
 **Right-click** the `Models` folder and add five new classes:
 - `Notification.cs`
-- `Notification.cs`
+- `ResourceData.cs`
 - `Subscription.cs`
 - `SubscriptionStore.cs`
 - `SubscriptionViewModel.cs`
@@ -631,7 +628,7 @@ The `Notification` controller was created but a view was not created for it yet.
 </div>
 ````
 
-The SubscriptionContoller was created but does not yet have a view associated with it. **Right-click** the `Views/Subscription` folder, choose **New / View**, and name the view `Index`, leaving all other values as their default.  **Replace** the contents of `Index.cshtml` with the following:
+The `Subscription` controller was created but does not yet have a view associated with it. **Right-click** the `Views/Subscription` folder, choose **Add / View**, and name the new view `Index`, leaving all other values as their default.  **Replace** the contents of `Index.cshtml` with the following:
 
 ````html
 <!--  Copyright (c) Microsoft. All rights reserved. Licensed under the MIT license.
@@ -669,7 +666,7 @@ The SubscriptionContoller was created but does not yet have a view associated wi
 </div>
 
 ````
-The SubscriptionController also needs a view to display the properties of a newly created subscription. **Right-click** the `Views/Subscription` folder, choose **Add / New View**, and name the new view `Subscription`, leaving all other values as their default.  **Replace** the contents of `Subscription.cshtml` with the following:
+`SubscriptionController` also needs a view to display the properties of a newly created subscription. **Right-click** the `Views/Subscription` folder, choose **Add / View**, and name the new view `Subscription`, leaving all other values as their default.  **Replace** the contents of `Subscription.cshtml` with the following:
 
 ````html
 The <!--  Copyright (c) Microsoft. All rights reserved. Licensed under the MIT license.
@@ -745,11 +742,9 @@ Azure Web Apps makes it easy to debug a web application in the cloud as if it we
 In the resulting browser window, click the **Sign in with Microsoft** link in the top right of the window. When prompted, grant consent to the requested permissions.
 
 Once logged in, the navigation menu will reflect the changes made to the application. 
-
 ![](../../Images/09.png)
 
 **Click** the **Subscribe** navigation menu item. This page will initiate a new subscription to your mailbox, and will show the subscription properties when complete.
-
 ![](../../Images/10.png)
 
 The subscription was created for mail messages, any time a new message is created in your inbox in the next 15 minutes (the lifetime of the subscription request) a notification is received. To see this, **click** the **Send mail** navigation menu item.  **Enter** your email address, a subject, and body, and click **Send**. 
