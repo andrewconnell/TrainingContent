@@ -7,7 +7,7 @@ In this demo, you will walk through capabilities of the Microsoft Graph to build
 This demo uses Visual Studio 2017. It also requires an Office 365 subscription and a user with administrative privileges.
 
 ## 4. Developing insights with Microsoft Graph
-This demo will show how to use the Insights resource with Microsoft Graph.
+This lab will show how to use the Insights resource with Microsoft Graph.
 
 
 ### Register the application
@@ -15,7 +15,7 @@ This demo will show how to use the Insights resource with Microsoft Graph.
 Visit the [Application Registration Portal](https://apps.dev.microsoft.com). **Register** a new Converged application, and copy the generated application ID for later use as the Client ID.  **Configure** the application:
 
 - Add a new secret by clicking the **Generate new password** button and copy the secret to use later as the Client Secret.
-- Click the **Add Platform** button. A popup is presented, choose **Web Application**.
+- Click the **Add Platform** button. A popup is presented, choose **Web**.
 - Add a Redirect URL to use while debugging locally (the default setting for the Visual Studio project is `https://localhost:44326/`, if you use something else you need to change this value for your app registration). 
 - Click **Save** to save all changes.
 
@@ -630,7 +630,7 @@ Finally, update the top-level navigation for the web site. **Edit** the `Views /
 ````
 
 ### Run the application
-Run the application, then click on the **Sign in with Microsoft** link. You are prompted to sign in and to grant the application the requested permisssions. After consenting, the page is displayed. Click the **Insights** link at the top of the page, then choose the **Trending** link. The information is displayed.
+Run the application, then click on the **Sign in with Microsoft** link. You are prompted to sign in and to grant the application the requested permisssions. After consenting, the page is displayed. Click the **Insights** link at the top of the page, then choose the **View Trending** link. The information is displayed.
 
 ![](../../Images/17.png)
 

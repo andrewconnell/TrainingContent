@@ -13,6 +13,7 @@ In this lab, you will walk through building different types of applications leve
 - [Webhooks with Microsoft Graph](./Demos/02-webhooks)
 - [Adding custom data to Microsoft Graph resources](./Demos/03-custom-data)
 - [Developing Insights with Microsoft Graph](./Demos/04-insights)
+- [Creating batch requests with Microsoft Graph](./Demos/05-batch)
 
 ## Contributors
 |        Roles         |                        Author(s)                        |
