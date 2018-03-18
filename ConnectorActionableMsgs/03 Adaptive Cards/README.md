@@ -11,7 +11,7 @@ In the lab, you will walk through building an Adaptive Card, sending it to an in
 
 ## Demos
 
-- [Creating and sending cards](./Demos/01-AdaptiveCardVisualizer-MessageCardPlayground)
+- [Creating and sending cards](./Demos/01-MessageCardPlayground)
 - [Cards with Actions and Inputs](./Demos/02-Cards-with-actions-and-inputs)
 - [Refreshing an Adaptive Card](./Demos/03-Refreshing-Adaptive-Card)
 
