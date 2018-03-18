@@ -46,7 +46,7 @@ For this lab, a sample card is provided that will be used and extended throughou
 1. On the [MessageCard Playground](https://messagecardplayground.azurewebsites.net/) page, click the **Load a Sample...** button.
 2. In the **Open file** dialog, navigate to the `LabFiles` folder. Select the file `supportTicketCard.json`
 
-    ![Message Playground Open dialog](../../Images/LabPlaygroundOpen.png)
+    ![Message Playground Open dialog](Images/LabPlaygroundOpen.png)
 
 3. Review the card source and preview.
 
@@ -56,7 +56,7 @@ The card contains the severity level of the support ticket. Adaptive Cards allow
 
 1. Locate the TextBlock containing the severity level. This block starts at line 15.
 
-    ![Severity level text block](SeverityLevelTextBlock.png)
+    ![Severity level text block](Images/SeverityLevelTextBlock.png)
 
 2. Add the following properties to the TextBlock:
 
@@ -67,7 +67,7 @@ The card contains the severity level of the support ticket. Adaptive Cards allow
 
 3. Be sure to include commas where necessary to ensure the card source is properly formatted as JSON. When complete, the TextBlock definition should match the following image:
 
-    ![Updated Severity TextBlock](UpdatedSeverityTextBlock.png)
+    ![Updated Severity TextBlock](Images/UpdatedSeverityTextBlock.png)
 
 4. The updated card now shows the severity level in large red text.
 
