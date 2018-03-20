@@ -14,7 +14,7 @@ This demo will show the support ticket card from exercise 1 with Input and Actio
 
 ## Update card and send via email
 
-1. Using the [Message Card Playground](https://messagecardplayground.azurewebsites.net) site, paste the contents of **Demos/02-CardWithActionAndInput/supportTicketWithCommentsCard.json** file into the code window.
+1. Using the [Message Card Playground](https://messagecardplayground.azurewebsites.net) site, paste the contents of **Demos/02-CardWithActionAndInput/supportTicketWithActionAndInput.json** file into the code window.
 1. Click teh **Send via Email** button
 1. Open Outlook.
 1. Open the message with subject **MessageCard Playground Test Card**.

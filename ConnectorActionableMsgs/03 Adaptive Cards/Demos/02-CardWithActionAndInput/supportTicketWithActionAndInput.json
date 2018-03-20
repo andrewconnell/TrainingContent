@@ -130,7 +130,7 @@
             "type": "Action.Http",
             "method": "POST",
             "title": "OK",
-            "url": "[ngrok-url-here]",
+            "url": "[ngrok-url-here]/api/ticket",
             "headers": {
               "content-type": "application/json"
             },
