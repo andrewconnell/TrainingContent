@@ -6,7 +6,7 @@ This demo will show the support ticket card from exercise 1 with Input and Actio
 
 1. Open a new **Command Prompt** window.
 1. Change to the directory that contains the ngrok.exe application.
-1. run the command `ngrok http 8011`
+1. run the command `ngrok http 8011 -host-header=localhost:8011`
 1. The ngrok application will fill the entire prompt window. Make note of the Forwarding address using https. This address is required in the next step.
 1. Minimize the ngrok Command Prompt window. It is no longer referenced in this exercise, but it must remain running.
 
