@@ -101,53 +101,15 @@
     },
     {
       "type": "Container",
+      "id": "comments",
       "items": [
         {
           "type": "TextBlock",
           "text": "Comments",
           "size": "Large",
           "weight": "bolder"
-        },
-        {
-          "type": "TextBlock",
-          "separator": true,
-          "wrap": true,
-          "text": "The report is for the CFO."
-        },
-        {
-          "type": "TextBlock",
-          "isSubtle": true,
-          "size": "small",
-          "horizontalAlignment": "right",
-          "text": "Entered by 22a @ 3/19/18"
         }
       ]
-    }
-  ],
-  "actions": [
-    {
-      "type": "Action.ShowCard",
-      "title": "Comment",
-      "card": {
-        "type": "AdaptiveCard",
-        "body": [
-          {
-            "type": "Input.Text",
-            "id": "comment",
-            "isMultiline": true,
-            "placeholder": "Enter your comment"
-          }
-        ],
-        "actions": [
-          {
-            "type": "Action.Http",
-            "method": "POST",
-            "title": "OK",
-            "url": "https://30e17baa.ngrok.io/api/ticket",
-            "body": "{ 'comment' : '{{comment.value}}' }"
-          }
-        ]
-      }
     }
   ]
 }

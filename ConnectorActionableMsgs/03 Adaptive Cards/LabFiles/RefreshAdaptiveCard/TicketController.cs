@@ -62,10 +62,13 @@
         return errorResponse;
       }
 
-      // Further business logic code here to process the support ticket.
-
+      // prepare the response
       HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK);
       response.Headers.Add("CARD-ACTION-STATUS", "Comment recorded...");
+
+      #region Business logic code here to process the support ticket.
+      #endregion
+
       return response;
     }
   }

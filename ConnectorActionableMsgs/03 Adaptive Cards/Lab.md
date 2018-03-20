@@ -103,7 +103,7 @@ This exercise will enhance the support ticket card from exercise 1 with Input an
 
 1. Open a new **Command Prompt** window.
 1. Change to the directory that contains the ngrok.exe application.
-1. run the command `ngrok http 8011`
+1. run the command `ngrok http 8011 -host-header=localhost:8011`
 1. The ngrok application will fill the entire prompt window. Make note of the Forwarding address using https. This address is required in the next step.
 1. Minimize the ngrok Command Prompt window. It is no longer referenced in this exercise, but it must remain running.
 
@@ -112,7 +112,7 @@ This exercise will enhance the support ticket card from exercise 1 with Input an
 ### Update card and send via email
 
 1. Launch Visual Studio 2017
-1. Open the solution **LabFiles/send-adaptivecard-message/send-adaptivecard-message.sln**
+1. Open the solution **LabFiles/SendAdaptiveCard/SendAdaptiveCard.sln**
 1. Open the file **Card.json**.
 
 We will extend the card with another element in the body as a header for comments.
@@ -171,7 +171,7 @@ We will add input and action controls to capture and submit the comments.
     ]
     ````
 
-The complete card JSON can be found at **/Demos/02-CardWithActionAndInput/supportTicketWithCommentsCard.json**.
+The complete card JSON can be found at **/Demos/02-CardWithActionAndInput/supportTicketWithActionAndInput.json**.
 
 Notice the **body** element of the **Action.Http** element. The body contains a token indicated with double braces ( ` '{{comment.value}}' ` ). Inside the braces is the name of the input control. When the action is performed, the value of the input control is inserted in this token.
 
@@ -180,9 +180,28 @@ Notice the **body** element of the **Action.Http** element. The body contains a 
 1. In Visual Studio, open file **MessageBody.html**.
 1. Notice that the `<head>` element contains a `<script>` tag. The type for the tag is `application/adaptivecard+json`. This value instructs Outlook that the following code should be interpreted as an Adaptive card.
 
+### Register the application
+
+1. Go to the [Application Registration Portal](https://apps.dev.microsoft.com) and sign in with either a Microsoft account or an Office 365 account.
+1. Click the **Add an app** button. Enter a name for the application and click **Create**.
+1. Click the **Add Platform** button and choose **Native Application**.
+1. Click **Save**
+
+Copy the value of **Application Id**
+
+### Add the application ID to the project
+
+1. Open the [App.config](App.config) file in Solution Explorer.
+1. Find the following line:
+
+    ```xml
+    <add key="applicationId" value="[your-app-id-here]" />
+    ```
+1. Paste the application ID you copied from the portal into the `value`, replacing the token `[your-app-id-here]` and save the file.
+
 ### Send card via email
 
-Compile and run the **send-adaptivecard-message** solution. The solution is a console application. The application will present an Azure Active Directory login prompt. Log in with your credentials. (It is not necessary to have any specific permissions. The application will send a mail to the inbox associated to the account used to log in.)
+Compile and run the **SendAdaptiveCard** solution. The solution is a console application. The application will present an Azure Active Directory login prompt. Log in with your credentials. (It is not necessary to have any specific permissions. The application will send a mail to the inbox associated to the account used to log in.)
 
 ![send-adaptivecard-message program](Images/send-adaptivecard-message-program.png)
 
@@ -322,10 +341,12 @@ In this exercise, a web service will handle the calls from Outlook in support of
           return errorResponse;
         }
 
-        // Further business logic code here to process the support ticket.
-
+        // prepare the response
         HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK);
         response.Headers.Add("CARD-ACTION-STATUS", "Comment recorded...");
+
+        // Further business logic code here to process the support ticket.
+
         return response;
       }
     }
@@ -363,4 +384,221 @@ The value of the header is rendered at the bottom of the card.
 
 The card can be updated from the service in response to an Action. This exercise will use the Authoring SDK to build a refreshed card and update the message in Outlook.
 
-1. Install-Package AdaptiveCards -IncludePrerelease
+### Add NuGet package
+
+1. Click **Tools | NuGet Package Manager | Package Manager Console**
+1. In the **Package Manager console**, enter the command `Install-Package AdaptiveCards -IncludePrerelease`
+1. Close the **Package Manager Console**.
+
+### Create class for Action.Http
+
+The Action.Http element is not part of the Adaptive Cards SDK. (This action is an extension created for Outlook.) Create a class to model this action:
+
+1. Right-click on the project file and choose **Add | Class**
+1. Name the class **AdaptiveHttpAction**
+1. In the **AdaptiveHttpAction.cs** class, replace the class definition with the following (the code is available in the **LabFiles/RefreshAdaptiveCard/AdaptiveHttpAction.cs** file):
+
+    ```csharp
+    public class AdaptiveHttpAction : AdaptiveAction
+    {
+      public const string TypeName = "Action.Http";
+
+      public override string Type { get; set; } = TypeName;
+
+      [JsonProperty("Url", Required=Required.Always)]
+      public string UrlString { get; set; }
+
+      [JsonProperty(Required = Required.Always)]
+      public string Method { get; set; }
+
+      [DefaultValue(null)]
+      [JsonRequired]
+      public string Body { get; set; }
+
+      public StringDictionary Headers { get; set; }
+
+      public AdaptiveHttpAction()
+      {
+        Headers = new StringDictionary();
+      }
+    }
+    ```
+
+### Create the data model
+
+1. Right-click on the **Models** folder and choose **Add | Class**.
+1. Name the class **Comment**.
+1. In the **Comment.cs** class, replace the class definition with the following:
+
+    ```csharp
+    public class Comment
+    {
+      public string ActionPerformer { get; set; }
+      public DateTime CommentDate { get; set; }
+      public string CommentText { get; set; }
+    }
+    ```
+
+### Add base card definition
+
+The refresh card follows a format similar to the rest of the lab. The base definition of the refresh card will be added to the project as an embedded resource.
+
+1. Right-click on the project and choose **Add | JSON File**.
+1. Name the file **refreshCard.json**.
+1. Replace the contents of the **refreshCard.json** file with the code from file **LabFiles/RefreshAdaptiveCard/refreshCard.json**.
+1. Select the **refreshCard.json** file in **Solution Explorer** and press **F4**.
+1. In the **Properties Pane**, set the **Build Action** of the file to **Embedded Resource**.
+
+### Extend the TicketController
+
+1. Add the following `using` statements to the top of the **TicketController.cs** file:
+
+    ```csharp
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Linq;
+    using System.IO;
+    using System.Reflection;
+    ```
+
+1. In the **TicketController.cs** file, locate the following code region:
+
+    ```csharp
+    #region Business logic code here to process the support ticket.
+    #endregion
+    ```
+
+1. Insert the following code below that line in Business Logic region:
+
+    ```csharp
+    #region Business logic code here to process the support ticket.
+    List<Models.Comment> comments = new List<Models.Comment>();
+
+    JObject requestObject = JObject.Parse(value);
+    string newComment = (string)requestObject["comment"];
+
+    JArray cachedComments = (JArray)requestObject["cachedComments"];
+    if (cachedComments != null)
+    {
+      comments.AddRange(cachedComments.ToObject<List<Models.Comment>>());
+    }
+
+    // add this comment
+    comments.Add(new Models.Comment() { ActionPerformer = result.ActionPerformer, CommentDate = DateTime.Now, CommentText = newComment });
+
+    // create the card
+    AdaptiveCards.AdaptiveCard refreshCard = CreateRefreshCard(comments);
+    if (refreshCard != null)
+    {
+      // add the Action.Http block to the card.
+      refreshCard.Actions.Add(CreateHttpAction(comments));
+      response.Headers.Add("CARD-UPDATE-IN-BODY", "true");
+
+      response.Content = new StringContent(refreshCard.ToJson());
+    }
+    #endregion
+    ```
+
+1. The business logic code references two helper methods. Add these methods to the **TicketController** class (the code is available in the **LabFiles/RefreshAdapterCard/CardHelperFunctions.cs** file):
+
+    ```csharp
+    private AdaptiveCard CreateRefreshCard(List<Models.Comment> comments)
+    {
+      Assembly _assembly;
+      StreamReader _textStreamReader;
+
+      _assembly = Assembly.GetExecutingAssembly();
+      _textStreamReader = new StreamReader(_assembly.GetManifestResourceStream("WebApplication1.refreshCard.json"));
+
+      AdaptiveCard refreshCard = AdaptiveCard.FromJson(_textStreamReader.ReadToEnd()).Card;
+
+      AdaptiveContainer commentContainer = (AdaptiveContainer)refreshCard.Body.FirstOrDefault(e => e.Id != null && e.Id.Equals("comments"));
+
+      if (commentContainer != null)
+      {
+        foreach (var comment in comments)
+        {
+          commentContainer.Items.Add(new AdaptiveTextBlock
+          {
+            Separator = true,
+            Wrap = true,
+            Text = comment.CommentText
+          });
+
+          commentContainer.Items.Add(new AdaptiveTextBlock
+          {
+            IsSubtle = true,
+            Size = AdaptiveTextSize.Small,
+            HorizontalAlignment = AdaptiveHorizontalAlignment.Right,
+            Text = $"Entered by {comment.ActionPerformer} on {comment.CommentDate}"
+          });
+        }
+        return refreshCard;
+      }
+      else
+      {
+        return null;
+      }
+
+    }
+
+    private AdaptiveAction CreateHttpAction(List<Models.Comment> comments)
+    {
+      try
+      {
+        dynamic httpBody = new JObject();
+        httpBody.cachedComments = JArray.FromObject(comments.ToArray<Models.Comment>());
+        httpBody.comment = "{{comment.value}}";
+
+        return new AdaptiveShowCardAction()
+        {
+          Title = "Comment",
+          Card = new AdaptiveCard()
+          {
+            Body = new List<AdaptiveElement>()
+            {
+              {
+                new AdaptiveTextInput()
+                {
+                  Id ="comment",
+                  IsMultiline =true,
+                  Placeholder ="Enter your comment"
+                }
+              }
+            },
+            Actions = new List<AdaptiveAction>()
+            {
+              {
+                new AdaptiveHttpAction()
+                {
+                  Method ="POST",
+                  Headers = new System.Collections.Specialized.StringDictionary()
+                  {
+                    {
+                      "Content-Type","application/json"
+                    }
+                  },
+                  Title ="OK",
+                  UrlString =$"{WebServiceHost}/api/Ticket",
+                  Body = httpBody.ToString()
+                }
+              }
+            }
+          }
+        };
+      }
+      catch (Exception ex)
+      {
+        var x = ex.Message;
+      }
+      return null;
+    }
+    ```
+
+### Add comments in Outlook and view refreshed card
+
+1. Return to Outlook for Web.
+1. Locate the message containing the Adaptive Card.
+1. Enter a message in the comment box and click **OK**.
+1. Observe the card update with the comment added.
+
+  ~[Refreshed Card in Outlook](RefreshedCardInOutlook.png)
