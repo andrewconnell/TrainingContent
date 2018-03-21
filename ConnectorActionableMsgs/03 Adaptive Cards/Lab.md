@@ -601,4 +601,4 @@ The refresh card follows a format similar to the rest of the lab. The base defin
 1. Enter a message in the comment box and click **OK**.
 1. Observe the card update with the comment added.
 
-  ~[Refreshed Card in Outlook](RefreshedCardInOutlook.png)
+  ![Refreshed Card in Outlook](Images/RefreshedCardInOutlook.png)
