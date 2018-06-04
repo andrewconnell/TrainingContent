@@ -45,7 +45,8 @@ This exercise will walk you through designing an Adaptive Card and sending it vi
 
 1. On the [MessageCard Playground](https://messagecardplayground.azurewebsites.net/) page, select **Load a Sample...**.
 
-1. In the **Open file** dialog, select the file **LabFiles/message-payground/supportTicketCard.json**.
+1. In the **Open file** dialog, select the file **LabFiles/MessageCardPlayground/supportTicketCard.json**.
+
 
     ![Screenshot of MessageCard Playground file open menu.](Images/LabPlaygroundOpen.png)
 
