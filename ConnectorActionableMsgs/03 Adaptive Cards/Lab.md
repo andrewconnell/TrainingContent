@@ -582,9 +582,9 @@ The refresh card follows a format similar to the rest of the lab. The base defin
               {
                 new AdaptiveTextInput()
                 {
-                  Id ="comment",
-                  IsMultiline =true,
-                  Placeholder ="Enter your comment"
+                  Id = "comment",
+                  IsMultiline = true,
+                  Placeholder = "Enter your comment"
                 }
               }
             },
@@ -600,8 +600,8 @@ The refresh card follows a format similar to the rest of the lab. The base defin
                       "Content-Type","application/json"
                     }
                   },
-                  Title ="OK",
-                  UrlString =$"{WebServiceHost}/api/Ticket",
+                  Title = "OK",
+                  UrlString = $"{WebServiceHost}/api/Ticket",
                   Body = httpBody.ToString()
                 }
               }
