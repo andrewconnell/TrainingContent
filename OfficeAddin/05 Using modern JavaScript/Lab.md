@@ -28,6 +28,8 @@ To complete this lab, you need the following:
     npm install -g yo generator-office
     ```
 
+* A free API key from [Alpha Vantage](https://www.alphavantage.com) Registration is free and you will use the API key when creating stock quote requests.
+
 >Note: Finished solutions are provided in the [Demos](./Demos) folder if you get stuck. If you want to run any of the finished solutions, clone the repository, run **npm install** (from the directory of the finished solution), then **npm run start** and follow the steps to [Sideload and Test the Office Add-in](#SideLoadTestAddins).
 >
 >Note: All three exercises in this lab build the same Microsoft Excel stock portfolio solution so you can compare the experience building Office Add-ins with different modern JavaScript tools and frameworks. The add-in will allow you to get real-time stock quotes and manage a portfolio in an Microsoft Excel table. You will have the ability to add, delete, and refresh stocks. Additionally, the add-in checks for an existing portfolio upon opening and (if found) reads the stocks out of the worksheet.
@@ -66,7 +68,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
 
 ### Develop the Office Add-in
 
-1. Open **src/assets/styles/global.scss** and add the following styles to the end of the file.
+1. Open **src/styles.less** and add the following styles to the end of the file.
 
     ````css
     .container {
@@ -123,9 +125,9 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
     }
     ````
 
-1. The project template that the Office Yeoman generator created include a number of React components that need to be updated or deleted. Delete the **src/components/hero-list.tsx** file.
+1. The project template that the Office Yeoman generator created include a number of React components that need to be updated or deleted. Delete the **src/components/HeroList.tsx** file.
 
-1. Open the **src/components/header.tsx** file and modify it as follows:
+1. Open the **src/components/Header.tsx** file and modify it as follows:
 
     ````typescript
     import * as React from 'react';
@@ -172,7 +174,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
     };
     ````
 
-1. Create a new React component named **stock-item** at **src/components/stock-item.tsx** with the code shown below. This component will display a stock with commands for refresh and delete. The component has properties for stock symbol, its index in the list, and the handlers for refresh and delete.
+1. Create a new React component named **StockItem** at **src/components/StockItem.tsx** with the code shown below. This component will display a stock with commands for refresh and delete. The component has properties for stock symbol, its index in the list, and the handlers for refresh and delete.
 
     ````typescript
     import * as React from 'react';
@@ -210,7 +212,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
     import { TextField, MessageBar, MessageBarType } from 'office-ui-fabric-react';
     import { Header } from './header';
     import { Waiting } from './waiting';
-    import { StockItem } from './stock-item';
+    import { StockItem } from './StockItem';
 
     export interface AppProps {
         title: string;
@@ -314,7 +316,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
     }
     ````
 
-1. Create new **utils** folder under **src** and then create a file named **excelTableUtil.ts** in **src/utils/excelTableUtil.ts**. This TypeScript class will contain helper functions for working with Microsoft Excel tables with office.js. Notice the **ExcelTableUtil** constructor accepts details about the Excel table, including the name, location, and header details.
+1. Create new **utils** folder under **src** and then create a file named **excelTableUtil.tsx** in **src/utils/excelTableUtil.tsx**. This TypeScript class will contain helper functions for working with Microsoft Excel tables with office.js. Notice the **ExcelTableUtil** constructor accepts details about the Excel table, including the name, location, and header details.
 
     ````typescript
     /// <reference path="../../node_modules/@types/office-js/index.d.ts" />
@@ -340,12 +342,12 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
     import { TextField, MessageBar, MessageBarType } from 'office-ui-fabric-react';
     import { Header } from './header';
     import { Waiting } from './waiting';
-    import { StockItem } from './stock-item';
+    import { StockItem } from './StockItem';
     import { ExcelTableUtil } from '../utils/excelTableUtil';
 
     /* lines omitted for readability */
 
-    export class App extends React.Component<AppProps, AppState> {
+    export default class App extends React.Component<AppProps, AppState> {
         tableUtil:ExcelTableUtil = new ExcelTableUtil("Portfolio",
             "A1:J1", [
                 "Symbol", "Last Price",
@@ -358,7 +360,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
             /* lines omitted for readability */
     ````
 
-1. Add functions to **src/utils/excelTableUtil.ts** for `createTable` and `ensureTable`. These functions will be used to get a handle to the Microsoft Excel table and create it if it doesn't exist.
+1. Add functions to **src/utils/excelTableUtil.tsx** for `createTable` and `ensureTable`. These functions will be used to get a handle to the Microsoft Excel table and create it if it doesn't exist.
 
     ````typescript
     // Create the StocksTable and defines the header row
@@ -405,7 +407,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
     }
     ````
 
-1. Add the `addRow` function to **src/utils/excelTableUtil.cs**. Notice that it calls the `ensureTable` function we just created to ensure the Excel table has been created.
+1. Add the `addRow` function to **src/utils/excelTableUtil.tsx**. Notice that it calls the `ensureTable` function we just created to ensure the Excel table has been created.
 
     ````typescript
     // Appends a row to the table
@@ -479,7 +481,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
 
     >Note: This is a good time to test the **add symbol** function of your add-in.
 
-1. Return to **/src/utils/excelTableUtil.ts** and add functions for `getColumnData` and `deleteRow`. `getColumnData` gets values for a column in the Excel table so a row can be identified for update or delete. `deleteRow` deletes a row in the Excel table based on it's index.
+1. Return to **/src/utils/excelTableUtil.tsx** and add functions for `getColumnData` and `deleteRow`. `getColumnData` gets values for a column in the Excel table so a row can be identified for update or delete. `deleteRow` deletes a row in the Excel table based on it's index.
 
     ````typescript
     // Gets data for a specific named column
@@ -564,7 +566,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
 
     >Note: This is a good time to test the **delete symbol** function of your add-in.
 
-1. Make the final update to **src/utils/excelTableUtil.ts** by adding the `updateCell` function, which updates the cell at a specific address to a specified value.
+1. Make the final update to **src/utils/excelTableUtil.tsx** by adding the `updateCell` function, which updates the cell at a specific address to a specified value.
 
     ````typescript
     // Updates a specific cell in the table
@@ -904,6 +906,8 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
     ````typescript
     import { Component, NgZone } from '@angular/core';
     import 'rxjs/add/operator/map';
+    import { Observable } from 'rxjs';
+    import { map } from 'rxjs/operators';
     import { Http } from '@angular/http';
 
     @Component({
@@ -966,7 +970,7 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
         return new Promise((resolve, reject) => {
             let url = `https://estx.azurewebsites.net/api/quote/${symbol}`;
             this.http.get(url)
-                .map(res => res.json())
+                .pipe(map(res => res.json()))
                 .subscribe(
                     res => resolve(res),
                     err => reject(err),
@@ -1123,7 +1127,7 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
                 res.symbol,
                 res.current,
                 res.curr_change,
-                res.pct_change * 100, 0, 0
+                res.pct_change * 100, 0, 0,
                 "=C:C * E:E",
                 "=(B:B * E:E) - (F:F * E:E)",
                 "=H:H / (F:F * E:E) * 100",
@@ -1144,7 +1148,7 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
 
     >Note: This is a good time to test the **add symbol** function of your add-in.
 
-1. Return to **/src/app/utils/excelTableUtil.ts** and add functions for `getColumnData` and `deleteRow`. 'getColumnData` gets values for a column in the Excel table so a row can be identified for update or delete. 'deleteRow` deletes a row in the Excel table based on its index.
+1. Return to **/src/app/utils/excelTableUtil.ts** and add functions for `getColumnData` and `deleteRow`. `getColumnData` gets values for a column in the Excel table so a row can be identified for update or delete. `deleteRow` deletes a row in the Excel table based on its index.
 
     ````typescript
     // Gets data for a specific named column
@@ -1287,7 +1291,7 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
 
     >Note: This is a good time to test the **refresh symbol** function of your add-in.
 
-1. Finally, update the `syncTable` function, which is called when the add-in is launched in the constructor of **app.tsx** to pull in any stock symbols that might already exist in the worksheet. It calls `getColumnData` to get this data.
+1. Finally, update the `syncTable` function, which is called when the add-in is launched in the constructor of **src/app/app.component.ts** to pull in any stock symbols that might already exist in the worksheet. It calls `getColumnData` to get this data.
 
     ````typescript
     // Reads symbols from an existing Excel workbook and pre-populates them in the add-in
