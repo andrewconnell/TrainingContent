@@ -95,8 +95,8 @@ This exercise introduces the Yeoman generator and its capabilities for scaffoldi
 1. Select **Use the current folder** for the file location and select **Enter**. The next set of prompts asks for specific information about your Microsoft Teams app:
     - Accept the default **teams app1** as the name of your Microsoft Teams app project and press **Enter**.
     - Enter your name and press **Enter**.
-    - Enter **https://tbd.ngrok.io** as the URL where you will host this tab and press **Enter**. You will change this URL later in the exercise.
     - Accept the default selection of **Tab** for what you want to add to your project and press **Enter**.
+    - Enter **https://tbd.ngrok.io** as the URL where you will host this tab and press **Enter**. You will change this URL later in the exercise.
     - Accept the default **teams app1 Tab** as the default tab name and press **Enter**.
 
       ![Screenshot of Yeoman Teams generator.](Images/Exercise1-02.png)
@@ -267,6 +267,8 @@ This section of the lab introduces the Bot Framework template and its capabiliti
         ![Screenshot of configuration form for teams bot.](Images/Exercise2-05.png)
 
 1. Move to the bottom of the page. Agree to the privacy statement, terms of use, and code of conduct and select the **Register** button. Once the bot is created, select **OK** to dismiss the dialogue box. The **Connect to channels** page is displayed for the newly-created bot.
+
+**Note:** The Bot migration message (shown in red) can be ignored for Microsoft Teams bots.
 
 1. The bot must then be connected to Microsoft Teams. Select the **Teams** logo.
 
@@ -512,27 +514,68 @@ The tab in this exercise can be configured to read information from Microsoft Gr
 
 **Note:** These steps assume that the application created in Exercise 1 is named **teams-app-1**. Paths listed in this section are relative to the **src/app/** folder in the generated application.
 
-1. Open the file **web/teamsApp1TabConfig.html**.
+1. Open the file **scripts/teamsApp1TabConfig.tsx**.
+1. At the top of the file is an `import` statement with several components from `msteams-ui-components-react'. Add `Dropdown` to the list of componentns.
+1. Locate the `ITeamsApp1TabConfigState` class. Rename the `value` property to `selectedConfiguration`.
 
-1. Locate the `<div>` element with the class of `settings-container`. Replace that element with the following code snippet.
+  ```typescript```
+  export interface IteamsApp1TabConfigState extends ITeamsBaseComponentState {
+    selectedConfiguration: string;
+  }
+  ```
+
+1. In the `teamsApp1TabConfig` class is a method named `componentWillMount`. In this method, the `this.state` object is referenced twice. Both references use the old `value` property. Rename this to the `selectedConfiguration` property.
+
+  ```typescript
+  microsoftTeams.getContext((context: microsoftTeams.Context) => {
+    this.setState({
+      selectedConfiguration: context.entityId
+    });
+    this.setValidityState(true);
+  });
+  ```
+
+  ```typescript
+  microsoftTeams.settings.setSettings({
+    contentUrl: host + "/teamsApp1TabTab.html?data=",
+    suggestedDisplayName: 'teams app1 Tab',
+    removeUrl: host + "/teamsApp1TabRemove.html",
+    entityId: this.state.selectedConfiguration
+  });
+  ```
+
+1. Add the following snippet as a new method to the `teamsApp1TabConfig`.
+
+  ```typescript
+  private onConfigSelect(cfgOption: string) {
+    if (cfgOption == 'Mbr' || cfgOption == 'Grp') {
+    this.setState({
+    selectedConfiguration: cfgOption
+    });
+    this.setValidityState(true);
+    }
+  }
+  ```
+
+1. Locate the `<PanelHeader>` element. Replace the text of the `<div>` element.
 
     ```html
-    <div class="settings-container">
-      <div class="section-caption">Settings</div>
-      <div class="form-field-title">
-        <div for="graph">Microsoft Graph Functionality:</div>
-      </div>
-      <div>
-        <select name="graph" id="graph"  class="form-control" onchange="onChange(this.value);">
-          <option value="" selected>Select one...</option>>
-          <option value="member">Member information</option>
-          <option value="group">Group information (requires admin consent)</option>
-        </select>
-      </div>
-      <div class="form-field-title">
-        <a href="#" onclick="requestConsent();">Provide administrator consent - click if Tenant Admin</a>
-      </div>
-    </div>
+    <div style={styles.header}>Settings</div>
+    ```
+
+1. Locate the `<Input>` element within the `<PanelBody>` element. Replace the `<Input>` element with the following `<Dropdown>` element.
+
+    ```html
+    <Dropdown
+      autoFocus
+      label="Microsoft Graph Functionality"
+      mainButtonText={this.state.selectedConfiguration }
+      style={{ width: '50%' }}
+      items={[
+        { text: 'Member information', onClick: () => this.configSelect('Mbr') },
+        { text: 'Group information (requires admin consent)', onClick: () => this.configSelect('Grp')}
+      ]}
+    />
     ```
 
 1. Add the following function to the `<script>` tag on the page.
