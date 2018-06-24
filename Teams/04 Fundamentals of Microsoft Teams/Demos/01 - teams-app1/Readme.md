@@ -1,78 +1,87 @@
-# teams app1
+# Demo - Section 1: Teams Application Packaging and Testing
 
-Generate a Microsoft Teams application.
+To run this demo, perform the following steps from the lab:
 
-TODO: Add your documentation here
+## Complete the prerequisites from the lab
 
-## Getting started with Microsoft Teams Apps development
+1. Install developer tools
+1. Install NodeJS and npm
+1. Install Yeoman and gulp
+1. Download ngrok
 
-Head on over to [official documentation](https://msdn.microsoft.com/en-us/microsoft-teams/tabs) to learn how to build Microsoft Teams Tabs.
+## Run the ngrok secure tunnel application
 
-## Building the app
+1. Open a new **Command Prompt** window.
+1. Change to the directory that contains the ngrok.exe application.
+1. Run the command `ngrok http 3007`
+1. The ngrok application will fill the entire prompt window. Make note of the Forwarding address using https. This address is required in the next step.
+1. Minimize the ngrok Command Prompt window. It is no longer referenced in this exercise, but it must remain running.
 
-``` bash
-npm i -g gulp
-gulp build
-```
+## Update the manifest and build the package
 
-## Building the manifest
+1. Open a new **Command Prompt** window.
 
-``` bash
-gulp manifest
-```
+1. Change to the directory that contains the **ngrok.exe** application.
 
-## Debug and test locally
+1. Run the command `ngrok http 3007`.
 
-To debug and test the solution locally you use the `serve` Gulp task. This will first build the app and then start a local web server on port 3007, where you can test your Tabs, Bots or other extensions. Also this command will rebuild the App if you change any file in the `/src` directory.
+1. The ngrok application will fill the entire prompt window. Make note of the forwarding address using HTTPS. This address is required in the next step.
 
-``` bash
-gulp serve
-```
+1. Minimize the ngrok command prompt window. It is no longer referenced in this exercise, but it must remain running.
 
-To debug the code you can append the argument `debug` to the `serve` command as follows. This allows you to step through your code using your preferred code editor.
+    ![Screenshot of ngrok highlighting local host.](../../Images/Exercise1-04.png)
 
-``` bash
-gulp serve --debug
-```
+1. Build the webpack and start the express web server by running the following commands:
 
-To step through code in Visual Studio Code you need to add the following snippet in the `./.vscode/launch.json` file. Once done, you can easily attach to the node process after running the `gulp server --debug` command.
+    ```shell
+    gulp build
+    gulp serve
+    ```
 
-``` json
-{
-    "type": "node",
-    "request": "attach",
-    "name": "Attach",
-    "port": 5858,
-    "sourceMaps": true,
-    "outFiles": [
-        "${workspaceRoot}/dist/**/*.js"
-    ],
-    "remoteRoot": "${workspaceRoot}/src/"
-},
-```
+    ![Screenshot of command prompt running Gulp.](../../Images/Exercise1-07.png)
 
-## Output
+    > Note: The gulp serve process must be running in order to see the tab in the Microsoft Teams application. When the process is no longer needed, press **CTRL+C** to cancel the server.
 
-* dist/* - the files required to host the solution
-* package/* - the Teams extensibility package (zip file) to be uploaded to Microsoft Teams ([how-to](https://msdn.microsoft.com/en-us/microsoft-teams/createpackage#uploading-your-tab-package-to-microsoft-teams))
+## Sideload app into Microsoft Teams
 
-## Deploying to Azure using Git
+1. In the Microsoft Teams application, select the **Create and join team** link. Then select the **Create team** button.
 
-If you want to deploy to Azure using Git follow these steps.
+    ![Screenshot of Microsoft Teams application highlighting create and join team.](../../Images/Exercise1-08.png)
 
-This will automatically deploy your files to Azure, download the npm pacakges, build the solution and start the web server using Express.
+1. Enter a team name and description. In this example, the team is named **teams-app-1**. Select **Next**.
 
-1. Log into [the Azure Portal](https://portal.azure.com)
-2. Create a new *Resource Group* or use an existing one
-3. Create a new *Web App* and give it the name of your tab, the same you used when asked for URL in the Yeoman generator. In your case https://tbd.ngrok.io.
-4. Go to the created Web App and configure *Deployment Credentials*. Not that this is only done once per Microsoft Azure Account.
-5. Go to *Deployment Options*
-6. Choose *Local Git Repository* as source and click *OK*
-7. In your tab folder initialize a Git repository using `git init`
-8. Build the solution using `gulp build` to make sure you don't have any errors
-9. Commit all your files using `git add -A && git commit -m "Initial commit"`
-10. Run the following command to set up the remote repository: `git remote add azure https://<username>@[your Azure web app name].scm.azurewebsites.net:443/[your Azure web app name].git`. You need to replace <username> with the name of the user you set up in _Deployment Credentials_. You can also copy the URL from *Options* in the Azure Web App.
-11. To push your code use to Azure use the following command: `git push azure master`, you will be asked for your credentials the first time
-12. Wait until the deployment is completed and navigate to https://tbd.ngrok.io/privacy.html to test that the web application is running
-13. Done
-14. Repeat step 11 for every commit you do and want to deploy
+1. Optionally, invite others from your organization to the team. This step can be skipped in this lab.
+
+1. The new team is shown. In the side panel on the left, select the ellipses next to the team name. Choose **Manage team** from the context menu.
+
+    ![Screenshot of Microsoft Teams application with manage team menu.](../../Images/Exercise1-09.png)
+
+1. On the Manage team menu, select **Apps** in the tab strip. Then select the **Upload a custom app** link at the bottom right corner of the application. If you don't have this link, check the sideload settings in the [Getting Started article](https://msdn.microsoft.com/en-us/microsoft-teams/setup).
+
+    ![Screenshot of Microsoft Teams application apps menu.](../../Images/Exercise1-10.png)
+
+1. Select the **teams-app-1.zip** file from the **package** folder. Select **Open**.
+
+    ![Screenshot of file selector in Microsoft Teams.](../../Images/Exercise1-11.png)
+
+1. The app is displayed. Notice information about the app from the manifest (Description and Icon) is displayed.
+
+    ![Screenshot of Microsoft Teams app.](../../Images/Exercise1-12.png)
+
+## Add Tab to Team view
+
+1. Tabs are not automatically displayed for the team. To add the tab, select **General** channel in the team.
+
+1. Select the **+** icon at the end of the tab strip.
+
+1. In the tab gallery, sideloaded tabs are displayed in the **Tabs for your team** section. Tabs in this section are arranged alphabetically. Select the tab created in this lab.
+
+    ![Screenshot of tab gallery with teams app1 highlighted.](../../Images/Exercise1-13.png)
+
+1. The generator creates a configurable tab. When the tab is added to the team, the configuration page is displayed. Enter any value in the **Setting** box and select **Save**.
+
+    ![Screenshot of tab configuration message box.](../../Images/Exercise1-14.png)
+
+1. The value entered will then be displayed in the tab window.
+
+    ![Screenshot of newly created tab in Microsoft Teams.](../../Images/Exercise1-15.png)
