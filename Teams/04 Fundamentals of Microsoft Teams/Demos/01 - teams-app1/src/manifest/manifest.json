@@ -6,9 +6,9 @@
   "packageName": "io.ngrok.016014a2",
   "developer": {
     "name": "Office Developer",
-    "websiteUrl": "https://016014a2.ngrok.io",
-    "privacyUrl": "https://016014a2.ngrok.io/privacy.html",
-    "termsOfUseUrl": "https://016014a2.ngrok.io/tou.html"
+    "websiteUrl": "https://tbd.ngrok.io",
+    "privacyUrl": "https://tbd.ngrok.io/privacy.html",
+    "termsOfUseUrl": "https://tbd.ngrok.io/tou.html"
   },
   "name": {
     "short": "teams app1",
@@ -25,11 +25,8 @@
   "accentColor": "#D85028",
   "configurableTabs": [
     {
-      "configurationUrl": "https://016014a2.ngrok.io/teamsApp1TabConfig.html",
-      "canUpdateConfiguration": true,
-      "scopes": [
-        "team"
-      ]
+      "configurationUrl": "https://tbd.ngrok.io/teamsApp1TabConfig.html",
+       "canUpdateConfiguration": true, "scopes": ["team"]
     }
   ],
   "staticTabs": [],
@@ -41,6 +38,6 @@
     "messageTeamMembers"
   ],
   "validDomains": [
-    "016014a2.ngrok.io"
+    "tbd.ngrok.io"
   ]
 }
