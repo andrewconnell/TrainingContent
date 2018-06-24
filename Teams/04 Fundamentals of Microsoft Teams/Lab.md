@@ -518,60 +518,60 @@ The tab in this exercise can be configured to read information from Microsoft Gr
 1. At the top of the file is an `import` statement with several components from `msteams-ui-components-react'. Add `Dropdown` to the list of componentns.
 1. Locate the `ITeamsApp1TabConfigState` class. Rename the `value` property to `selectedConfiguration`.
 
-  ```typescript```
-  export interface IteamsApp1TabConfigState extends ITeamsBaseComponentState {
-    selectedConfiguration: string;
-  }
-  ```
+    ```typescript
+    export interface IteamsApp1TabConfigState extends ITeamsBaseComponentState {
+      selectedConfiguration: string;
+    }
+    ```
 
 1. Locate the `teamsApp1TabConfig` class. Create the following member variables by inserting the lines before the first method.
 
-  ```typescript
-  configOptions = [
-    { key: 'MBR', value: 'Member information' },
-    { key: 'GRP', value: 'Group information (requires admin consent)' }
-  ];
-  selectedOption: string = "";
-  tenantId?: string = "";
-  ```
+    ```typescript
+    configOptions = [
+      { key: 'MBR', value: 'Member information' },
+      { key: 'GRP', value: 'Group information (requires admin consent)' }
+    ];
+    selectedOption: string = "";
+    tenantId?: string = "";
+    ```
 
 1. In the `teamsApp1TabConfig` class is a method named `componentWillMount`. In this method, there is a call to `microsoftTeams.getContext`. Update the `getContext` callback to use the proper state variable, and to update the tenant id.
 
-  ```typescript
-  microsoftTeams.getContext((context: microsoftTeams.Context) => {
-    this.tenantId = context.tid;
-    this.setState({
-      selectedConfiguration: context.entityId
+    ```typescript
+    microsoftTeams.getContext((context: microsoftTeams.Context) => {
+      this.tenantId = context.tid;
+      this.setState({
+        selectedConfiguration: context.entityId
+      });
+      this.setValidityState(true);
     });
-    this.setValidityState(true);
-  });
-  ```
+    ```
 
 1. In the `componentWillMount` method is a call to `microsoftTeams.settings.setSettings`. Update the parameter of this method call to use the proper state variable.
 
-  ```typescript
-  microsoftTeams.settings.setSettings({
-    contentUrl: host + "/teamsApp1TabTab.html?data=",
-    suggestedDisplayName: 'teams app1 Tab',
-    removeUrl: host + "/teamsApp1TabRemove.html",
-    entityId: this.state.selectedConfiguration
-  });
-  ```
+    ```typescript
+    microsoftTeams.settings.setSettings({
+      contentUrl: host + "/teamsApp1TabTab.html?data=",
+      suggestedDisplayName: 'teams app1 Tab',
+      removeUrl: host + "/teamsApp1TabRemove.html",
+      entityId: this.state.selectedConfiguration
+    });
+    ```
 
 1. Add the following snippet as a new method to the `teamsApp1TabConfig` class.
 
-  ```typescript
-  private onConfigSelect(cfgOption: string) {
-    let selectedItem = this.configOptions.filter((pos, idx) => pos.key === cfgOption)[0];
-    if (selectedItem) {
-      this.setState({
-        selectedConfiguration: selectedItem.key
-      });
-      this.selectedOption = selectedItem.value;
-      this.setValidityState(true);
+    ```typescript
+    private onConfigSelect(cfgOption: string) {
+      let selectedItem = this.configOptions.filter((pos, idx) => pos.key === cfgOption)[0];
+      if (selectedItem) {
+        this.setState({
+          selectedConfiguration: selectedItem.key
+        });
+        this.selectedOption = selectedItem.value;
+        this.setValidityState(true);
+      }
     }
-  }
-  ```
+    ```
 
 1. The tab configuration page has a button for granting admin consent. Admin consent requires the `tenantId`, which is not known until runtime, so the button has an `onclick` event. Add the following function to the `teamsApp1TabConfigure` class.
 
@@ -595,21 +595,21 @@ The tab in this exercise can be configured to read information from Microsoft Gr
 
 1. Locate the `<PanelBody>` element. Replace the contents of the `<PanelBody>` element with the following snippet.
 
-  ```typescript
-  <PanelBody>
-    <div style={styles.section}>Microsoft Graph Functionality</div>
-    <Dropdown
-      autoFocus
-      mainButtonText={this.selectedOption}
-      style={{ width: '100%' }}
-      items={
-        this.configOptions.map((cfgOpt, idx) => {
-          return ({ text: cfgOpt.value, onClick: () => this.onConfigSelect(cfgOpt.key) });
-        })
-      }
-    />
-  </PanelBody>
-  ```
+    ```typescript
+    <PanelBody>
+      <div style={styles.section}>Microsoft Graph Functionality</div>
+      <Dropdown
+        autoFocus
+        mainButtonText={this.selectedOption}
+        style={{ width: '100%' }}
+        items={
+          this.configOptions.map((cfgOpt, idx) => {
+            return ({ text: cfgOpt.value, onClick: () => this.onConfigSelect(cfgOpt.key) });
+          })
+        }
+      />
+    </PanelBody>
+    ```
 
 1. Add a new file to the **web** folder named **adminconsent.html**.
 
@@ -735,12 +735,12 @@ With the tab configured, the content page can now render information as selected
 
 1. Locate the `IteamsApp1TabTabState` interface. Replace the interface definition with the following.
 
-  ```typescript
-  export interface IteamsApp1TabTabState extends ITeamsBaseComponentState {
-    entityId?: string;
-    graphData?: string;
-  }
-  ```
+    ```typescript
+    export interface IteamsApp1TabTabState extends ITeamsBaseComponentState {
+      entityId?: string;
+      graphData?: string;
+    }
+    ```
 
 1. Locate the `teamsApp1TabTab` class. Add the following class-level variable declarations.
 
