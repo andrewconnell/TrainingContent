@@ -28,7 +28,7 @@ After installing node, make sure **npm** is up to date by running following comm
 npm install -g npm
 ````
 
-#### Install Yeoman, Gulp and Gulp-cli
+#### Install Yeoman, Gulp, Gulp-cli and TypeScript
 
 [Yeoman](http://yeoman.io/) helps you start new projects, and prescribes best practices and tools to help you stay productive. This lab uses a Yeoman generator for Microsoft Teams to quickly create a working, JavaScript-based solution. The generated solution uses Gulp, Gulp CLI and TypeScript to run tasks.
 
