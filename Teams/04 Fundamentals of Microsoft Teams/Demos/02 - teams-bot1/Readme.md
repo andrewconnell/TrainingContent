@@ -44,7 +44,7 @@ To run this demo:
 1. Complete the configuration section.
     - For the **Messaging endpoint**, use the forwarding HTTPS address from ngrok with `/api/messages` appended to provide the route to the **MessagesController** in the Visual Studio project. In the example, this is `https://a2632edd.ngrok.io/api/messages`.
     - Select the **Create Microsoft App ID and password button** to open a new browser window.
-    - In the new browser window the application is registered in Azure Active Directory. Select **Generate an app password to continue**. An app password is generated. Copy the password and save it. You will use it in a subsequent step.
+    - In the new browser window the application is registered in Azure Active Directory. Select **Generate an app password to continue**. An app secret is generated. Copy the secret and save it. You will use it in a subsequent step.
     - Select **OK** to close the dialogue box.
     - Select the **Finish and go back to Bot Framework** button to close the new browser window and populate the app ID in the **Paste your app ID below to continue textbox**.
 
@@ -74,7 +74,7 @@ The bot project must be configured with information from the registration.
 
 1. Enter the `MicrosoftAppId`. The `MicrosoftAppId` is the app ID from the **Configuration** section of the registration.
 
-1. Enter the `MicrosoftAppPassword`. The `MicrosoftAppPassword` is the auto-generated app password displayed in the dialogue box during registration. If you do not have the app password, the bot must be deleted and re-registered. An app password cannot be reset nor displayed.
+1. Enter the `MicrosoftAppPassword`. The `MicrosoftAppPassword` is the auto-generated app secret displayed in the dialogue box during registration. If you do not have the app secret, the bot must be deleted and re-registered. An app secret cannot be reset nor displayed.
 
 1. Press **F5** to run the project. This will update the package (a zip file) in the build output folder (`bin\\`).
 

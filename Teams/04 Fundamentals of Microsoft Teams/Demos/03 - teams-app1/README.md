@@ -23,7 +23,7 @@ To run this demo, perform the following steps from the lab:
 
 ## Register an application in AAD
 
-To enable an application to call the Microsoft Graph, an application registration is required. This lab uses the [Azure Active Directory v2.0 endpoint](https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-v2-compare).
+To enable an application to call the Microsoft Graph API, an application registration is required. This lab uses the [Azure Active Directory v2.0 endpoint](https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-v2-compare).
 
 1. Open the [Application Registration Portal](https://apps.dev.microsoft.com).
 

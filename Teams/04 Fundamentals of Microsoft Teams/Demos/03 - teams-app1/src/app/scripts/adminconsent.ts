@@ -12,7 +12,7 @@ export class AdminConsent {
   public requestConsent(tenantId: string) {
     let host = "https://" + window.location.host;
     let redirectUri = "https://" + window.location.host + "/adminconsent.html";
-    let clientId = "[application-id-from-registration]";
+    let clientId = "[app-id-from-registration]";
     let state = "officedev-trainingconent"; // any unique value
 
     var consentEndpoint = "https://login.microsoftonline.com/common/adminconsent?" +

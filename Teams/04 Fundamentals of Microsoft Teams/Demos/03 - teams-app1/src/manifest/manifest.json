@@ -1,7 +1,7 @@
 {
   "$schema": "https://statics.teams.microsoft.com/sdk/v1.2/manifest/MicrosoftTeams.schema.json",
   "manifestVersion": "1.2",
-  "id": "[application-id-from-registration]",
+  "id": "[app-id-from-registration]",
   "version": "0.0.1",
   "packageName": "io.ngrok.tbd",
   "developer": {

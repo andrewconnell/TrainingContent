@@ -6,7 +6,7 @@ In this lab, you will prepare your computer for developing Microsoft Teams apps,
 
 1. [Create and test a basic Microsoft Teams app using Yeoman](#exercise1)
 1. [Create and test a basic Microsoft Teams bot using Visual Studio](#exercise2)
-1. [Call Microsoft Graph inside a tab](#exercise3)
+1. [Call the Microsoft Graph API inside a tab](#exercise3)
 
 ## Prerequisites
 
@@ -214,7 +214,7 @@ This section of the lab introduces the Bot Framework template and its capabiliti
 
     - The bot must be accessible from the internet
     - The bot must be registered with the Bot Connector
-    - The `AppId` and `AppPassword` from the Bot Framework registration page have to be recorded in the project's `web.config`
+    - The `AppId` and `AppSecret` from the Bot Framework registration page have to be recorded in the project's `web.config`
     - The bot must be added to Microsoft Teams
 
     Before registering the bot, note the URL configured for the solution in Visual Studio.
@@ -225,7 +225,7 @@ This section of the lab introduces the Bot Framework template and its capabiliti
 
 1. Note the **Project URL**.
 
-    ![Screenshot of team bot properties highlighting URL.](Images/Exercise2-02.png)
+    ![Screenshot of team bot properties highlighting URL](Images/Exercise2-02.png)
 
 ### Run the ngrok secure tunnel application
 
@@ -252,7 +252,7 @@ This section of the lab introduces the Bot Framework template and its capabiliti
 1. Complete the configuration section.
     - For the **Messaging endpoint**, use the forwarding HTTPS address from ngrok with `/api/messages` appended to provide the route to the **MessagesController** in the Visual Studio project. In the example, this is `https://a2632edd.ngrok.io/api/messages`.
     - Select the **Create Microsoft App ID and password button** to open a new browser window.
-    - In the new browser window the application is registered in Azure Active Directory. Select **Generate an app password to continue**. An app password is generated. Copy the password and save it. You will use it in a subsequent step.
+    - In the new browser window the application is registered in Azure Active Directory. Select **Generate an app password to continue**. An app secret is generated. Copy the secret and save it. You will use it in a subsequent step.
     - Select **OK** to close the dialogue box.
     - Select the **Finish and go back to Bot Framework** button to close the new browser window and populate the app ID in the **Paste your app ID below to continue textbox**.
 
@@ -282,7 +282,7 @@ The bot project must be configured with information from the registration.
 
 1. Enter the `MicrosoftAppId`. The `MicrosoftAppId` is the app ID from the **Configuration** section of the registration.
 
-1. Enter the `MicrosoftAppPassword`. The `MicrosoftAppPassword` is the auto-generated app password displayed in the dialogue box during registration. If you do not have the app password, the bot must be deleted and re-registered. An app password cannot be reset nor displayed.
+1. Enter the `MicrosoftAppPassword`. The `MicrosoftAppPassword` is the auto-generated app secret displayed in the dialogue box during registration. If you do not have the app secret, the bot must be deleted and re-registered. An app secret cannot be reset nor displayed.
 
 ### Test the bot using the portal
 
@@ -410,9 +410,9 @@ Although not strictly necessary, in this lab you will add the bot to a new team.
 
 <a name="exercise3"></a>
 
-## Exercise 3: Call Microsoft Graph inside a tab
+## Exercise 3: Call the Microsoft Graph API inside a tab
 
-This section of the lab will extend the tab created in Exercise 1 to call the Microsoft Graph. The exercise contains many code files. The **Lab Files** folder contains files that contain the code and are provided to facilitate copying the code.
+This section of the lab will extend the tab created in Exercise 1 to call the Microsoft Graph API. The exercise contains many code files. The **Lab Files** folder contains files that contain the code and are provided to facilitate copying the code.
 
 ### Run the ngrok secure tunnel application
 
@@ -430,7 +430,7 @@ This section of the lab will extend the tab created in Exercise 1 to call the Mi
 
 ### Register an application in AAD
 
-To enable an application to call the Microsoft Graph, an application registration is required. This lab uses the [Azure Active Directory v2.0 endpoint](https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-v2-compare).
+To enable an application to call the Microsoft Graph API, an application registration is required. This lab uses the [Azure Active Directory v2.0 endpoint](https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-v2-compare).
 
 1. Open the [Application Registration Portal](https://apps.dev.microsoft.com).
 
@@ -494,7 +494,7 @@ To enable an application to call the Microsoft Graph, an application registratio
 
 ### Configure tab when added to channel
 
-The tab in this exercise can be configured to read information from Microsoft Graph about the current member or about the group in which the channel exists. Perform the following to update the tab configuration.
+The tab in this exercise can be configured to read information from Microsoft Graph API about the current member or about the group in which the channel exists. Perform the following to update the tab configuration.
 
 **Note:** These steps assume that the application created in Exercise 1 is named **teams-app-1**. Paths listed in this section are relative to the **src/app/** folder in the generated application.
 
@@ -651,7 +651,7 @@ The tab in this exercise can be configured to read information from Microsoft Gr
 
 1. Add a new file to the **scripts** folder named **adminconsent.ts**.
 
-1. Add the following to the **adminconsent.ts** file. There is a token named `application-id-from-registration` that must be replaced. Use the value of the Application ID copied from the application registration page.
+1. Add the following to the **adminconsent.ts** file. There is a token named `app-id-from-registration` that must be replaced. Use the value of the Application ID copied from the application registration page.
 
     ```typescript
     /**
@@ -668,7 +668,7 @@ The tab in this exercise can be configured to read information from Microsoft Gr
       public requestConsent(tenantId:string) {
         let host = "https://" + window.location.host;
         let redirectUri = "https://" + window.location.host + "/adminconsent.html";
-        let clientId = "[application-id-from-registration]";
+        let clientId = "[app-id-from-registration]";
         let state = "officedev-trainingconent"; // any unique value
 
         var consentEndpoint = "https://login.microsoftonline.com/common/adminconsent?" +
@@ -765,7 +765,7 @@ With the tab configured, the content page can now render information as selected
     }
     ```
 
-1. Add the following method to the `teamsApp1TabTab` class. This method uses XMLHTTP to make a call to the Microsoft Graph and displays the result.
+1. Add the following method to the `teamsApp1TabTab` class. This method uses XMLHTTP to make a call to the Microsoft Graph API and displays the result.
 
     ```typescript
     public getData(token: string) {
@@ -825,7 +825,7 @@ With the tab configured, the content page can now render information as selected
 
 1. Add a new file to the **scripts** folder named **auth.ts**.
 
-1. Add the following to the **auth.ts** file. Note that there is a token named `[application-id-from-registration]` that must be replaced. Use the value of the Application ID copied from the application registration page.
+1. Add the following to the **auth.ts** file. Note that there is a token named `[app-id-from-registration]` that must be replaced. Use the value of the Application ID copied from the application registration page.
 
     ```typescript
     import * as Msal from 'msal';
@@ -847,7 +847,7 @@ With the tab configured, the content page can now render information as selected
         // Setup auth parameters for MSAL
         let graphAPIScopes: string[] = ["https://graph.microsoft.com/user.read", "https://graph.microsoft.com/group.read.all"];
         let userAgentApplication = new Msal.UserAgentApplication(
-                                            "[application-id-from-registration]",
+                                            "[app-id-from-registration]",
                                             "https://login.microsoftonline.com/common",
                                             this.tokenReceivedCallback);
 
@@ -869,8 +869,8 @@ With the tab configured, the content page can now render information as selected
       }
 
       private getToken(userAgentApplication: Msal.UserAgentApplication, graphAPIScopes: string[]) {
-        // In order to call the Graph API, an access token needs to be acquired.
-        // Try to acquire the token used to query Graph API silently first:
+        // In order to call the Microsoft Graph API, an access token needs to be acquired.
+        // Try to acquire the token used to query Microsoft Graph API silently first:
         userAgentApplication.acquireTokenSilent(graphAPIScopes).then(
           (token) => {
             //After the access token is acquired, return to MS Teams, sending the acquired token
@@ -901,4 +901,4 @@ With the tab configured, the content page can now render information as selected
 
 1. Refresh the tab in Microsoft Teams. Select the **Get Microsoft Graph Data** button to invoke the authentication and call to **graph.microsoft.com**.
 
-    ![Screenshot of Microsoft Teams app with Microsoft Graph data displayed.](Images/Exercise3-09.png)
+    ![Screenshot of Microsoft Teams app with a display of Office 365 data exposed via Microsoft Graph.](Images/Exercise3-09.png)
