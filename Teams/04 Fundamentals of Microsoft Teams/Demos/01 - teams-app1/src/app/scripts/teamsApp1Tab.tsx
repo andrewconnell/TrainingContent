@@ -7,25 +7,30 @@ import {
   PanelBody,
   PanelHeader,
   PanelFooter,
-  Input,
   Surface
 } from 'msteams-ui-components-react';
 import { render } from 'react-dom';
 import TeamsBaseComponent, { ITeamsBaseComponentProps, ITeamsBaseComponentState } from 'msteams-react-base-component'
 import * as microsoftTeams from '@microsoft/teams-js';
 
-export interface IteamsApp1TabConfigState extends ITeamsBaseComponentState {
-  value: string;
+/**
+ * State for the teamsApp1TabTab React component
+ */
+export interface IteamsApp1TabState extends ITeamsBaseComponentState {
+  entityId?: string;
 }
 
-export interface IteamsApp1TabConfigProps extends ITeamsBaseComponentProps {
+/**
+ * Properties for the teamsApp1TabTab React component
+ */
+export interface IteamsApp1TabProps extends ITeamsBaseComponentProps {
 
 }
 
 /**
- * Implementation of teams app1 Tab configuration page
+ * Implementation of the teams app1 Tab content page
  */
-export class teamsApp1TabConfig extends TeamsBaseComponent<IteamsApp1TabConfigProps, IteamsApp1TabConfigState> {
+export class teamsApp1Tab extends TeamsBaseComponent<IteamsApp1TabProps, IteamsApp1TabState> {
 
   public componentWillMount() {
     this.updateTheme(this.getQueryVariable('theme'));
@@ -35,29 +40,22 @@ export class teamsApp1TabConfig extends TeamsBaseComponent<IteamsApp1TabConfigPr
 
     if (this.inTeams()) {
       microsoftTeams.initialize();
-
-      microsoftTeams.getContext((context: microsoftTeams.Context) => {
+      microsoftTeams.registerOnThemeChangeHandler(this.updateTheme);
+      microsoftTeams.getContext((context) => {
         this.setState({
-          value: context.entityId
+          entityId: context.entityId
         });
-        this.setValidityState(true);
-      });
-
-      microsoftTeams.settings.registerOnSaveHandler((saveEvent: microsoftTeams.settings.SaveEvent) => {
-        // Calculate host dynamically to enable local debugging
-        const host = "https://" + window.location.host;
-        microsoftTeams.settings.setSettings({
-          contentUrl: host + "/teamsApp1Tab.html?data=",
-          suggestedDisplayName: 'teams app1 Tab',
-          removeUrl: host + "/teamsApp1TabRemove.html",
-          entityId: this.state.value
-        });
-        saveEvent.notifySuccess();
       });
     } else {
+      this.setState({
+        entityId: "This is not hosted in Microsoft Teams"
+      });
     }
   }
 
+  /**
+   * The render() method to create the UI of the tab
+  */
   public render() {
     return (
       <TeamsComponentContext
@@ -72,34 +70,27 @@ export class teamsApp1TabConfig extends TeamsBaseComponent<IteamsApp1TabConfigPr
           const styles = {
             header: { ...sizes.title, ...weights.semibold },
             section: { ...sizes.base, marginTop: rem(1.4), marginBottom: rem(1.4) },
-            input: {},
+            footer: { ...sizes.xsmall }
           };
 
           return (
             <Surface>
               <Panel>
                 <PanelHeader>
-                  <div style={styles.header}>Configure your tab</div>
+                  <div style={styles.header}>This is your tab</div>
                 </PanelHeader>
                 <PanelBody>
                   <div style={styles.section}>
-                    <Input
-                      autoFocus
-                      style={styles.input}
-                      placeholder="Enter a value here"
-                      label="Enter a value"
-                      errorLabel={!this.state.value ? "This value is required" : undefined}
-                      value={this.state.value}
-                      onChange={(e) => {
-                        this.setState({
-                          value: e.target.value
-                        })
-                      }}
-                      required />
+                    {this.state.entityId}
                   </div>
-
+                  <div style={styles.section}>
+                    <PrimaryButton onClick={() => alert("It worked!")}>A sample button</PrimaryButton>
+                  </div>
                 </PanelBody>
                 <PanelFooter>
+                  <div style={styles.footer}>
+                    (C) Copyright Office Developer
+                  </div>
                 </PanelFooter>
               </Panel>
             </Surface>
