@@ -82,7 +82,7 @@ To enable an application to call the Microsoft Graph API, an application registr
 
     > Note: The gulp serve process must be running in order to see the tab in the Microsoft Teams application. When the process is no longer needed, press **CTRL+C** to cancel the server.
 
-## Sideload app into Microsoft Teams
+## Upload app into Microsoft Teams
 
 1. In the Microsoft Teams application, select the **Create and join team** link. Then select the **Create team** button.
 

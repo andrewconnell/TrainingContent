@@ -150,7 +150,7 @@ When the solution was generated, you used a placeholder URL. Now that the tunnel
 
     > Note: The gulp serve process must be running in order to see the tab in the Microsoft Teams application. When the process is no longer needed, press **CTRL+C** to cancel the server.
 
-### Sideload app into Microsoft Teams
+### Upload app into Microsoft Teams
 
 1. In the Microsoft Teams application, select the **Create and join team** link. Then select the **Create team** button.
 
@@ -176,7 +176,7 @@ When the solution was generated, you used a placeholder URL. Now that the tunnel
 
     ![Screenshot of Microsoft Teams app.](Images/Exercise1-12.png)
 
-The app is now sideloaded into the Microsoft Teams application and the tab is available in the **Tab Gallery**.
+The app is now uploaded into the Microsoft Teams application and the tab is available in the **Tab Gallery**.
 
 ### Add tab to team view
 
@@ -184,7 +184,7 @@ The app is now sideloaded into the Microsoft Teams application and the tab is av
 
 1. Select the **+** icon at the end of the tab strip.
 
-1. In the tab gallery, sideloaded tabs are displayed in the **Tabs for your team** section. Tabs in this section are arranged alphabetically. Select the tab created in this lab.
+1. In the tab gallery, uploaded tabs are displayed in the **Tabs for your team** section. Tabs in this section are arranged alphabetically. Select the tab created in this lab.
 
     ![Screenshot of tab gallery with teams app1 highlighted.](Images/Exercise1-13.png)
 
@@ -382,7 +382,7 @@ Packaging a bot for Microsoft Teams is identical to packaging a tab. A manifest 
 
 1. Select **F5** to run the project. The new **AfterBuild target** will run, creating a zip file in the build output folder (`bin`).
 
-### Sideload app into Microsoft Teams
+### Upload app into Microsoft Teams
 
 Although not strictly necessary, in this lab you will add the bot to a new team.
 
@@ -398,7 +398,7 @@ Although not strictly necessary, in this lab you will add the bot to a new team.
 
     ![Screenshot of Microsoft Teams bot with information about the bot highlighted.](Images/Exercise2-13.png)
 
-    The app is now sideloaded into the Microsoft Teams application and the bot is available.
+    The app is now uploaded into the Microsoft Teams application and the bot is available.
 
 ### Interact with the bot
 

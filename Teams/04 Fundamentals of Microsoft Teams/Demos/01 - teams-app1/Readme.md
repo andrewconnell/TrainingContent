@@ -49,7 +49,7 @@ To run this demo, perform the following steps from the lab:
 
     > Note: The gulp serve process must be running in order to see the tab in the Microsoft Teams application. When the process is no longer needed, press **CTRL+C** to cancel the server.
 
-## Sideload app into Microsoft Teams
+## Upload app into Microsoft Teams
 
 1. In the Microsoft Teams application, select the **Create and join team** link. Then select the **Create team** button.
 
@@ -81,7 +81,7 @@ To run this demo, perform the following steps from the lab:
 
 1. Select the **+** icon at the end of the tab strip.
 
-1. In the tab gallery, sideloaded tabs are displayed in the **Tabs for your team** section. Tabs in this section are arranged alphabetically. Select the tab created in this lab.
+1. In the tab gallery, uploaded tabs are displayed in the **Tabs for your team** section. Tabs in this section are arranged alphabetically. Select the tab created in this lab.
 
     ![Screenshot of tab gallery with teams app1 highlighted.](../../Images/Exercise1-13.png)
 

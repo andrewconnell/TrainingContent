@@ -78,7 +78,7 @@ The bot project must be configured with information from the registration.
 
 1. Press **F5** to run the project. This will update the package (a zip file) in the build output folder (`bin\\`).
 
-## Sideload app into Microsoft Teams
+## Upload app into Microsoft Teams
 
 Although not strictly necessary, in this demo you will add the bot to a new team.
 
@@ -94,7 +94,7 @@ Although not strictly necessary, in this demo you will add the bot to a new team
 
     ![Screenshot of Microsoft Teams bot with information about the bot highlighted.](Images/Exercise2-13.png)
 
-    The app is now sideloaded into the Microsoft Teams application and the bot is available.
+    The app is now uploaded into the Microsoft Teams application and the bot is available.
 
 ### Interact with the bot
 
