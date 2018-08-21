@@ -618,13 +618,13 @@ The Bot Framework allows for responding with cards instead of simply text. Micro
 
 <a name="exercise2"></a>
 
-## Exercise 2: Compose Extensions
+## Exercise 2: Messaging Extensions
 
-This section of the lab extends the bot from exercise 1 with Microsoft Teams functionality called compose extension. Compose extensions provide help for users when composing a message for posting in a channel or in one-to-one chats.
+This section of the lab extends the bot from exercise 1 with Microsoft Teams functionality called messaging extension. Messaging extensions provide help for users when composing a message for posting in a channel or in one-to-one chats.
 
 1. Open the **MessagesController.cs** file in the **Controllers** folder.
 
-1. Locate the `Post` method. Replace the method the following snippet. Rather than repeating if statements, the logic is converted to a switch statement. Compose extensions are posted to the bot via an `Invoke` message.
+1. Locate the `Post` method. Replace the method the following snippet. Rather than repeating if statements, the logic is converted to a switch statement. Messaging extensions are posted to the bot via an `Invoke` message.
 
     ```cs
     public async Task<HttpResponseMessage> Post([FromBody]Activity activity)
@@ -641,10 +641,7 @@ This section of the lab extends the bot from exercise 1 with Microsoft Teams fun
 
         case ActivityTypes.Invoke:
           var composeResponse = await ComposeHelpers.HandleInvoke(activity);
-          var stringContent = new StringContent(composeResponse);
-          HttpResponseMessage httpResponseMessage = new HttpResponseMessage(HttpStatusCode.OK);
-          httpResponseMessage.Content = stringContent;
-          return httpResponseMessage;
+          return composeResponse;
           break;
 
         default:
@@ -655,45 +652,50 @@ This section of the lab extends the bot from exercise 1 with Microsoft Teams fun
     }
     ```
 
-1. In **Solution Explorer**, add a new class to the project. Name the class `BotChannelsData`. Replace the generated class with the code from file **Lab Files/BotChannelData.cs**.
+1. In **Solution Explorer**, add a new class to the project. Name the class `BotChannelsData`.
+
+1. Add the following to the top of the class.
 
     ```cs
     using System.Collections.Generic;
+    ```
 
-    namespace teams_bot2
+1. Replace the class declaration with the following snippet. This code is in the **Lab Files/BotChannelData.cs** file.
+
+    ```cs
+    public class BotChannel
     {
-      public class BotChannel
-      {
-        public string Title { get; set; }
-        public string LogoUrl { get; set; }
-      }
+      public string Title { get; set; }
+      public string LogoUrl { get; set; }
+    }
 
-      public class BotChannels
+    public class BotChannels
+    {
+      public static List<BotChannel> GetBotChannels()
       {
-        public static List<BotChannel> GetBotChannels()
-        {
-          var data = new List<BotChannel>();
-          data.Add(new BotChannel { Title = "Bing", LogoUrl = "https://dev.botframework.com/client/images/channels/icons/bing.png" });
-          data.Add(new BotChannel { Title = "Cortana", LogoUrl = "https://dev.botframework.com/client/images/channels/icons/cortana.png" });
-          data.Add(new BotChannel { Title = "Direct Line", LogoUrl = "https://dev.botframework.com/client/images/channels/icons/directline.png" });
-          data.Add(new BotChannel { Title = "Email", LogoUrl = "https://dev.botframework.com/client/images/channels/icons/email.png" });
-          data.Add(new BotChannel { Title = "Facebook Messenger", LogoUrl = "https://dev.botframework.com/client/images/channels/icons/facebook.png" });
-          data.Add(new BotChannel { Title = "GroupMe", LogoUrl = "https://dev.botframework.com/client/images/channels/icons/groupme.png" });
-          data.Add(new BotChannel { Title = "Kik", LogoUrl = "https://dev.botframework.com/client/images/channels/icons/kik.png" });
-          data.Add(new BotChannel { Title = "Microsoft Teams", LogoUrl = "https://dev.botframework.com/client/images/channels/icons/msteams.png" });
-          data.Add(new BotChannel { Title = "Skype", LogoUrl = "https://dev.botframework.com/client/images/channels/icons/skype.png" });
-          data.Add(new BotChannel { Title = "Skype for Business", LogoUrl = "https://dev.botframework.com/client/images/channels/icons/skypeforbusiness.png" });
-          data.Add(new BotChannel { Title = "Slack", LogoUrl = "https://dev.botframework.com/client/images/channels/icons/slack.png" });
-          data.Add(new BotChannel { Title = "Telegram", LogoUrl = "https://dev.botframework.com/client/images/channels/icons/telegram.png" });
-          data.Add(new BotChannel { Title = "Twilio (SMS)", LogoUrl = "https://dev.botframework.com/client/images/channels/icons/sms.png" });
-          data.Add(new BotChannel { Title = "Web Chat", LogoUrl = "https://dev.botframework.com/client/images/channels/icons/webchat.png" });
-          return data;
-        }
+        var data = new List<BotChannel>();
+        data.Add(new BotChannel { Title = "Bing", LogoUrl = "https://dev.botframework.com/client/images/channels/icons/bing.png" });
+        data.Add(new BotChannel { Title = "Cortana", LogoUrl = "https://dev.botframework.com/client/images/channels/icons/cortana.png" });
+        data.Add(new BotChannel { Title = "Direct Line", LogoUrl = "https://dev.botframework.com/client/images/channels/icons/directline.png" });
+        data.Add(new BotChannel { Title = "Email", LogoUrl = "https://dev.botframework.com/client/images/channels/icons/email.png" });
+        data.Add(new BotChannel { Title = "Facebook Messenger", LogoUrl = "https://dev.botframework.com/client/images/channels/icons/facebook.png" });
+        data.Add(new BotChannel { Title = "GroupMe", LogoUrl = "https://dev.botframework.com/client/images/channels/icons/groupme.png" });
+        data.Add(new BotChannel { Title = "Kik", LogoUrl = "https://dev.botframework.com/client/images/channels/icons/kik.png" });
+        data.Add(new BotChannel { Title = "Microsoft Teams", LogoUrl = "https://dev.botframework.com/client/images/channels/icons/msteams.png" });
+        data.Add(new BotChannel { Title = "Skype", LogoUrl = "https://dev.botframework.com/client/images/channels/icons/skype.png" });
+        data.Add(new BotChannel { Title = "Skype for Business", LogoUrl = "https://dev.botframework.com/client/images/channels/icons/skypeforbusiness.png" });
+        data.Add(new BotChannel { Title = "Slack", LogoUrl = "https://dev.botframework.com/client/images/channels/icons/slack.png" });
+        data.Add(new BotChannel { Title = "Telegram", LogoUrl = "https://dev.botframework.com/client/images/channels/icons/telegram.png" });
+        data.Add(new BotChannel { Title = "Twilio (SMS)", LogoUrl = "https://dev.botframework.com/client/images/channels/icons/sms.png" });
+        data.Add(new BotChannel { Title = "Web Chat", LogoUrl = "https://dev.botframework.com/client/images/channels/icons/webchat.png" });
+        return data;
       }
     }
     ```
 
-1. In **Solution Explorer**, add a new class to the project. Name the class **ComposeHelpers**. Add the code from the **Lab Files/ComposeHelpers.cs** file.
+1. In **Solution Explorer**, add a new class to the project. Name the class **ComposeHelpers**.
+
+1. Add the following to the top of the class.
 
     ```cs
     using Microsoft.Bot.Connector;
@@ -706,87 +708,88 @@ This section of the lab extends the bot from exercise 1 with Microsoft Teams fun
     using System.Net;
     using System.Net.Http;
     using System.Threading.Tasks;
+    ```
 
-    namespace teams_bot2
+1. Replace the class declaration with the following snippet. This code is in the **Lab Files/ComposeHelpers.cs** file.
+
+    ```cs
+    public class ComposeHelpers
     {
-      public class ComposeHelpers
+      public static async Task<HttpResponseMessage> HandleInvoke(Activity activity)
       {
-        public static async Task<HttpResponseMessage> HandleInvoke(Activity activity)
+        // these are the values specified in manifest.json
+        string COMMANDID = "searchCmd";
+        string PARAMNAME = "searchText";
+
+        var unrecognizedResponse = new HttpResponseMessage(HttpStatusCode.BadRequest);
+        unrecognizedResponse.Content = new StringContent("Invoke request was not recognized.");
+
+        if (!activity.IsComposeExtensionQuery())
         {
-          // these are the values specified in manifest.json
-          string COMMANDID = "searchCmd";
-          string PARAMNAME = "searchText";
-
-          var unrecognizedResponse = new HttpResponseMessage(HttpStatusCode.BadRequest);
-          unrecognizedResponse.Content = new StringContent("Invoke request was not recognized.");
-
-          if (!activity.IsComposeExtensionQuery())
-          {
-            return unrecognizedResponse;
-          }
-
-          // This helper method gets the query as an object.
-          var query = activity.GetComposeExtensionQueryData();
-          if (query.CommandId == null || query.Parameters == null)
-          {
-            return unrecognizedResponse;
-          }
-
-          if (query.CommandId != COMMANDID)
-          {
-            return unrecognizedResponse;
-          }
-
-          var param = query.Parameters.FirstOrDefault(p => p.Name.Equals(PARAMNAME)).Value.ToString();
-          if (String.IsNullOrEmpty(param))
-          {
-            return unrecognizedResponse;
-          }
-
-          // This is the response object that will get sent back to the compose extension request.
-          ComposeExtensionResponse invokeResponse = new ComposeExtensionResponse();
-
-          // search our data
-          var resultData = BotChannels.GetBotChannels().FindAll(t => t.Title.Contains(param));
-
-          // format the results
-          var results = new ComposeExtensionResult()
-          {
-            AttachmentLayout = "list",
-            Type = "result",
-            Attachments = new List<ComposeExtensionAttachment>(),
-          };
-
-          foreach (var resultDataItem in resultData)
-          {
-            var card = new ThumbnailCard()
-            {
-              Title = resultDataItem.Title,
-              Images = new List<CardImage>() { new CardImage() { Url = resultDataItem.LogoUrl } }
-            };
-
-            var composeExtensionAttachment = card.ToAttachment().ToComposeExtensionAttachment();
-            results.Attachments.Add(composeExtensionAttachment);
-          }
-
-          invokeResponse.ComposeExtension = results;
-
-          // Return the response
-          StringContent stringContent;
-          try
-          {
-            stringContent = new StringContent(JsonConvert.SerializeObject(invokeResponse));
-          }
-          catch (Exception ex)
-          {
-            stringContent = new StringContent(ex.ToString());
-          }
-          var response = new HttpResponseMessage(HttpStatusCode.OK);
-          response.Content = stringContent;
-          return response;
+          return unrecognizedResponse;
         }
 
+        // This helper method gets the query as an object.
+        var query = activity.GetComposeExtensionQueryData();
+        if (query.CommandId == null || query.Parameters == null)
+        {
+          return unrecognizedResponse;
+        }
+
+        if (query.CommandId != COMMANDID)
+        {
+          return unrecognizedResponse;
+        }
+
+        var param = query.Parameters.FirstOrDefault(p => p.Name.Equals(PARAMNAME)).Value.ToString();
+        if (String.IsNullOrEmpty(param))
+        {
+          return unrecognizedResponse;
+        }
+
+        // This is the response object that will get sent back to the compose extension request.
+        ComposeExtensionResponse invokeResponse = new ComposeExtensionResponse();
+
+        // search our data
+        var resultData = BotChannels.GetBotChannels().FindAll(t => t.Title.ToLowerInvariant().Contains(param.ToLowerInvariant()));
+
+        // format the results
+        var results = new ComposeExtensionResult()
+        {
+          AttachmentLayout = "list",
+          Type = "result",
+          Attachments = new List<ComposeExtensionAttachment>(),
+        };
+
+        foreach (var resultDataItem in resultData)
+        {
+          var card = new ThumbnailCard()
+          {
+            Title = resultDataItem.Title,
+            Images = new List<CardImage>() { new CardImage() { Url = resultDataItem.LogoUrl } }
+          };
+
+          var composeExtensionAttachment = card.ToAttachment().ToComposeExtensionAttachment();
+          results.Attachments.Add(composeExtensionAttachment);
+        }
+
+        invokeResponse.ComposeExtension = results;
+
+        // Return the response
+        StringContent stringContent;
+        try
+        {
+          stringContent = new StringContent(JsonConvert.SerializeObject(invokeResponse));
+        }
+        catch (Exception ex)
+        {
+          stringContent = new StringContent(ex.ToString());
+        }
+        var response = new HttpResponseMessage(HttpStatusCode.OK);
+        response.Content = stringContent;
+        return response;
       }
+
     }
     ```
 
@@ -821,7 +824,7 @@ This section of the lab extends the bot from exercise 1 with Microsoft Teams fun
 
 1. Press **F5** to re-build the app package and start the debugger.
 
-1. Re-sideload the app. Since the **manifest.json** file has been updated, the bot must be re-sideloaded to the Microsoft Teams application.
+1. Re-upload the app. Since the **manifest.json** file has been updated, the bot must be re-uploaded to the Microsoft Teams application.
 
 ### Invoke the compose extension
 
