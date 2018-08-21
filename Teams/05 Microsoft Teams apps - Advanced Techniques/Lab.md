@@ -856,7 +856,7 @@ In Microsoft Teams, full functionality for Office 365 Connectors is restricted t
 
 1. Select **...** next to the channel name, then select **Connectors**.
 
-    ![SCreenshot of channel name with general menu displayed.](Images/Exercise3-01.png)
+    ![Screenshot of channel name with general menu displayed.](Images/Exercise3-01.png)
 
 1. Find **Incoming Webhook** in the list, select **Add** then **Install**.
 
