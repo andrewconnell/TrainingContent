@@ -24,7 +24,7 @@ This section of the lab creates a bot framework bot and extends it with Microsof
 
 1. Create a new Visual C# project using the **Bot Builder Echo Bot** template.
 
-   ![Screenshot of new project menu in Visual Studio.](Images/Exercise2-01.png)
+   ![Screenshot of new project menu in Visual Studio.](Images/Exercise1-01.png)
 
 1. The bot application template is a fully functional echo bot that takes the user's text utterance as input and returns it as output. In order to run the bot inside Microsoft Teams:
 
