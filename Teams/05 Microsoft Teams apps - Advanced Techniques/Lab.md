@@ -22,18 +22,18 @@ This section of the lab creates a bot framework bot and extends it with Microsof
 
 1. In Visual Studio 2017, select **File > New > Project**.
 
-1. Create a new Visual C# project using the **Bot Application Template**.
+1. Create a new Visual C# project using the **Bot Builder Echo Bot** template.
 
-   ![Screenshot of new project menu in Visual Studio.](Images/Exercise1-01.png)
+   ![Screenshot of new project menu in Visual Studio.](Images/Exercise2-01.png)
 
-1. Build the solution to download all configured NuGet packages. In order to run the bot inside Microsoft Teams:
+1. The bot application template is a fully functional echo bot that takes the user's text utterance as input and returns it as output. In order to run the bot inside Microsoft Teams:
 
     - The bot must be accessible from the internet
     - The bot must be registered with the bot connector
     - The `AppId` and `AppPassword` from the bot framework registration page have to be recorded in the project's `web.config`
     - The bot must be added to Microsoft Teams
 
-### Find the project URL
+Before registering the bot, note the URL configured for the solution in Visual Studio.
 
 1. In Solution Explorer, double-click on **Properties**.
 
@@ -198,6 +198,10 @@ Both packages install dependencies, including the Bot Builder SDK.
 
 The project template creates a messages controller that receives messages from the bot service. This controller checks the incoming activity to determine if it is a user or system message. This step of the lab will implement the system message handling.
 
+1. In **Visual Studio**, select the Project menu and choose **Add Reference...**. Add a reference to the **System.Configuration** assembly.
+
+    ![Screenshot of Visual Studio's Add Reference dialog with assembly System.Configuration selected.](Images/Exercise1-18.png)
+
 1. Open the file **Controllers/MessagesController.cs**.
 
 1. Add the following statements to the top of the file.
@@ -331,19 +335,11 @@ The project template creates a messages controller that receives messages from t
 
 1. Press **F5** to build the solution and package and start the web service in the debugger. The debugger will start the default browser, which can be ignored. The next step uses the teams client.
 
-### Sideload app into Microsoft Teams
+### Upload app into Microsoft Teams
 
-Although not strictly necessary, in this lab the bot will be added to a new team.
+Add the bot to a team.
 
-1. In the Microsoft Teams application, click the **Add team** link. Then click the **Create team** button.
-
-    ![Screenshot of Microsoft Teams with Create Team button highlighted.](Images/Exercise1-11.png)
-
-1. Enter a team name and description. In this example, the team is named **teams-bot-1**. Select **Next**.
-
-1. Optionally, invite others from your organization to the team. This step can be skipped in this lab.
-
-1. The new team is shown. In the left-side panel, select the ellipses next to the team name. Choose **Manage team** from the context menu.
+1. In the Microsoft Teams application, select the ellipses next to the team name. Choose **Manage team** from the context menu.
 
     ![Screenshot of Microsoft Teams with Manage Team highlighted.](Images/Exercise1-12.png)
 
@@ -355,7 +351,7 @@ Although not strictly necessary, in this lab the bot will be added to a new team
 
     ![Screenshot of Microsoft Teams with new app displayed.](Images/Exercise1-13.png)
 
-    The app is now sideloaded into the Microsoft Teams application and the bot is available.
+    The app is now uploaded into the Microsoft Teams application and the bot is available.
 
     > **Note:** Adding the bot to a team invokes the system message **ConversationUpdated**. The code in `EventHelpers.cs` determines if the message is in response to the bot being added, and initiates a 1:1 message with each member of the team.
 
@@ -396,7 +392,7 @@ The bot extension for Microsoft Teams provides an easy mechanism to update a mes
     await connector.Conversations.UpdateActivityAsync(reply.Conversation.Id, msgToUpdate.Id, updatedReply);
     ```
 
-1. Press **F5** to test the changes to the bot logic. It is not necessary to re-sideload the bot unless the manifest file is changed.
+1. Press **F5** to test the changes to the bot logic. It is not necessary to re-upload the bot unless the manifest file is changed.
 
 1. In a channel, @ mention the bot. The initial response will have the wrong character count, but the message will update five seconds later with the correct value. Depending on the bot service latency, you may not see the original response.
 
@@ -612,7 +608,7 @@ The Bot Framework allows for responding with cards instead of simply text. Micro
     ]
     ```
 
-1. Press **F5** to re-package the bot and start the web service. Re-sideload the app to update the capabilities with the new menu.
+1. Press **F5** to re-package the bot and start the web service. Re-upload the app to update the capabilities with the new menu.
 
 1. Choosing one of the commands from the manifest will display a sample card. Entering the word **'card'** without **'hero'** or **'thumbnail'** will result in a message about unsupported card types. Any other message is echoed as before.
 
