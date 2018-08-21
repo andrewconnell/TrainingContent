@@ -2,14 +2,14 @@
 
 ## Lab - Microsoft Teams apps - Advanced Techniques
 
-In this lab, you will use advanced techniques to build a more-sophisticated bot, a compose extension and a Microsoft Teams app that has multiple components.
+In this lab, you will use advanced techniques to build a more-sophisticated bot, a messaging extension and a Microsoft Teams app that has multiple components.
 
 - [Lab manual](./Lab.md)
 
 ## Demos
 
 - [Advanced Teams Bot capabilities](./Demos/01%20-%20teams-bot2)
-- [Compose Extensions](./Demos/02%20-%20teams-bot2)
+- [Messaging Extensions](./Demos/02%20-%20teams-bot2)
 - [Microsoft Teams Apps with multiple capabilities](./Demos/03%20-%20teams-bot2)
 
 ## Watch the Module

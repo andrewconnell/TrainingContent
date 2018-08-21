@@ -1,11 +1,11 @@
 # Lab: Microsoft Teams apps - advanced techniques
 
-In this lab, you will use advanced techniques to build a more sophisticated bot, a compose extension and a Microsoft Teams app that has multiple components.
+In this lab, you will use advanced techniques to build a more sophisticated bot, a messaging extension and a Microsoft Teams app that has multiple components.
 
 ## In this lab
 
 - [Advanced Microsoft Teams bot capabilities](#exercise1)
-- [Compose extensions](#exercise2)
+- [Messaging extensions](#exercise2)
 - [Microsoft Teams apps with multiple capabilities](#exercise3)
 
 ## Prerequisites
@@ -183,7 +183,7 @@ The Microsoft Teams engineering group built and maintains extensions to the Bot 
 
 - Specialized teams card types like the Office 365 connector card
 - Consuming and setting teams-specific channel data on activities
-- Processing compose extension requests
+- Processing messaging extension requests
 - Handling rate limiting
 
 Both packages install dependencies, including the Bot Builder SDK.
@@ -826,9 +826,9 @@ This section of the lab extends the bot from exercise 1 with Microsoft Teams fun
 
 1. Re-upload the app. Since the **manifest.json** file has been updated, the bot must be re-uploaded to the Microsoft Teams application.
 
-### Invoke the compose extension
+### Invoke the messaging extension
 
-The compose extension is configured for use in a channel due to the scopes entered in the manifest.
+The messaging extension is configured for use in a channel due to the scopes entered in the manifest.
 
 1. The extension is invoked by selecting the **ellipsis** below the compose box and selecting the bot.
 
