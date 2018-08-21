@@ -893,4 +893,3 @@ In Microsoft Teams, full functionality for Office 365 Connectors is restricted t
     ![Screenshot of card message in Microsoft Teams.](Images/Exercise3-04.png)
 
     > Note: The action buttons will not work. Action buttons work only for connectors registered and published in the Microsoft Office store.
-
