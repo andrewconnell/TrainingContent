@@ -4,7 +4,7 @@ This module covers building an Actionable Message card and adding actions.
 
 ## Lab
 
-In this lab, you will walk through building an Actionable Message card and adding actions. 
+In this lab, you will walk through building an Actionable Message card and adding actions.
 
 - [Lab Manual](./Lab.md)
 
