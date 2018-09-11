@@ -10,7 +10,7 @@ This demo will show the support ticket card from exercise 1 with Input and Actio
 1. The ngrok application will fill the entire prompt window. Make note of the Forwarding address using https. This address is required in the next step.
 1. Minimize the ngrok Command Prompt window. It is no longer referenced in this exercise, but it must remain running.
 
-![](Images/ngrokTunnel.png)
+![ngrok Tunnel](../../Images/ngrokTunnel.png)
 
 ## Update card and send via email
 

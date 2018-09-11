@@ -202,7 +202,7 @@ This lab will walk you through designing an Actionable Message card using the [M
 
 1. Select **Send via Email** to send the card to yourself.
 
-1. Check your email and open the message. Select the **approve** button. You will see text below the button that says "The action could not be completed." This happened because you have not yet registered the action or implemented the web site, you will do that in this lab.
+1. Check your email and open the message. Select the **approve** button. You will see text below the button that says "The remote endpoint returned an error (HTTP Forbidden). Please try again later." This happened because you have not yet registered the action or implemented the web site, you will do that in this lab.
 
 1. Save the JSON representing the expense report to your file system. You will use this later in the lab.
 

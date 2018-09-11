@@ -4,10 +4,10 @@ In this lab, you will walk through building an Adaptive Card, sending it to an i
 
 ## In this lab
 
-1. [Adaptive Card design and Card Playground](#exercise1)
-1. [Adaptive Cards with actions and inputs](#exercise2)
-1. [Card refresh](#exercise3)
-1. [Update card from service](#exercise4)
+1. [Adaptive Card design and Card Playground](#exercise-1-adaptive-card-design-and-card-playground)
+1. [Adaptive Cards with actions and inputs](#exercise-2-adaptive-cards-with-actions-and-inputs)
+1. [Card refresh](#exercise-3-card-refresh)
+1. [Update card from service](#exercise-4-update-card-from-service)
 
 ## Prerequisites
 
@@ -24,8 +24,6 @@ The developer workstation requires the following tools for this lab.
 The connector registration process requires an endpoint accessible from the internet via HTTPS. To enable the exercises to work correctly, a tunneling application is required.
 
 This lab uses [ngrok](https://ngrok.com) for tunneling publicly-available HTTPS endpoints to a web server running locally on the developer workstation. ngrok is a single-file download that is run from a console.
-
-<a name="exercise1"></a>
 
 ## Exercise 1: Adaptive Card design and Card Playground
 
@@ -82,8 +80,6 @@ The card contains the severity level of the support ticket. Adaptive Cards allow
 1. Open **Microsoft Outlook**. Select the message titled **Card Playground Test Card**. The message will contain the card, footer text with links about the Card Playground and card documentation, and will show the JSON payload of the card.
 
     ![Screenshot of Adaptive Card received in Microsoft Outlook.](Images/AdaptiveCardInOutlook.png)
-
-<a name="exercise2"></a>
 
 ## Exercise 2: Adaptive Cards with actions and inputs
 
@@ -236,8 +232,6 @@ The ngrok tunnel application received the submission from Microsoft Outlook. You
 
     ![Screenshot of ngrok inspector.](Images/ngrokInspector.png)
 
-<a name="exercise3"></a>
-
 ## Exercise 3: Card refresh
 
 In this exercise, a web service will handle the calls from Microsoft Outlook to support the Adaptive Card.
@@ -381,8 +375,6 @@ In this exercise, a web service will handle the calls from Microsoft Outlook to 
     The value of the header is rendered in a pop-up dialog.
 
     ![Screenshot of card action status.](Images/CardActionStatus.png)
-
-<a name="exercise4"></a>
 
 ## Exercise 4: Update card from service
 
