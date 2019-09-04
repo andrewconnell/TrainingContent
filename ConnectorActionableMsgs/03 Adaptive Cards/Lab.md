@@ -98,17 +98,33 @@ This exercise will send the card via email using a console application.
 
 1. Notice that the `<head>` element contains a `<script>` tag. The type for the tag is `application/adaptivecard+json`. This value instructs Microsoft Outlook that the code following should be interpreted as an Adaptive Card.
 
-### Register the application
+### Register application in the Azure Active Directory
 
-1. Go to the [Application Registration Portal](https://apps.dev.microsoft.com) and sign in with either a Microsoft account or an Office 365 account.
+1. Open the [Azure Active Directory admin center](https://aad.portal.azure.com).
 
-1. Select the **Add an app** button. Enter a name for the application and select **Create**.
+1. Log in with the work or school account that is an administrator in the tenant.
 
-1. Select the **Add Platform** button and choose **Native Application**.
+1. Select **Azure Active Directory** in the left-most blade.
 
-1. Select **Save**.
+1. Select **App registrations** in the left-hand menu.
 
-1. Copy the value of **Application ID** for reference later.
+1. Select **New registration**.
+
+1. Enter a name for the application. 
+
+1. In the **Supported Account Types** section, select **Accounts in any organizational directory (Any Azure AD directory - Multitenant)**.
+
+1. Select **Register**.
+
+1. In the **Overview** blade, copy the **Application (client) ID**  for reference later.
+
+1. Select **Authentication** in the left-hand menu.
+
+1. In the **Suggested Redirect URIs for public clients (mobile, desktop)** section, select the box next to the value **https://login.microsoftonline.com/common/oauth2/nativeclient**.
+
+1. In the **Default client type** section, select **Yes** for **Treat applicatin as public client**.
+
+1. Select **Save** from the toolbar at the top of the Authentication blade.
 
 ### Add the application ID to the project
 
@@ -234,7 +250,7 @@ Under certain conditions, the adaptive card must be sent as a signed card. These
     </html>
     ```
 
-1. In the `SendMessage` method of the the `Program` class, location the statement that creates the email message. Replaces the call to the `LoadAdaptiveCardMessageBody` method with a call to the `LoadSignedAdaptiveCardMessageBody` method. The updated statement will look as follows:
+1. In the `SendMessage` method of the the `Program` class, location the statement that creates the email message. Replace the call to the `LoadAdaptiveCardMessageBody` method with a call to the `LoadSignedAdaptiveCardMessageBody` method. The updated statement will look as follows:
 
     ```csharp
         // Create the message
@@ -256,7 +272,9 @@ Under certain conditions, the adaptive card must be sent as a signed card. These
 
 This exercise will enhance the support ticket card from Exercise 1 with input and action elements allowing comments on the support ticket directly from Microsoft Outlook.
 
-1. Open the file **Card.json**.
+1. In Outlook, delete messages from earlier exercises.
+
+1. In Visual Studio, open the file **Card.json**.
 
 1. You will extend the card with another element in the body as a header for comments. Add a comma to the end of line 101 and press return.
 
@@ -318,6 +336,8 @@ This exercise will enhance the support ticket card from Exercise 1 with input an
     The complete card JSON can be found [here](/Demos/02-CardWithActionAndInput/supportTicketWithActionAndInput.json).
 
     >Note: The `body` element of the `Action.Http` element contains a token indicated with double braces: `'{{comment.value}}'`. Inside the braces is the name of the input control. When the action is performed, the value of the input control is inserted in this token.
+
+1. Compile and run the **SendAdaptiveCard** solution. The program will again prompt for an account and send the message.
 
 ### View and interact with Adaptive Cards
 
@@ -682,7 +702,7 @@ The refresh card follows a format similar to the rest of the lab. The base defin
         return new AdaptiveShowCardAction()
         {
           Title = "Comment",
-          Card = new AdaptiveCard()
+          Card = new AdaptiveCard("1.0")
           {
             Body = new List<AdaptiveElement>()
             {

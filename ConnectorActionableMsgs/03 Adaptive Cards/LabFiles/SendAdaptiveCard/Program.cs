@@ -15,7 +15,7 @@ namespace OfficeDev.TrainingContent.SendAdaptiveCard
 {
   class Program
   {
-    static PublicClientApplication authClient = null;
+    static IPublicClientApplication authClient = null;
     static string[] scopes =
     {
             "User.Read", // Scope needed to read /Me from Graph (to get email address)
@@ -32,12 +32,15 @@ namespace OfficeDev.TrainingContent.SendAdaptiveCard
     static async Task SendMessage(string[] args)
     {
       // Setup MSAL client
-      authClient = new PublicClientApplication(ConfigurationManager.AppSettings.Get("applicationId"));
+      authClient = PublicClientApplicationBuilder
+                    .Create(ConfigurationManager.AppSettings.Get("applicationId"))
+                    .WithDefaultRedirectUri()
+                    .Build();
 
       try
       {
         // Get the access token
-        var result = await authClient.AcquireTokenAsync(scopes);
+        var result = await authClient.AcquireTokenInteractive(scopes).ExecuteAsync();
 
         // Initialize Graph client with delegate auth provider
         // that just returns the token we already retrieved
