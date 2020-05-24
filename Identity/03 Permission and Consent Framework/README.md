@@ -22,9 +22,9 @@ The lab for this module is available in multiple units within the associated Mic
 
 ## Demos
 
-1. [Understanding Permissions and the Consent Framework in the Microsoft identity Platform](./Demos/01-understand-permissions-consent)
-1. [Delegated Permissions and Consent](./Demos/02-static-dynamic-permissions)
-1. [Application Permissions and Consent](./Demos/03-app-permissions)
+1. [Understanding Permissions and the Consent Framework in the Microsoft identity Platform](./demos/01-understand-permissions-consent)
+1. [Delegated Permissions and Consent](./demos/02-static-dynamic-permissions)
+1. [Application Permissions and Consent](./demos/03-app-permissions)
 
 ## Watch the module
 
@@ -35,6 +35,7 @@ This module has been recorded and is available in the Office Development YouTube
 |        Roles         |                                                    Author(s)                                                     |
 | -------------------- | ---------------------------------------------------------------------------------------------------------------- |
 | Lab / Slides / Demos | Andrew Connell (Microsoft MVP, [Voitanos](https://www.voitanos.io)) [@andrewconnell](//github.com/andrewconnell) |
+| QA                   | Rob Windsor (Microsoft MVP, PAIT Group) [@rob-windsor](//github.com/rob-windsor) |
 | Sponsor / Support    | Kyle Marsh (Microsoft) [@kylemar](//github.com/kylemar)                                                          |
 
 ## Version history
