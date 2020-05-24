@@ -1,10 +1,13 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license.
+
 using System.Collections.Generic;
 using System.Linq;
+using ProductCatalog.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ProductCatalog.Models;
 
-namespace ProductCatalog
+namespace ProductCatalog.Controllers
 {
   [Authorize]
   [ApiController]
@@ -39,12 +42,9 @@ namespace ProductCatalog
       {
         return BadRequest("Product Name cannot be empty");
       }
-
       newCategory.Id = (data.Categories.Max(c => c.Id) + 1);
       data.Products.Add(newCategory);
-
       return CreatedAtAction(nameof(GetCategory), new { id = newCategory.Id }, newCategory);
     }
   }
-
 }
