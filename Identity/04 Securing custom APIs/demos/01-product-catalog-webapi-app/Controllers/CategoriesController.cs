@@ -35,7 +35,7 @@ namespace ProductCatalog.Controllers
     }
 
     [HttpPost]
-    public ActionResult CreateCategory([FromBody] Product newCategory)
+    public ActionResult CreateCategory([FromBody] Category newCategory)
     {
       HttpContext.VerifyUserHasAnyAcceptedScope(new string[] { "Category.Write" });
       if (string.IsNullOrEmpty(newCategory.Name))
@@ -43,7 +43,7 @@ namespace ProductCatalog.Controllers
         return BadRequest("Product Name cannot be empty");
       }
       newCategory.Id = (data.Categories.Max(c => c.Id) + 1);
-      data.Products.Add(newCategory);
+      data.Categories.Add(newCategory);
       return CreatedAtAction(nameof(GetCategory), new { id = newCategory.Id }, newCategory);
     }
   }
