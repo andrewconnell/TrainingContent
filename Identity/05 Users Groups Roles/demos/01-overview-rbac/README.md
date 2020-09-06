@@ -1,6 +1,6 @@
-# Demo: Create a custom ASP.NET web app that is secured with Microsoft identity
+# Demo: Create and secure a web app with Microsoft identity
 
-This completed project is the result of the lab exercise **Create a custom ASP.NET web app that is secured with Microsoft identity** that is referenced in the [README](../../README.md) in this repo.
+This completed project is the result of the lab exercise **Create and secure a web app with Microsoft identity** that is referenced in the [README](../../README.md) in this repo.
 
 ## Prerequisites
 
