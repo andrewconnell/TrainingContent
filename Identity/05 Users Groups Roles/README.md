@@ -14,23 +14,23 @@ The lab for this module is available in multiple units within the associated Mic
 
     > In this exercise, you’ll learn how to create a .NET Web application that uses Microsoft identity to log in, and to show the claims available for apply authorization checks.
 
-1. [Exercise - Utilize security groups in custom web apps](https://docs.microsoft.com/learn/modules/identity-users-groups-approles/5-exercise-authorize-security-groups)
+1. [Exercise - Utilize security groups in custom web apps and APIs](https://docs.microsoft.com/learn/modules/identity-users-groups-approles/5-exercise-authorize-security-groups)
 
     > In this exercise, you’ll learn how to create and configure an application registration to include group claims in a token and authorize access to a controller using those claims.
 
-1. [Exercise - Utilize app roles in custom web apps](https://docs.microsoft.com/learn/modules/identity-users-groups-approles/7-exercise-authorize-app-roles)
+1. [Exercise - Utilize app roles in custom web apps and APIs](https://docs.microsoft.com/learn/modules/identity-users-groups-approles/7-exercise-authorize-app-roles)
 
     > In this exercise, you’ll learn how to add app roles to an Azure AD registered app, grant users and groups to the role and use the app role within a custom app secured with Microsoft identity.
 
 ## Demos
 
-1. [Create and secure a web app with Microsoft identity](./Demos/01-overview-rbac)
-1. [Utilize security groups in custom web apps](./Demos/02-using-security-groups)
-1. [Utilize app roles in custom web apps](./Demos/03-using-app-roles)
+1. [Create and secure a web app with Microsoft identity](./demos/01-overview-rbac)
+1. [Utilize security groups in custom web apps and APIs](./demos/02-using-security-groups)
+1. [Utilize app roles in custom web apps and APIs](./demos/03-using-app-roles)
 
 ## Watch the module
 
-This module has been recorded and is available in the Office Development YouTube channel: *coming soon*
+This module has been recorded and is available in the Office Development YouTube channel: [Work with users, groups, and roles in custom apps](https://www.youtube.com/watch?v=YPyjneHE9HM)
 
 ## Contributors
 
