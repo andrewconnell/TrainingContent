@@ -1,6 +1,6 @@
 # Demo: Call secured APIs from web applications
 
-This completed project is the result of the lab exercise **Call secured APIs from web applications** that is referenced in the [README](../../) in this repo.
+This completed project is the result of the lab exercise **Call secured APIs from web applications** that is referenced in the [README](../../README.md) in this repo.
 
 ## Prerequisites
 
