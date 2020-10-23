@@ -10,7 +10,7 @@ The lab for this module is available in multiple units within the associated Mic
 
 1. [Exercise - Single Page Applications](https://docs.microsoft.com/learn/modules/identity-application-types/3-exercise-single-page-applications)
 
-   > In this exercise, you’ll learn how to create and configure a single-page application that will use an Azure AD application to issue an authenticated request to Microsoft Graph using the OAuth 2.0 implicit grant flow.
+   > In this exercise, you’ll learn how to create and configure a single-page application that will use an Azure AD application to issue an authenticated request to Microsoft Graph using the OAuth 2.0 authorization code flow.
 
 1. [Exercise - Web apps that sign in users & call APIs](https://docs.microsoft.com/learn/modules/identity-application-types/5-exercise-web-apps-call-apis)
 
