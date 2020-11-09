@@ -28,7 +28,7 @@ The lab for this module is available in multiple units within the associated Mic
 
 ## Watch the module
 
-This module has been recorded and is available in the Office Development YouTube channel: [Microsoft identity - Application types](https://www.youtube.com/watch?v=BpAP-4DsU40)
+This module has been recorded and is available in the Office Development YouTube channel: [Microsoft identity - Application types](https://youtu.be/D857bkuZXAw)
 
 ## Contributors
 
