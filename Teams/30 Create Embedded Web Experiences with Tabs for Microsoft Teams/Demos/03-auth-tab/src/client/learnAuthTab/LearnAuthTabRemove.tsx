@@ -5,9 +5,9 @@ import { useTeams } from "msteams-react-base-component";
 import * as microsoftTeams from "@microsoft/teams-js";
 
 /**
- * Implementation of ConfigMathTab remove page
+ * Implementation of LearnAuthTab remove page
  */
-export const ConfigMathTabRemove = () => {
+export const LearnAuthTabRemove = () => {
 
     const [{ inTeams, theme }] = useTeams();
 

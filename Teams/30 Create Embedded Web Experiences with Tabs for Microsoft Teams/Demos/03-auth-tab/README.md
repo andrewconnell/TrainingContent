@@ -1,4 +1,4 @@
-# Learn MSTeams Tabs - Microsoft Teams App
+# Learn MSTeams AuthTabs - Microsoft Teams App
 
 Generate a Microsoft Teams application.
 

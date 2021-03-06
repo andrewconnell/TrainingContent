@@ -11,8 +11,8 @@
     "termsOfUseUrl": "https://{{HOSTNAME}}/tou.html"
   },
   "name": {
-    "short": "Learn MSTeams Tabs",
-    "full": "Learn MSTeams Tabs"
+    "short": "Learn MSTeams AuthTabs",
+    "full": "Learn MSTeams AuthTabs"
   },
   "description": {
     "short": "TODO: add short description here",
@@ -25,28 +25,19 @@
   "accentColor": "#D85028",
   "configurableTabs": [
     {
-      "configurationUrl": "https://{{HOSTNAME}}/configMathTab/config.html?name={loginHint}&tenant={tid}&group={groupId}&theme={theme}",
+      "configurationUrl": "https://{{HOSTNAME}}/learnAuthTab/config.html?name={loginHint}&tenant={tid}&group={groupId}&theme={theme}",
       "canUpdateConfiguration": true,
       "scopes": [
         "team"
       ],
-      "sharePointPreviewImage": "https://{{HOSTNAME}}/assets/configMathTab-preview.png",
+      "sharePointPreviewImage": "https://{{HOSTNAME}}/assets/learnAuthTab-preview.png",
       "supportedSharePointHosts": [
         "sharePointFullPage",
         "sharePointWebPart"
       ]
     }
   ],
-  "staticTabs": [
-    {
-      "entityId": "56a317da-fc64-4e32-8051-e4700271ab72",
-      "name": "LearnPersonalTab",
-      "contentUrl": "https://{{HOSTNAME}}/learnPersonalTab/?name={loginHint}&tenant={tid}&theme={theme}",
-      "scopes": [
-        "personal"
-      ]
-    }
-  ],
+  "staticTabs": [],
   "bots": [],
   "connectors": [],
   "composeExtensions": [],

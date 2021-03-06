@@ -57,7 +57,7 @@ const config = [{
         path: path.join(__dirname, "/dist/web/scripts"),
         filename: "[name].js",
         libraryTarget: "umd",
-        library: "learnMsTeamsTabs",
+        library: "learnMsTeamsAuthTabs",
         publicPath: "/scripts/"
     },
     externals: {},
